@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesktopApplication.Models
 {
@@ -60,6 +56,6 @@ namespace DesktopApplication.Models
     /// </summary>
     public DateTime DateAdded { get { return _dateAdded; } set { _dateAdded = value; } }
 
-    #endregion
+    #endregion // Properties
   }
 }
