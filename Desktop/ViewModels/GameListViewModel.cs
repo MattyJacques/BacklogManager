@@ -1,12 +1,16 @@
-﻿using DesktopApplication.Helpers;
-using DesktopApplication.Interfaces;
-using DesktopApplication.Models;
+﻿using Desktop.Extensions.Helpers;
+using Desktop.Interfaces;
+using Desktop.Models;
+using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DesktopApplication.ViewModels
+namespace Desktop.ViewModels
 {
-  class GameListViewModel
+  public class GameListViewModel : ViewModelBase
   {
     #region Variables
 
@@ -23,17 +27,46 @@ namespace DesktopApplication.ViewModels
       AddGameCommand = new RelayCommand(param => this.AddGame());
       EditGameCommand = new RelayCommand(param => this.EditGame());
       DeleteGameCommand = new RelayCommand(param => this.DeleteGame());
+
+      UpdateGameList();
+      GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
     }
 
     #endregion // Construction
 
     #region Properties
 
-    private ObservableCollection<GameListEntry> _gameList;
+    private ObservableCollection<GameListEntryViewModel> _gameList = new ObservableCollection<GameListEntryViewModel>();
     /// <summary>
     /// Get/Set the list of games
     /// </summary>
-    public ObservableCollection<GameListEntry> GameList { get { return _gameList; } private set { _gameList = value; } }
+    public ObservableCollection<GameListEntryViewModel> GameList
+    { 
+      get
+      {
+        return _gameList;
+      }
+      private set
+      {
+        _gameList = value;
+        RaisePropertyChanged("GameList");
+        RaisePropertyChanged("GameCollection");
+      }
+    }
+
+    private CollectionView _gameCollectionView = null;
+    public CollectionView GameCollectionView
+    {
+      get
+      {
+        if (_gameCollectionView == null)
+        {
+          _gameCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(GameList);
+        }
+
+        return _gameCollectionView;
+      }
+    }
 
     #endregion // Properties
 
@@ -58,5 +91,24 @@ namespace DesktopApplication.ViewModels
     public void DeleteGame() => Model.DeleteGame();
 
     #endregion // Commands
+
+    #region Implementation
+
+    private async void UpdateGameList()
+    {
+      List<GameListEntry> games = await Model.GetGameList();
+
+      if (games != null)
+      {
+        GameList.Clear();
+        
+        foreach(GameListEntry entry in games)
+        {
+          GameList.Add(new GameListEntryViewModel(entry));
+        }
+      }
+    } // UpdateGameList
+
+    #endregion // Implementation
   }
 }
