@@ -18,7 +18,7 @@
                   Margin="10">
         
         <controls:LabelledTextBox Label="Game Name:"
-                                  Text=""
+                                  Text="{Binding Name}"
                                   Margin="0,5"
                                   Width="250"/>
 

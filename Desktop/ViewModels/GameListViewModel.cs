@@ -1,10 +1,13 @@
-﻿using Desktop.Extensions.Helpers;
+﻿using Desktop.Data;
+using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
+using Desktop.Views;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -30,25 +33,30 @@ namespace Desktop.ViewModels
 
       UpdateGameList();
       GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+
+      GameManagement gameManagement = new GameManagement(GameCollection.FirstOrDefault().Model);
+      GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
+      GameManagementWindow window = new GameManagementWindow(viewModel);
+      window.Show();
     }
 
     #endregion // Construction
 
     #region Properties
 
-    private ObservableCollection<GameListEntryViewModel> _gameList = new ObservableCollection<GameListEntryViewModel>();
+    private ObservableCollection<GameListEntryViewModel> _gameCollection = new ObservableCollection<GameListEntryViewModel>();
     /// <summary>
     /// Get/Set the list of games
     /// </summary>
-    public ObservableCollection<GameListEntryViewModel> GameList
+    public ObservableCollection<GameListEntryViewModel> GameCollection
     { 
       get
       {
-        return _gameList;
+        return _gameCollection;
       }
       private set
       {
-        _gameList = value;
+        _gameCollection = value;
         RaisePropertyChanged("GameList");
         RaisePropertyChanged("GameCollection");
       }
@@ -61,7 +69,7 @@ namespace Desktop.ViewModels
       {
         if (_gameCollectionView == null)
         {
-          _gameCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(GameList);
+          _gameCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(GameCollection);
         }
 
         return _gameCollectionView;
@@ -100,11 +108,11 @@ namespace Desktop.ViewModels
 
       if (games != null)
       {
-        GameList.Clear();
+        GameCollection.Clear();
         
         foreach(GameListEntry entry in games)
         {
-          GameList.Add(new GameListEntryViewModel(entry));
+          GameCollection.Add(new GameListEntryViewModel(entry));
         }
       }
     } // UpdateGameList

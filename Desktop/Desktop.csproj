@@ -89,8 +89,10 @@
     <Compile Include="Interfaces\IGameListModel.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
+    <Compile Include="Models\GameManagement.cs" />
     <Compile Include="ViewModels\GameListEntryViewModel.cs" />
     <Compile Include="ViewModels\GameListViewModel.cs" />
+    <Compile Include="ViewModels\GameManagementViewModel.cs" />
     <Compile Include="Views\GameListWindow.xaml.cs">
       <DependentUpon>GameListWindow.xaml</DependentUpon>
     </Compile>

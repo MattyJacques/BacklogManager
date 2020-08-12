@@ -18,12 +18,6 @@ namespace Desktop.Models
 
     #region IGameListModel Implementation
 
-    public GameList()
-    {
-      GameManagementWindow window = new GameManagementWindow();
-      window.Show();
-    }
-
     public void AddGame()
     {
       throw new NotImplementedException();
