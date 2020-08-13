@@ -1,0 +1,68 @@
+﻿<Window x:Class="Desktop.Views.GameManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
+        mc:Ignorable="d"
+        Title="Game"
+        SizeToContent="WidthAndHeight">
+  <Grid Margin="1">
+    <Border x:Name="WindowBorder"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Height="Auto"
+            Width="Auto"
+            Margin="1,1">
+      <StackPanel x:Name="WindowPanel"
+                  Margin="10">
+        
+        <controls:LabelledTextBox Label="Game Name:"
+                                  Text="{Binding Name}"
+                                  Margin="0,5"
+                                  Width="250"/>
+
+        <GroupBox Header="Platforms"
+                  Margin="0,5">
+          <StackPanel>
+            <CheckBox Content="PC"
+                      IsChecked="{Binding IsOnPC}"
+                      Margin="2,2"/>
+            <CheckBox Content="Playstation 4"
+                      IsChecked="{Binding IsOnPS4}"
+                      Margin="2,2"/>
+            <CheckBox Content="Playstation 3"
+                      IsChecked="{Binding IsOnPS3}"
+                      Margin="2,2"/>
+            <CheckBox Content="Playstation Vita"
+                      IsChecked="{Binding IsOnPSVita}"
+                      Margin="2,2"/>
+          </StackPanel>
+        </GroupBox>
+
+        <controls:LabelledComboBox Label="Played Status:"
+                                   ItemSource="{Binding Source={StaticResource playStatus}, Mode=OneWay}"
+                                   SelectedItem="{Binding PlayStatus, Mode=OneWay}"
+                                   Margin="0,5" />
+
+        <CheckBox Content="Owned"
+                  IsChecked="{Binding Owned}"
+                  Margin="0,5"/>
+
+        <!-- Save / Cancel Buttons-->
+        <StackPanel Orientation="Horizontal"
+                    FlowDirection="RightToLeft">
+          <Button Content="Cancel"
+                  Command="{Binding CancelCommand}"
+                  Width="50"
+                  Margin="20,5"/>
+          <Button Content="Save"
+                  Command="{Binding SaveGameCommand}"
+                  Width="50"
+                  Margin="0,5"/>
+        </StackPanel>
+        
+      </StackPanel>
+    </Border>
+  </Grid>
+</Window>

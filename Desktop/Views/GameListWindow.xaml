@@ -41,8 +41,8 @@
             <ComboBox x:Name="NextGameStatusCombo"
                       SelectedIndex="0"
                       Margin="10,7"
-                      MaxWidth="122"
-                      MaxHeight="23">
+                      Width="122"
+                      Height="23">
               <ComboBoxItem Content="Not Implemented" />
             </ComboBox>
             <Button x:Name="ChooseAgainButton"

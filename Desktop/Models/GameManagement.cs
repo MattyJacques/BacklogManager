@@ -1,34 +1,33 @@
 ﻿using Desktop.Data.Types;
+using Desktop.Interfaces;
 using System;
-using System.Windows;
+using System.Windows.Input;
 
 namespace Desktop.Models
 {
-  public class GameListEntry
+  public class GameManagement : IGameManagementModel
   {
+    #region Members
+
+    private GameListEntry GameEntry;
+
+    #endregion // Members
+
     #region Construction
 
-    public GameListEntry(GameDatabaseEntry databaseEntry)
+    public GameManagement(GameListEntry game)
     {
-      try
-      {
-        Name = databaseEntry.GameName;
-        IsOnPS4 = databaseEntry.PS4 == "true";
-        IsOnPS3 = databaseEntry.PS3 == "true";
-        IsOnPSVita = databaseEntry.PSVita == "true";
-        IsOnPC = databaseEntry.PC == "true";
-        Owned = databaseEntry.OwnedStatus == "true";
+      GameEntry = game;
 
-        string statusNoSpace = databaseEntry.PlayedStatus.Replace(" ", "");
-        PlayStatus = (Status)Enum.Parse(typeof(Status), statusNoSpace, true);
+      Name = game.Name;
+      IsOnPS4 = game.IsOnPS4;
+      IsOnPS3 = game.IsOnPS3;
+      IsOnPSVita = game.IsOnPSVita;
+      IsOnPC = game.IsOnPC;
+      Owned = game.Owned;
+      PlayStatus = game.PlayStatus;
 
-        DateAdded = DateTime.Parse(databaseEntry.AddedDate);
-      }
-      catch (ArgumentException exception)
-      {
-        MessageBox.Show(exception.Message);
-      }
-    }
+    } // Constructor
 
     #endregion // Construction
 
@@ -76,12 +75,24 @@ namespace Desktop.Models
     /// </summary>
     public bool Owned { get { return _owned; } set { _owned = value; } }
 
-    private DateTime _dateAdded = DateTime.Today;
-    /// <summary>
-    /// Get/set the date the game was added to the database
-    /// </summary>
-    public DateTime DateAdded { get { return _dateAdded; } set { _dateAdded = value; } }
-
     #endregion // Properties
+
+    #region IGameManagementModel Implementation
+
+    /// <summary>
+    /// Save the data that is currently set
+    /// </summary>
+    public void SaveGame()
+    {
+      GameEntry.Name = Name;
+      GameEntry.IsOnPS4 = IsOnPS4;
+      GameEntry.IsOnPS3 = IsOnPS3;
+      GameEntry.IsOnPSVita = IsOnPSVita;
+      GameEntry.IsOnPC = IsOnPC;
+      GameEntry.Owned = Owned;
+      GameEntry.PlayStatus = PlayStatus;
+    } // SaveGame
+
+    #endregion // IGameManagementModel Implementation
   }
 }

@@ -1,6 +1,7 @@
 ﻿using Desktop.Data;
 using Desktop.Data.Types;
 using Desktop.Interfaces;
+using Desktop.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

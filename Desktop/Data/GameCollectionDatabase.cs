@@ -18,7 +18,7 @@ namespace Desktop.Data
 
     #endregion
 
-    #region Public Methods
+    #region Construction
 
     public GameCollectionDatabase()
     {
@@ -28,6 +28,10 @@ namespace Desktop.Data
       SetupDatabaseConnection();
       SetupTable();
     } // Constructor
+
+    #endregion // Construction
+
+    #region Public Methods
 
     /// <summary>
     /// Get all games from the game table

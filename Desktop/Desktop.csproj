@@ -77,14 +77,23 @@
     </ApplicationDefinition>
     <Compile Include="Data\Types.cs" />
     <Compile Include="Data\GameCollectionDatabase.cs" />
+    <Compile Include="Extensions\Controls\LabelledComboBox.xaml.cs">
+      <DependentUpon>LabelledComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\Controls\LabelledTextBox.xaml.cs">
+      <DependentUpon>LabelledTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\Helpers\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\RelayCommand.cs" />
     <Compile Include="Extensions\Properties\ListViewColumnStretcher.cs" />
+    <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
+    <Compile Include="Models\GameManagement.cs" />
     <Compile Include="ViewModels\GameListEntryViewModel.cs" />
     <Compile Include="ViewModels\GameListViewModel.cs" />
+    <Compile Include="ViewModels\GameManagementViewModel.cs" />
     <Compile Include="Views\GameListWindow.xaml.cs">
       <DependentUpon>GameListWindow.xaml</DependentUpon>
     </Compile>
@@ -92,9 +101,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\GameManagementWindow.xaml.cs">
+      <DependentUpon>GameManagementWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Extensions\Controls\LabelledComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Extensions\Controls\LabelledTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameListWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GameManagementWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
