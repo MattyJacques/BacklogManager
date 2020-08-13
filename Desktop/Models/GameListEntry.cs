@@ -6,6 +6,32 @@ namespace Desktop.Models
 {
   public class GameListEntry
   {
+    #region Construction
+
+    public GameListEntry(GameDatabaseEntry databaseEntry)
+    {
+      try
+      {
+        Name = databaseEntry.GameName;
+        IsOnPS4 = databaseEntry.PS4 == "true";
+        IsOnPS3 = databaseEntry.PS3 == "true";
+        IsOnPSVita = databaseEntry.PSVita == "true";
+        IsOnPC = databaseEntry.PC == "true";
+        Owned = databaseEntry.OwnedStatus == "true";
+
+        string statusNoSpace = databaseEntry.PlayedStatus.Replace(" ", "");
+        PlayStatus = (Status)Enum.Parse(typeof(Status), statusNoSpace, true);
+
+        DateAdded = DateTime.Parse(databaseEntry.AddedDate);
+      }
+      catch (ArgumentException exception)
+      {
+        MessageBox.Show(exception.Message);
+      }
+    }
+
+    #endregion // Construction
+
     #region Properties
 
     private String _name = String.Empty;
@@ -57,31 +83,5 @@ namespace Desktop.Models
     public DateTime DateAdded { get { return _dateAdded; } set { _dateAdded = value; } }
 
     #endregion // Properties
-
-    #region Construction
-
-    public GameListEntry(GameDatabaseEntry databaseEntry)
-    {
-      try
-      {
-        Name = databaseEntry.GameName;
-        IsOnPS4 = databaseEntry.PS4 == "true";
-        IsOnPS3 = databaseEntry.PS3 == "true";
-        IsOnPSVita = databaseEntry.PSVita == "true";
-        IsOnPC = databaseEntry.PC == "true";
-        Owned = databaseEntry.OwnedStatus == "true";
-
-        string statusNoSpace = databaseEntry.PlayedStatus.Replace(" ", "");
-        PlayStatus = (Status)Enum.Parse(typeof(Status), statusNoSpace, true);
-
-        DateAdded = DateTime.Parse(databaseEntry.AddedDate);
-      }
-      catch (ArgumentException exception)
-      {
-        MessageBox.Show(exception.Message);
-      }
-  }
-
-    #endregion
   }
 }

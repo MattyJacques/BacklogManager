@@ -1,15 +1,26 @@
 ﻿using Desktop.Data.Types;
+using Desktop.Extensions.Helpers;
 using Desktop.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Desktop.ViewModels
 {
   public class GameManagementViewModel
   {
+    #region Construction
+
+    public GameManagementViewModel(GameManagement model)
+    {
+      Model = model;
+
+      SaveGameCommand = new RelayCommand(param => this.SaveGame());
+      CancelCommand = new RelayCommand(param => this.Cancel());
+
+    } // Constructor
+
+    #endregion // Construction
+
     #region Properties
 
     /// <summary>
@@ -52,15 +63,31 @@ namespace Desktop.ViewModels
     /// </summary>
     public bool Owned { get { return Model.Owned; } set { Model.Owned = value; } }
 
+    /// <summary>
+    /// Stored action to close the attached view
+    /// </summary>
+    public Action CloseAction { get; set; }
+
     #endregion // Properties
 
-    #region Construction
+    #region Commands
 
-    public GameManagementViewModel(GameManagement model)
+    /// <summary>
+    /// Save the game using the data current in the view
+    /// </summary>
+    public ICommand SaveGameCommand { get; set; }
+    public void SaveGame()
     {
-      Model = model;
-    } // Constructor
+      Model.SaveGame();
+      CloseAction();
+    }
 
-    #endregion // Construction
+    /// <summary>
+    /// Cancel the dialog without saving the data
+    /// </summary>
+    public ICommand CancelCommand { get; set; }
+    public void Cancel() => CloseAction();
+
+    #endregion // Commands
   }
 }

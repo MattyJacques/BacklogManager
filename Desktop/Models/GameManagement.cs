@@ -1,10 +1,36 @@
 ﻿using Desktop.Data.Types;
+using Desktop.Interfaces;
 using System;
+using System.Windows.Input;
 
 namespace Desktop.Models
 {
-  public class GameManagement
+  public class GameManagement : IGameManagementModel
   {
+    #region Members
+
+    private GameListEntry GameEntry;
+
+    #endregion // Members
+
+    #region Construction
+
+    public GameManagement(GameListEntry game)
+    {
+      GameEntry = game;
+
+      Name = game.Name;
+      IsOnPS4 = game.IsOnPS4;
+      IsOnPS3 = game.IsOnPS3;
+      IsOnPSVita = game.IsOnPSVita;
+      IsOnPC = game.IsOnPC;
+      Owned = game.Owned;
+      PlayStatus = game.PlayStatus;
+
+    } // Constructor
+
+    #endregion // Construction
+
     #region Properties
 
     private String _name = String.Empty;
@@ -51,19 +77,22 @@ namespace Desktop.Models
 
     #endregion // Properties
 
-    #region Construction
+    #region IGameManagementModel Implementation
 
-    public GameManagement(GameListEntry game)
+    /// <summary>
+    /// Save the data that is currently set
+    /// </summary>
+    public void SaveGame()
     {
-      Name = game.Name;
-      IsOnPS4 = game.IsOnPS4;
-      IsOnPS3 = game.IsOnPS3;
-      IsOnPSVita = game.IsOnPSVita;
-      IsOnPC = game.IsOnPC;
-      Owned = game.Owned;
-      PlayStatus = game.PlayStatus;
-    } // Constructor
+      GameEntry.Name = Name;
+      GameEntry.IsOnPS4 = IsOnPS4;
+      GameEntry.IsOnPS3 = IsOnPS3;
+      GameEntry.IsOnPSVita = IsOnPSVita;
+      GameEntry.IsOnPC = IsOnPC;
+      GameEntry.Owned = Owned;
+      GameEntry.PlayStatus = PlayStatus;
+    } // SaveGame
 
-    #endregion // Construction
+    #endregion // IGameManagementModel Implementation
   }
 }

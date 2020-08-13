@@ -86,6 +86,7 @@
     <Compile Include="Extensions\Helpers\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\RelayCommand.cs" />
     <Compile Include="Extensions\Properties\ListViewColumnStretcher.cs" />
+    <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
