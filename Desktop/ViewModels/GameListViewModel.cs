@@ -14,7 +14,7 @@ namespace Desktop.ViewModels
   {
     #region Variables
 
-    private IGameListModel Model;
+    private IGameListModel model;
 
     #endregion // Variables
 
@@ -22,7 +22,7 @@ namespace Desktop.ViewModels
 
     public GameListViewModel(IGameListModel model)
     {
-      Model = model;
+      this.model = model;
 
       AddGameCommand = new RelayCommand(param => this.AddGame());
       EditGameCommand = new RelayCommand(param => this.EditGame());

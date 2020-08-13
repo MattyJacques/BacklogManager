@@ -13,8 +13,8 @@ namespace Desktop.Data
   {
     #region Members
 
-    SQLiteConnection connection;
-    string path;
+    private SQLiteConnection connection;
+    private string path;
 
     #endregion
 

@@ -22,6 +22,8 @@ namespace Desktop.Models
     public void AddGame()
     {
       GameListEntry newGame = new GameListEntry();
+
+      // Create and show GameManagement view
       GameManagement gameManagement = new GameManagement(newGame);
       GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
       GameManagementWindow window = new GameManagementWindow(viewModel);
