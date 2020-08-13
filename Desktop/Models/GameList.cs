@@ -1,6 +1,7 @@
 ﻿using Desktop.Data;
 using Desktop.Data.Types;
 using Desktop.Interfaces;
+using Desktop.ViewModels;
 using Desktop.Views;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,11 @@ namespace Desktop.Models
 
     public void AddGame()
     {
-      throw new NotImplementedException();
+      GameListEntry newGame = new GameListEntry();
+      GameManagement gameManagement = new GameManagement(newGame);
+      GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
+      GameManagementWindow window = new GameManagementWindow(viewModel);
+      window.ShowDialog();
     } // AddGame
 
     public void DeleteGame()

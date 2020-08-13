@@ -1,13 +1,10 @@
-﻿using Desktop.Data;
-using Desktop.Extensions.Helpers;
+﻿using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
-using Desktop.Views;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -33,11 +30,6 @@ namespace Desktop.ViewModels
 
       UpdateGameList();
       GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-
-      GameManagement gameManagement = new GameManagement(GameCollection.FirstOrDefault().Model);
-      GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
-      GameManagementWindow window = new GameManagementWindow(viewModel);
-      window.Show();
     }
 
     #endregion // Construction

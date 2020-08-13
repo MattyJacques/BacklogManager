@@ -28,7 +28,12 @@ namespace Desktop.Models
       {
         MessageBox.Show(exception.Message);
       }
-    }
+    } // Constructor - From GameDatabaseEntry
+
+    public GameListEntry()
+    {
+
+    } // Constructor - Default
 
     #endregion // Construction
 

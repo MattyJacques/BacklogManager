@@ -21,6 +21,14 @@
       <StackPanel x:Name="WindowPanel"
                   Margin="5">
 
+        <ToolBarTray>
+          <ToolBar HorizontalAlignment="Right">
+            <Button Content="Add"
+                    Command="{Binding AddGameCommand}"
+                    HorizontalAlignment="Right"/>
+          </ToolBar>
+        </ToolBarTray>
+
         <!--                  Next Game Group                -->
         <GroupBox x:Name="NextGameGroup"
                   Height="60"
