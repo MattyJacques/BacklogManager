@@ -27,7 +27,7 @@ namespace Desktop.Models
       GameManagement gameManagement = new GameManagement(newGame);
       GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
       GameManagementWindow window = new GameManagementWindow(viewModel);
-      window.ShowDialog();
+      bool? hey = window.ShowDialog();
     } // AddGame
 
     public void DeleteGame()

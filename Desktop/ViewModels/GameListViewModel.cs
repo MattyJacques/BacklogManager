@@ -76,19 +76,19 @@ namespace Desktop.ViewModels
     /// Add a new game to the list
     /// </summary>
     public ICommand AddGameCommand { get; set; }
-    public void AddGame() => Model.AddGame();
+    public void AddGame() => model.AddGame();
 
     /// <summary>
     /// Edit the currently selected item
     /// </summary>
     public ICommand EditGameCommand { get; set; }
-    public void EditGame() => Model.EditGame();
+    public void EditGame() => model.EditGame();
 
     /// <summary>
     /// Delete the currently selected item
     /// </summary>
     public ICommand DeleteGameCommand { get; set; }
-    public void DeleteGame() => Model.DeleteGame();
+    public void DeleteGame() => model.DeleteGame();
 
     #endregion // Commands
 
@@ -96,7 +96,7 @@ namespace Desktop.ViewModels
 
     private async void UpdateGameList()
     {
-      List<GameListEntry> games = await Model.GetGameList();
+      List<GameListEntry> games = await model.GetGameList();
 
       if (games != null)
       {

@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
+        xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
         mc:Ignorable="d"
         Title="Game"
-        SizeToContent="WidthAndHeight">
+        SizeToContent="WidthAndHeight"
+        properties:ReturnDialogResult.DialogResult="{Binding DialogResult}">
   <Grid Margin="1">
     <Border x:Name="WindowBorder"
             BorderBrush="Black"
@@ -53,7 +55,7 @@
         <StackPanel Orientation="Horizontal"
                     FlowDirection="RightToLeft">
           <Button Content="Cancel"
-                  Command="{Binding CancelCommand}"
+                  IsCancel="True"
                   Width="50"
                   Margin="20,5"/>
           <Button Content="Save"
