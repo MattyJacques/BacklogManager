@@ -3,6 +3,7 @@ using Desktop.Data.Types;
 using Desktop.Interfaces;
 using Desktop.ViewModels;
 using Desktop.Views;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Desktop.Models
     #region Members
 
     GameCollectionDatabase database = new GameCollectionDatabase();
+    List<GameListEntry> games;
 
     #endregion // Members
 
@@ -27,7 +29,12 @@ namespace Desktop.Models
       GameManagement gameManagement = new GameManagement(newGame);
       GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
       GameManagementWindow window = new GameManagementWindow(viewModel);
-      bool? hey = window.ShowDialog();
+
+      if (window.ShowDialog() == true)
+      {
+        games.Add(newGame);
+        database.AddGame(newGame.ToDatabaseEntry());
+      }
     } // AddGame
 
     public void DeleteGame()
@@ -42,16 +49,19 @@ namespace Desktop.Models
 
     public async Task<List<GameListEntry>> GetGameList()
     {
-      List<GameListEntry> gameList = new List<GameListEntry>();
-
-      List<GameDatabaseEntry> databaseList = await database.GetAllGames();
-
-      foreach (GameDatabaseEntry databaseEntry in databaseList)
+      if (games == null)
       {
-        gameList.Add(new GameListEntry(databaseEntry));
+        games = new List<GameListEntry>();
+
+        List<GameDatabaseEntry> databaseList = await database.GetAllGames();
+
+        foreach (GameDatabaseEntry databaseEntry in databaseList)
+        {
+          games.Add(new GameListEntry(databaseEntry));
+        }
       }
 
-      return gameList;
+      return games;
     } // GetGameList
 
     #endregion // IGameListModel Implementation

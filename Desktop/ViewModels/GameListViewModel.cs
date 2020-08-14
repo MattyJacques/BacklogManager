@@ -76,7 +76,11 @@ namespace Desktop.ViewModels
     /// Add a new game to the list
     /// </summary>
     public ICommand AddGameCommand { get; set; }
-    public void AddGame() => model.AddGame();
+    public void AddGame()
+    {
+      model.AddGame();
+      UpdateGameList();
+    }
 
     /// <summary>
     /// Edit the currently selected item

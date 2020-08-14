@@ -88,5 +88,26 @@ namespace Desktop.Models
     public DateTime DateAdded { get { return _dateAdded; } set { _dateAdded = value; } }
 
     #endregion // Properties
+
+    #region Public Methods
+
+    public GameDatabaseEntry ToDatabaseEntry()
+    {
+      GameDatabaseEntry entry = new GameDatabaseEntry();
+
+      // ToLower for legacy compatibility
+      entry.GameName = Name;
+      entry.AddedDate = DateAdded.Date.ToShortDateString();
+      entry.PC = IsOnPC.ToString().ToLower();
+      entry.PS3 = IsOnPS3.ToString().ToLower();
+      entry.PS4 = IsOnPS4.ToString().ToLower();
+      entry.PSVita = IsOnPSVita.ToString().ToLower();
+      entry.OwnedStatus = Owned.ToString().ToLower();
+      entry.PlayedStatus = PlayStatus.ToString();
+
+      return entry;
+    } // ToDatabaseEntry
+
+    #endregion // Public Methods
   }
 }
