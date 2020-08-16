@@ -1,13 +1,10 @@
-﻿using Desktop.Data;
-using Desktop.Extensions.Helpers;
+﻿using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
-using Desktop.Views;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -17,7 +14,7 @@ namespace Desktop.ViewModels
   {
     #region Variables
 
-    private IGameListModel Model;
+    private IGameListModel model;
 
     #endregion // Variables
 
@@ -25,7 +22,7 @@ namespace Desktop.ViewModels
 
     public GameListViewModel(IGameListModel model)
     {
-      Model = model;
+      this.model = model;
 
       AddGameCommand = new RelayCommand(param => this.AddGame());
       EditGameCommand = new RelayCommand(param => this.EditGame());
@@ -33,11 +30,6 @@ namespace Desktop.ViewModels
 
       UpdateGameList();
       GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-
-      GameManagement gameManagement = new GameManagement(GameCollection.FirstOrDefault().Model);
-      GameManagementViewModel viewModel = new GameManagementViewModel(gameManagement);
-      GameManagementWindow window = new GameManagementWindow(viewModel);
-      window.Show();
     }
 
     #endregion // Construction
@@ -49,7 +41,7 @@ namespace Desktop.ViewModels
     /// Get/Set the list of games
     /// </summary>
     public ObservableCollection<GameListEntryViewModel> GameCollection
-    { 
+    {
       get
       {
         return _gameCollection;
@@ -63,6 +55,9 @@ namespace Desktop.ViewModels
     }
 
     private CollectionView _gameCollectionView = null;
+    /// <summary>
+    /// Get/Set the collection view, used for sorting
+    /// </summary>
     public CollectionView GameCollectionView
     {
       get
@@ -76,6 +71,12 @@ namespace Desktop.ViewModels
       }
     }
 
+    private GameListEntryViewModel _selectedEntry = null;
+    /// <summary>
+    /// Get the selected entry from the list
+    /// </summary>
+    public GameListEntryViewModel SelectedEntry { get { return _selectedEntry; } set { _selectedEntry = value; } }
+
     #endregion // Properties
 
     #region Commands
@@ -84,19 +85,37 @@ namespace Desktop.ViewModels
     /// Add a new game to the list
     /// </summary>
     public ICommand AddGameCommand { get; set; }
-    public void AddGame() => Model.AddGame();
+    public void AddGame()
+    {
+      model.AddGame();
+      UpdateGameList();
+    }
 
     /// <summary>
     /// Edit the currently selected item
     /// </summary>
     public ICommand EditGameCommand { get; set; }
-    public void EditGame() => Model.EditGame();
+    public void EditGame()
+    {
+      if (SelectedEntry != null)
+      {
+        model.EditGame(SelectedEntry.Model);
+        UpdateGameList();
+      }
+    }
 
     /// <summary>
     /// Delete the currently selected item
     /// </summary>
     public ICommand DeleteGameCommand { get; set; }
-    public void DeleteGame() => Model.DeleteGame();
+    public void DeleteGame()
+    {
+      if (SelectedEntry != null)
+      {
+        model.DeleteGame(SelectedEntry.Name);
+        UpdateGameList();
+      }
+    }
 
     #endregion // Commands
 
@@ -104,7 +123,7 @@ namespace Desktop.ViewModels
 
     private async void UpdateGameList()
     {
-      List<GameListEntry> games = await Model.GetGameList();
+      List<GameListEntry> games = await model.GetGameList();
 
       if (games != null)
       {

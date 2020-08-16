@@ -13,8 +13,8 @@ namespace Desktop.Data
   {
     #region Members
 
-    SQLiteConnection connection;
-    string path;
+    private SQLiteConnection connection;
+    private string path;
 
     #endregion
 
@@ -38,24 +38,28 @@ namespace Desktop.Data
     /// </summary>
     public async Task<List<GameDatabaseEntry>> GetAllGames()
     {
-      SQLiteDataReader reader = await ExecuteQuery("SELECT * FROM Games") as SQLiteDataReader;
       List<GameDatabaseEntry> gameList = new List<GameDatabaseEntry>();
 
-      if (reader != null)
+      if (connection.State == System.Data.ConnectionState.Open)
       {
-        while (reader.Read())
-        {
-          GameDatabaseEntry entry = new GameDatabaseEntry();
-          entry.GameName = reader.GetString((int)ColIndex.GameName);
-          entry.AddedDate = reader.GetString((int)ColIndex.AddedDate);
-          entry.PC = reader.GetString((int)ColIndex.PC);
-          entry.PS3 = reader.GetString((int)ColIndex.PS3);
-          entry.PS4 = reader.GetString((int)ColIndex.PS4);
-          entry.PSVita = reader.GetString((int)ColIndex.PSVita);
-          entry.OwnedStatus = reader.GetString((int)ColIndex.OwnedStatus);
-          entry.PlayedStatus = reader.GetString((int)ColIndex.PlayedStatus);
+        SQLiteDataReader reader = await ExecuteQuery("SELECT * FROM Games") as SQLiteDataReader;
 
-          gameList.Add(entry);
+        if (reader != null)
+        {
+          while (reader.Read())
+          {
+            GameDatabaseEntry entry = new GameDatabaseEntry();
+            entry.GameName = reader.GetString((int)ColIndex.GameName);
+            entry.AddedDate = reader.GetString((int)ColIndex.AddedDate);
+            entry.PC = reader.GetString((int)ColIndex.PC);
+            entry.PS3 = reader.GetString((int)ColIndex.PS3);
+            entry.PS4 = reader.GetString((int)ColIndex.PS4);
+            entry.PSVita = reader.GetString((int)ColIndex.PSVita);
+            entry.OwnedStatus = reader.GetString((int)ColIndex.OwnedStatus);
+            entry.PlayedStatus = reader.GetString((int)ColIndex.PlayedStatus);
+
+            gameList.Add(entry);
+          }
         }
       }
 
@@ -66,25 +70,63 @@ namespace Desktop.Data
     /// <summary>
     /// Add a game item to the database
     /// </summary>
-    public void AddGame()
+    public bool AddGame(GameDatabaseEntry entry)
     {
-      throw new NotImplementedException();
+      if (connection.State == System.Data.ConnectionState.Open)
+      {
+        SQLiteCommand command = connection.CreateCommand();
+        command.CommandText = "INSERT OR REPLACE INTO Games" +
+                              "(GameName, AddedDate, PC, PS3, PS4, PSVita, OwnedStatus, PlayedStatus) " +
+                              "VALUES " +
+                              "(@GameName, @AddedDate, @PC, @PS3, @PS4, @PSVita, @OwnedStatus, @PlayedStatus)";
+
+        command.Parameters.Add(new SQLiteParameter("@GameName", entry.GameName));
+        command.Parameters.Add(new SQLiteParameter("@AddedDate", entry.AddedDate));
+        command.Parameters.Add(new SQLiteParameter("@PC", entry.PC));
+        command.Parameters.Add(new SQLiteParameter("@PS3", entry.PS3));
+        command.Parameters.Add(new SQLiteParameter("@PS4", entry.PS4));
+        command.Parameters.Add(new SQLiteParameter("@PSVita", entry.PSVita));
+        command.Parameters.Add(new SQLiteParameter("@OwnedStatus", entry.OwnedStatus));
+        command.Parameters.Add(new SQLiteParameter("@PlayedStatus", entry.PlayedStatus));
+
+        return command.ExecuteNonQuery() > 0;
+      }
+
+      return false;
     } // AddGame
 
     /// <summary>
     /// Edit an existing game item in the database
     /// </summary>
-    public void EditGame()
+    public bool EditGame(string nameToEdit, GameDatabaseEntry entry)
     {
-      throw new NotImplementedException();
+      if (connection.State == System.Data.ConnectionState.Open)
+      {
+        if (DeleteGame(nameToEdit))
+        {
+          return AddGame(entry);
+        }
+      }
+
+      return false;
     } // EditGame
 
     /// <summary>
     /// Delete an existing game entry in the database
     /// </summary>
-    public void DeleteGame()
+    public bool DeleteGame(string gameName)
     {
-      throw new NotImplementedException();
+      if (connection.State == System.Data.ConnectionState.Open)
+      {
+        SQLiteCommand command = connection.CreateCommand();
+        command.CommandText = "DELETE FROM Games WHERE GameName = @GameName";
+
+        command.Parameters.Add(new SQLiteParameter("@GameName", gameName));
+
+        return command.ExecuteNonQuery() > 0;
+      }
+
+      return false;
     } // DeleteGame
 
     #endregion

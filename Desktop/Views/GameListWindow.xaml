@@ -21,6 +21,17 @@
       <StackPanel x:Name="WindowPanel"
                   Margin="5">
 
+        <ToolBarTray>
+          <ToolBar HorizontalAlignment="Right">
+            <Button Content="Add"
+                    Command="{Binding AddGameCommand}" />
+            <Button Content="Edit"
+                    Command="{Binding EditGameCommand}" />
+            <Button Content="Delete"
+                    Command="{Binding DeleteGameCommand}" />
+          </ToolBar>
+        </ToolBarTray>
+
         <!--                  Next Game Group                -->
         <GroupBox x:Name="NextGameGroup"
                   Height="60"
@@ -62,6 +73,7 @@
                       Margin="3">
             <ListView x:Name="GameList"
                       ItemsSource="{Binding GameCollectionView}"
+                      SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
                       properties:ListViewColumnStretcher.Stretch="True"
                       Width="740">
               <ListView.ItemContainerStyle>

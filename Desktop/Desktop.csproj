@@ -77,6 +77,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\Types.cs" />
     <Compile Include="Data\GameCollectionDatabase.cs" />
+    <Compile Include="Extensions\Base Classes\WindowWithResult.cs" />
     <Compile Include="Extensions\Controls\LabelledComboBox.xaml.cs">
       <DependentUpon>LabelledComboBox.xaml</DependentUpon>
     </Compile>
@@ -86,6 +87,7 @@
     <Compile Include="Extensions\Helpers\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\RelayCommand.cs" />
     <Compile Include="Extensions\Properties\ListViewColumnStretcher.cs" />
+    <Compile Include="Extensions\Properties\ReturnDialogResult.cs" />
     <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
     <Compile Include="Models\GameList.cs" />

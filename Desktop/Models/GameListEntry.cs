@@ -28,7 +28,14 @@ namespace Desktop.Models
       {
         MessageBox.Show(exception.Message);
       }
-    }
+    } // Constructor - From GameDatabaseEntry
+
+    public GameListEntry(GameListEntry entry) => Copy(entry);
+
+    public GameListEntry()
+    {
+
+    } // Constructor - Default
 
     #endregion // Construction
 
@@ -83,5 +90,38 @@ namespace Desktop.Models
     public DateTime DateAdded { get { return _dateAdded; } set { _dateAdded = value; } }
 
     #endregion // Properties
+
+    #region Public Methods
+
+    public GameDatabaseEntry ToDatabaseEntry()
+    {
+      GameDatabaseEntry entry = new GameDatabaseEntry();
+
+      // ToLower for legacy compatibility
+      entry.GameName = Name;
+      entry.AddedDate = DateAdded.Date.ToShortDateString();
+      entry.PC = IsOnPC.ToString().ToLower();
+      entry.PS3 = IsOnPS3.ToString().ToLower();
+      entry.PS4 = IsOnPS4.ToString().ToLower();
+      entry.PSVita = IsOnPSVita.ToString().ToLower();
+      entry.OwnedStatus = Owned.ToString().ToLower();
+      entry.PlayedStatus = PlayStatus.ToString();
+
+      return entry;
+    } // ToDatabaseEntry
+
+    public void Copy(GameListEntry entry)
+    {
+      Name = entry.Name;
+      IsOnPS4 = entry.IsOnPS4;
+      IsOnPS3 = entry.IsOnPS3;
+      IsOnPSVita = entry.IsOnPSVita;
+      IsOnPC = entry.IsOnPC;
+      Owned = entry.Owned;
+      PlayStatus = entry.PlayStatus;
+      DateAdded = entry.DateAdded;
+    }
+
+    #endregion // Public Methods
   }
 }

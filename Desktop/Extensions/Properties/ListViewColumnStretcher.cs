@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,10 +11,10 @@ namespace Desktop.Extensions.Properties
     /// IsStretched Dependency property which can be attached to GridViewColumns.
     /// </summary>
     public static readonly DependencyProperty StretchProperty =
-        DependencyProperty.RegisterAttached("Stretch",
-        typeof(bool),
-        typeof(ListViewColumnStretcher),
-        new UIPropertyMetadata(true, null, OnCoerceStretch));
+      DependencyProperty.RegisterAttached("Stretch",
+      typeof(bool),
+      typeof(ListViewColumnStretcher),
+      new UIPropertyMetadata(true, null, OnCoerceStretch));
 
     /// <summary>
     /// Get whether to stretch or not

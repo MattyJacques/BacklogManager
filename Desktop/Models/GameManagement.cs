@@ -1,6 +1,7 @@
 ﻿using Desktop.Data.Types;
 using Desktop.Interfaces;
 using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Desktop.Models
@@ -9,23 +10,23 @@ namespace Desktop.Models
   {
     #region Members
 
-    private GameListEntry GameEntry;
+    private GameListEntry game;
 
     #endregion // Members
 
     #region Construction
 
-    public GameManagement(GameListEntry game)
+    public GameManagement(GameListEntry gameEntry)
     {
-      GameEntry = game;
+      game = gameEntry;
 
-      Name = game.Name;
-      IsOnPS4 = game.IsOnPS4;
-      IsOnPS3 = game.IsOnPS3;
-      IsOnPSVita = game.IsOnPSVita;
-      IsOnPC = game.IsOnPC;
-      Owned = game.Owned;
-      PlayStatus = game.PlayStatus;
+      Name = gameEntry.Name;
+      IsOnPS4 = gameEntry.IsOnPS4;
+      IsOnPS3 = gameEntry.IsOnPS3;
+      IsOnPSVita = gameEntry.IsOnPSVita;
+      IsOnPC = gameEntry.IsOnPC;
+      Owned = gameEntry.Owned;
+      PlayStatus = gameEntry.PlayStatus;
 
     } // Constructor
 
@@ -84,13 +85,13 @@ namespace Desktop.Models
     /// </summary>
     public void SaveGame()
     {
-      GameEntry.Name = Name;
-      GameEntry.IsOnPS4 = IsOnPS4;
-      GameEntry.IsOnPS3 = IsOnPS3;
-      GameEntry.IsOnPSVita = IsOnPSVita;
-      GameEntry.IsOnPC = IsOnPC;
-      GameEntry.Owned = Owned;
-      GameEntry.PlayStatus = PlayStatus;
+      game.Name = Name;
+      game.IsOnPS4 = IsOnPS4;
+      game.IsOnPS3 = IsOnPS3;
+      game.IsOnPSVita = IsOnPSVita;
+      game.IsOnPC = IsOnPC;
+      game.Owned = Owned;
+      game.PlayStatus = PlayStatus;
     } // SaveGame
 
     #endregion // IGameManagementModel Implementation
