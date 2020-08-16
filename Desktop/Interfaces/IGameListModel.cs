@@ -14,12 +14,12 @@ namespace Desktop.Interfaces
     /// <summary>
     /// Edit a game entry currently in the collection
     /// </summary>
-    void EditGame();
+    void EditGame(GameListEntry entry);
 
     /// <summary>
     /// Delete a game from the collection
     /// </summary>
-    void DeleteGame();
+    void DeleteGame(GameListEntry entry);
 
     /// <summary>
     /// Return the current game list

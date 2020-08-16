@@ -70,7 +70,7 @@ namespace Desktop.Data
     /// <summary>
     /// Add a game item to the database
     /// </summary>
-    public void AddGame(GameDatabaseEntry entry)
+    public bool AddGame(GameDatabaseEntry entry)
     {
       if (connection.State == System.Data.ConnectionState.Open)
       {
@@ -89,25 +89,44 @@ namespace Desktop.Data
         command.Parameters.Add(new SQLiteParameter("@OwnedStatus", entry.OwnedStatus));
         command.Parameters.Add(new SQLiteParameter("@PlayedStatus", entry.PlayedStatus));
 
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery() > 0;
       }
 
+      return false;
     } // AddGame
 
     /// <summary>
     /// Edit an existing game item in the database
     /// </summary>
-    public void EditGame()
+    public bool EditGame(string nameToEdit, GameDatabaseEntry entry)
     {
-      throw new NotImplementedException();
+      if (connection.State == System.Data.ConnectionState.Open)
+      {
+        if (DeleteGame(nameToEdit))
+        {
+          return AddGame(entry);
+        }
+      }
+
+      return false;
     } // EditGame
 
     /// <summary>
     /// Delete an existing game entry in the database
     /// </summary>
-    public void DeleteGame()
+    public bool DeleteGame(string gameName)
     {
-      throw new NotImplementedException();
+      if (connection.State == System.Data.ConnectionState.Open)
+      {
+        SQLiteCommand command = connection.CreateCommand();
+        command.CommandText = "DELETE FROM Games WHERE GameName = @GameName";
+
+        command.Parameters.Add(new SQLiteParameter("@GameName", gameName));
+
+        return command.ExecuteNonQuery() > 0;
+      }
+
+      return false;
     } // DeleteGame
 
     #endregion

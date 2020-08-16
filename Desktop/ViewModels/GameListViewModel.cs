@@ -41,7 +41,7 @@ namespace Desktop.ViewModels
     /// Get/Set the list of games
     /// </summary>
     public ObservableCollection<GameListEntryViewModel> GameCollection
-    { 
+    {
       get
       {
         return _gameCollection;
@@ -55,6 +55,9 @@ namespace Desktop.ViewModels
     }
 
     private CollectionView _gameCollectionView = null;
+    /// <summary>
+    /// Get/Set the collection view, used for sorting
+    /// </summary>
     public CollectionView GameCollectionView
     {
       get
@@ -67,6 +70,12 @@ namespace Desktop.ViewModels
         return _gameCollectionView;
       }
     }
+
+    private GameListEntryViewModel _selectedEntry = null;
+    /// <summary>
+    /// Get the selected entry from the list
+    /// </summary>
+    public GameListEntryViewModel SelectedEntry { get { return _selectedEntry; } set { _selectedEntry = value; } }
 
     #endregion // Properties
 
@@ -86,13 +95,27 @@ namespace Desktop.ViewModels
     /// Edit the currently selected item
     /// </summary>
     public ICommand EditGameCommand { get; set; }
-    public void EditGame() => model.EditGame();
+    public void EditGame()
+    {
+      if (SelectedEntry != null)
+      {
+        model.EditGame(SelectedEntry.Model);
+        UpdateGameList();
+      }
+    }
 
     /// <summary>
     /// Delete the currently selected item
     /// </summary>
     public ICommand DeleteGameCommand { get; set; }
-    public void DeleteGame() => model.DeleteGame();
+    public void DeleteGame()
+    {
+      if (SelectedEntry != null)
+      {
+        model.DeleteGame(SelectedEntry.Name);
+        UpdateGameList();
+      }
+    }
 
     #endregion // Commands
 

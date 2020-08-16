@@ -24,8 +24,11 @@
         <ToolBarTray>
           <ToolBar HorizontalAlignment="Right">
             <Button Content="Add"
-                    Command="{Binding AddGameCommand}"
-                    HorizontalAlignment="Right"/>
+                    Command="{Binding AddGameCommand}" />
+            <Button Content="Edit"
+                    Command="{Binding EditGameCommand}" />
+            <Button Content="Delete"
+                    Command="{Binding DeleteGameCommand}" />
           </ToolBar>
         </ToolBarTray>
 
@@ -70,6 +73,7 @@
                       Margin="3">
             <ListView x:Name="GameList"
                       ItemsSource="{Binding GameCollectionView}"
+                      SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
                       properties:ListViewColumnStretcher.Stretch="True"
                       Width="740">
               <ListView.ItemContainerStyle>

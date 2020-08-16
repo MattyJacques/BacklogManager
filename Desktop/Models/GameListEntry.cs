@@ -30,6 +30,8 @@ namespace Desktop.Models
       }
     } // Constructor - From GameDatabaseEntry
 
+    public GameListEntry(GameListEntry entry) => Copy(entry);
+
     public GameListEntry()
     {
 
@@ -107,6 +109,18 @@ namespace Desktop.Models
 
       return entry;
     } // ToDatabaseEntry
+
+    public void Copy(GameListEntry entry)
+    {
+      Name = entry.Name;
+      IsOnPS4 = entry.IsOnPS4;
+      IsOnPS3 = entry.IsOnPS3;
+      IsOnPSVita = entry.IsOnPSVita;
+      IsOnPC = entry.IsOnPC;
+      Owned = entry.Owned;
+      PlayStatus = entry.PlayStatus;
+      DateAdded = entry.DateAdded;
+    }
 
     #endregion // Public Methods
   }
