@@ -112,7 +112,7 @@ namespace Desktop.ViewModels
     {
       if (SelectedEntry != null)
       {
-        model.DeleteGame(SelectedEntry.Name);
+        model.DeleteGame(SelectedEntry.Model);
         UpdateGameList();
       }
     }
