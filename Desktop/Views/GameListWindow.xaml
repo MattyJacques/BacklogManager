@@ -3,187 +3,170 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
         mc:Ignorable="d"
         Title="Backlog Manager"
         SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Margin="0">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
 
-  <Grid Margin="1">
-    <Border x:Name="WindowBorder"
-            BorderBrush="Black"
-            BorderThickness="1"
-            Height="Auto"
-            Width="Auto"
-            Margin="1,1">
-      <StackPanel x:Name="WindowPanel"
-                  Margin="5">
+  <StackPanel x:Name="WindowPanel"
+              Margin="5">
 
-        <ToolBarTray>
-          <ToolBar 
-                   HorizontalAlignment="Right">
-            <Button Content="Add"
-                    Command="{Binding AddGameCommand}" />
-            <Button Content="Edit"
-                    Command="{Binding EditGameCommand}" />
-            <Button Content="Delete"
-                    Command="{Binding DeleteGameCommand}" />
-          </ToolBar>
-        </ToolBarTray>
+    <ToolBarTray>
+      <ToolBar HorizontalAlignment="Right">
+        <Button Content="Add"
+                Command="{Binding AddGameCommand}" />
+        <Button Content="Edit"
+                Command="{Binding EditGameCommand}" />
+        <Button Content="Delete"
+                Command="{Binding DeleteGameCommand}" />
+      </ToolBar>
+    </ToolBarTray>
 
-        <!--                  Next Game Group                -->
-        <GroupBox x:Name="NextGameGroup"
-                  Height="60"
-                  Margin="0"
-                  Header="Next Game">
-          <StackPanel x:Name="NextGamePanel"
-                      Margin="3,0"
-                      Orientation="Horizontal">
-            <TextBlock x:Name="NextGameText"
-                       Text="Next game to play will be here"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Stretch"
-                       Margin="0,7,10,0"
-                       Width="495"
-                       Padding="3,0,0,0"
-                       FontSize="16"
-                       Height="30" />
-            <ComboBox x:Name="NextGameStatusCombo"
-                      SelectedIndex="0"
-                      Margin="10,7"
-                      Width="122"
-                      Height="23">
-              <ComboBoxItem Content="Not Implemented" />
-            </ComboBox>
-            <Button x:Name="ChooseAgainButton"
-                    Content="Choose Again"
-                    Margin="10,7,0,7"
-                    Height="23"
-                    Width="83" />
-          </StackPanel>
-        </GroupBox>
-        
-        <!--                  Games list Group                -->
-        <GroupBox x:Name="GamesGroup"
-                  Header="Games"
-                  Margin="0"
-                  Height="367">
-          <DockPanel x:Name="GamesPanel"
-                      Margin="3">
-            <ListView x:Name="GameList"
-                      ItemsSource="{Binding GameCollectionView}"
-                      SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
-                      properties:ListViewColumnStretcher.Stretch="True"
-                      Width="740">
-              <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                  <Setter Property="HorizontalContentAlignment"
-                          Value="Stretch" />
-                </Style>
-              </ListView.ItemContainerStyle>
-              <ListView.View>
-                <GridView>
-
-                  <GridViewColumn Header="Game Name"
-                                  DisplayMemberBinding="{Binding Name}" />
-
-                  <GridViewColumn Header="PC"
-                                  Width="30">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsOnPC, Mode=OneWay}"
-                                  IsEnabled="False"
-                                  HorizontalAlignment="Center"
-                                  Width="Auto" />
-                      </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                  <GridViewColumn Header="PS3"
-                                  Width="30">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsOnPS3, Mode=OneWay}"
-                                  IsEnabled="False"
-                                  HorizontalAlignment="Center"
-                                  Width="Auto" />
-                    </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                  <GridViewColumn Header="PS4"
-                                  Width="30">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsOnPS4, Mode=OneWay}"
-                                  IsEnabled="False"
-                                  HorizontalAlignment="Center"
-                                  Width="Auto" />
-                    </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                  <GridViewColumn Header="Vita"
-                                  Width="30">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsOnPSVita, Mode=OneWay}"
-                                  IsEnabled="False"
-                                  HorizontalAlignment="Center"
-                                  Width="Auto" />
-                    </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                  <GridViewColumn Header="Status"
-                                  Width="105">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource playStatus}}"
-                                  SelectedItem="{Binding PlayStatus, Mode=OneWay}"
-                                  IsEnabled="False">
-                          <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                              <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
-                            </DataTemplate>
-                          </ComboBox.ItemTemplate>
-                        </ComboBox>
-                      </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                  <GridViewColumn Header="Owned"
-                                  Width="50">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <CheckBox IsChecked="{Binding Owned, Mode=OneWay}"
-                                  IsEnabled="False"
-                                  HorizontalAlignment="Center" />
-                      </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                  <GridViewColumn Header="Date Added"
-                                  DisplayMemberBinding="{Binding DateAdded, StringFormat='yyyy-MM-dd'}"
-                                  Width="80">
-                    <GridViewColumn.CellTemplate>
-                      <DataTemplate>
-                        <TextBlock TextAlignment="Center" />
-                      </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                  </GridViewColumn>
-
-                </GridView>
-              </ListView.View>
-            </ListView>
-          </DockPanel>
-        </GroupBox>
-        
-        
+    <!--                  Next Game Group                -->
+    <GroupBox x:Name="NextGameGroup"
+              Header="Next Game">
+      <StackPanel x:Name="NextGamePanel"
+                  Margin="3,0"
+                  Orientation="Horizontal">
+        <TextBlock x:Name="NextGameText"
+                   Text="Next game to play will be here"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Stretch"
+                   Margin="0,7,10,0"
+                   Width="495"
+                   Padding="3,0,0,0"
+                   FontSize="16" />
+        <ComboBox x:Name="NextGameStatusCombo"
+                  SelectedIndex="0"
+                  Margin="10,7"
+                  Width="122">
+          <ComboBoxItem Content="Not Implemented" />
+        </ComboBox>
+        <Button x:Name="ChooseAgainButton"
+                Content="Choose Again"
+                Margin="10,7,0,7"
+                Width="83" />
       </StackPanel>
-    </Border>
-  </Grid>
+    </GroupBox>
+
+    <!--                  Games list Group                -->
+    <GroupBox x:Name="GamesGroup"
+              Header="Games"
+              Margin="0"
+              Height="530">
+      <DockPanel x:Name="GamesPanel"
+                 Margin="3">
+        <ListView x:Name="GameList"
+                  ItemsSource="{Binding GameCollectionView}"
+                  SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
+                  properties:ListViewColumnStretcher.Stretch="True"
+                  Width="1000">
+          <ListView.View>
+            <GridView>
+              <GridViewColumn Header="Game Name"
+                              DisplayMemberBinding="{Binding Name}" />
+
+              <GridViewColumn Header="PC"
+                              Width="60">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsOnPC, Mode=OneWay}"
+                              IsEnabled="False"
+                              HorizontalAlignment="Center"
+                              Width="Auto" />
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+              <GridViewColumn Header="PS3"
+                              Width="60">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsOnPS3, Mode=OneWay}"
+                              IsEnabled="False"
+                              HorizontalAlignment="Center"
+                              Width="Auto" />
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+              <GridViewColumn Header="PS4"
+                              Width="60">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsOnPS4, Mode=OneWay}"
+                              IsEnabled="False"
+                              HorizontalAlignment="Center"
+                              Width="Auto" />
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+              <GridViewColumn Header="Vita"
+                              Width="60">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsOnPSVita, Mode=OneWay}"
+                              IsEnabled="False"
+                              HorizontalAlignment="Center"
+                              Width="Auto" />
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+              <GridViewColumn Header="Status"
+                              Width="105">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource playStatus}}"
+                              SelectedItem="{Binding PlayStatus, Mode=OneWay}"
+                              IsEnabled="False">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
+                        </DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+              <GridViewColumn Header="Owned"
+                              Width="72">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <CheckBox IsChecked="{Binding Owned, Mode=OneWay}"
+                                IsEnabled="False"
+                                HorizontalAlignment="Center" />
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+              <GridViewColumn Header="Added"
+                              DisplayMemberBinding="{Binding DateAdded, StringFormat='yyyy-MM-dd'}"
+                              Width="80">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <TextBlock TextAlignment="Center" />
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
+            </GridView>
+          </ListView.View>
+        </ListView>
+      </DockPanel>
+    </GroupBox>
+
+
+  </StackPanel>
 </Window>
