@@ -42,7 +42,7 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Stretch"
                    Margin="0,7,10,0"
-                   Width="495"
+                   Width="600"
                    Padding="3,0,0,0"
                    FontSize="16" />
         <ComboBox x:Name="NextGameStatusCombo"
