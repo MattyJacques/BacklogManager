@@ -61,112 +61,51 @@
     <!--                  Games list Group                -->
     <GroupBox x:Name="GamesGroup"
               Header="Games"
-              Margin="0"
-              Height="530">
+              Height="550">
       <DockPanel x:Name="GamesPanel"
-                 Margin="3">
-        <ListView x:Name="GameList"
-                  ItemsSource="{Binding GameCollectionView}"
+                 Width="850">
+        <DataGrid x:Name="GameList"
+                  ItemsSource="{Binding GameCollection}"
                   SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
-                  properties:ListViewColumnStretcher.Stretch="True"
-                  Width="1000">
-          <ListView.View>
-            <GridView>
-              <GridViewColumn Header="Game Name"
-                              DisplayMemberBinding="{Binding Name}" />
+                  AutoGenerateColumns="False">
+          <DataGrid.Columns>
+            
+            <DataGridTextColumn Header="Name"
+                                Binding="{Binding Name, Mode=OneWay}"
+                                Width="*"/>
 
-              <GridViewColumn Header="PC"
-                              Width="60">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsOnPC, Mode=OneWay}"
-                              IsEnabled="False"
-                              HorizontalAlignment="Center"
-                              Width="Auto" />
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridCheckBoxColumn Header="PC"
+                                    Binding="{Binding IsOnPC, Mode=OneWay}"
+                                    IsReadOnly="True" />
 
-              <GridViewColumn Header="PS3"
-                              Width="60">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsOnPS3, Mode=OneWay}"
-                              IsEnabled="False"
-                              HorizontalAlignment="Center"
-                              Width="Auto" />
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridCheckBoxColumn Header="PS3"
+                                    Binding="{Binding IsOnPS3, Mode=OneWay}"
+                                    IsReadOnly="True" />
 
-              <GridViewColumn Header="PS4"
-                              Width="60">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsOnPS4, Mode=OneWay}"
-                              IsEnabled="False"
-                              HorizontalAlignment="Center"
-                              Width="Auto" />
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridCheckBoxColumn Header="PS4"
+                                    Binding="{Binding IsOnPS4, Mode=OneWay}"
+                                    IsReadOnly="True" />
 
-              <GridViewColumn Header="Vita"
-                              Width="60">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsOnPSVita, Mode=OneWay}"
-                              IsEnabled="False"
-                              HorizontalAlignment="Center"
-                              Width="Auto" />
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridCheckBoxColumn Header="PSVita"
+                                    Binding="{Binding IsOnPSVita, Mode=OneWay}"
+                                    IsReadOnly="True" />
 
-              <GridViewColumn Header="Status"
-                              Width="105">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <ComboBox ItemsSource="{Binding Source={StaticResource playStatus}}"
-                              SelectedItem="{Binding PlayStatus, Mode=OneWay}"
-                              IsEnabled="False">
-                      <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                          <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
-                        </DataTemplate>
-                      </ComboBox.ItemTemplate>
-                    </ComboBox>
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridComboBoxColumn Header="Status"
+                                    ItemsSource="{Binding Source={StaticResource playStatusEnum}, Converter={StaticResource EnumArrayDescriptionConverter}}"
+                                    SelectedItemBinding="{Binding PlayStatus, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}" />
 
-              <GridViewColumn Header="Owned"
-                              Width="72">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <CheckBox IsChecked="{Binding Owned, Mode=OneWay}"
-                                IsEnabled="False"
-                                HorizontalAlignment="Center" />
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridCheckBoxColumn Header="Owned"
+                                    Binding="{Binding Owned, Mode=OneWay}"
+                                    IsReadOnly="True" />
 
-              <GridViewColumn Header="Added"
-                              DisplayMemberBinding="{Binding DateAdded, StringFormat='yyyy-MM-dd'}"
-                              Width="80">
-                <GridViewColumn.CellTemplate>
-                  <DataTemplate>
-                    <TextBlock TextAlignment="Center" />
-                  </DataTemplate>
-                </GridViewColumn.CellTemplate>
-              </GridViewColumn>
+            <DataGridTextColumn Header="Added"
+                                Binding="{Binding DateAdded, Mode=OneWay, StringFormat='yyyy-MM-dd'}"
+                                Width="125"/>
 
-            </GridView>
-          </ListView.View>
-        </ListView>
+          </DataGrid.Columns>
+        </DataGrid>
       </DockPanel>
     </GroupBox>
-
 
   </StackPanel>
 </Window>

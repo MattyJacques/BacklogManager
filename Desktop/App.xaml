@@ -9,14 +9,16 @@
     <ResourceDictionary>
       
       <!-- Enum Helpers-->
-      <ObjectDataProvider x:Key="playStatus"
+      <ObjectDataProvider x:Key="playStatusEnum"
                           MethodName="GetValues"
                           ObjectType="{x:Type system:Enum}">
         <ObjectDataProvider.MethodParameters>
           <x:Type TypeName="types:Status"></x:Type>
         </ObjectDataProvider.MethodParameters>
       </ObjectDataProvider>
+      
       <helpers:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+      <helpers:EnumArrayDescriptionConverter x:Key="EnumArrayDescriptionConverter" />
       
       <!-- Material Design -->
       <ResourceDictionary.MergedDictionaries>

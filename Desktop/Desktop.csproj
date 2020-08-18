@@ -90,6 +90,7 @@
     <Compile Include="Extensions\Controls\LabelledTextBox.xaml.cs">
       <DependentUpon>LabelledTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\Helpers\EnumArrayDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\RelayCommand.cs" />
     <Compile Include="Extensions\Properties\ListViewColumnStretcher.cs" />
