@@ -14,7 +14,8 @@
 
     <TextBlock Grid.Column="0"
                Text="{Binding Label}"
-               Padding="0,0,10,0"/>
+               Padding="0,0,10,0"
+               VerticalAlignment="Center" />
     <TextBox Grid.Column="1"
              Text="{Binding Text}" />
   </Grid>

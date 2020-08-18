@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Desktop.Extensions.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+  
   <Grid x:Name="Root">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
@@ -14,7 +15,8 @@
 
     <TextBlock Grid.Column="0"
                Text="{Binding Label}"
-               Padding="0,0,10,0"/>
+               Padding="0,0,10,0"
+               VerticalAlignment="Center" />
     
     <ComboBox Grid.Column="1" 
               ItemsSource="{Binding ItemSource}"
