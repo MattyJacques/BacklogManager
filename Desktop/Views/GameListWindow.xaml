@@ -45,18 +45,26 @@
       <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
                               Width="200"
                               Height="30"
-                              Margin="-300,0,0,0"/>
+                              Margin="-300,0,0,0" />
 
-      <Button Style="{DynamicResource MaterialDesignIconForegroundButton}"
-              Command="{Binding SearchCommand}"
-              x:Name="SearchButton"
-              CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
-              Margin="-50,0,0,0"
-              Opacity="0.75">
+      <ToggleButton x:Name="FilterButton"
+                    Style="{DynamicResource MaterialDesignActionAccentToggleButton}"
+                    Margin="-50,0,0,0"
+                    IsChecked="{Binding ShowFilters, Mode=TwoWay}">
         <materialDesign:PackIcon Kind="FilterMenu" />
-      </Button>
+        <materialDesign:ToggleButtonAssist.OnContent>
+          <materialDesign:PackIcon Kind="FilterMinus" />
+        </materialDesign:ToggleButtonAssist.OnContent>
+      </ToggleButton>
 
     </StackPanel>
+
+    <GroupBox x:Name="FilterGroup"
+              Header="Filter"
+              Height="300"
+              Visibility="{Binding ShowFilters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+    </GroupBox>
 
     <!--                  Next Game Group                -->
     <GroupBox x:Name="NextGameGroup"
@@ -84,13 +92,12 @@
                 Width="83" />
       </StackPanel>
     </GroupBox>
-
-    <!--                  Games list Group                -->
+      
+      <!--                  Games list Group                -->
     <GroupBox x:Name="GamesGroup"
-              Header="Games"
-              Height="540">
-      <DockPanel x:Name="GamesPanel"
-                 Width="850">
+              Header="Games">
+      <StackPanel x:Name="GamesPanel"
+                  Width="850">
         <DataGrid x:Name="GameList"
                   ItemsSource="{Binding GameCollection}"
                   SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
@@ -132,7 +139,8 @@
 
           </DataGrid.Columns>
         </DataGrid>
-      </DockPanel>
+      </StackPanel>
     </GroupBox>
+
   </StackPanel>
 </Window>

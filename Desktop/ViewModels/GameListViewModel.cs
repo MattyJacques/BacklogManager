@@ -68,6 +68,9 @@ namespace Desktop.ViewModels
     /// </summary>
     public string SearchText { get { return _searchText; } set { _searchText = value; UpdateGameList(); } }
 
+    private bool _showFilters = false;
+    public bool ShowFilters { get { return _showFilters; } set { _showFilters = value; RaisePropertyChanged("ShowFilters");  } }
+
     #endregion // Properties
 
     #region Commands
