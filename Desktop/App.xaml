@@ -22,9 +22,9 @@
       
       <!-- Material Design -->
       <ResourceDictionary.MergedDictionaries>
-        <materialDesign:BundledTheme BaseTheme="Dark"
-                                     PrimaryColor="DeepPurple"
-                                     SecondaryColor="Lime" />
+        <materialDesign:CustomColorTheme BaseTheme="Dark"
+                                         PrimaryColor="DarkSlateBlue"
+                                         SecondaryColor="DarkSlateBlue" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
       </ResourceDictionary.MergedDictionaries>
       

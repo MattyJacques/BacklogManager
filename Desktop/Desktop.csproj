@@ -84,6 +84,9 @@
     <Compile Include="Data\Types.cs" />
     <Compile Include="Data\GameCollectionDatabase.cs" />
     <Compile Include="Extensions\Base Classes\WindowWithResult.cs" />
+    <Compile Include="Extensions\Controls\SearchTextBox.xaml.cs">
+      <DependentUpon>SearchTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\Controls\LabelledComboBox.xaml.cs">
       <DependentUpon>LabelledComboBox.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,10 @@
     <Compile Include="Views\GameManagementWindow.xaml.cs">
       <DependentUpon>GameManagementWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Extensions\Controls\SearchTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Extensions\Controls\LabelledComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

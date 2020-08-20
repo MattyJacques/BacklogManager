@@ -2,9 +2,12 @@
 using Desktop.Interfaces;
 using Desktop.Models;
 using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -29,7 +32,6 @@ namespace Desktop.ViewModels
       DeleteGameCommand = new RelayCommand(param => this.DeleteGame());
 
       UpdateGameList();
-      GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
     }
 
     #endregion // Construction
@@ -54,28 +56,17 @@ namespace Desktop.ViewModels
       }
     }
 
-    private CollectionView _gameCollectionView = null;
-    /// <summary>
-    /// Get/Set the collection view, used for sorting
-    /// </summary>
-    public CollectionView GameCollectionView
-    {
-      get
-      {
-        if (_gameCollectionView == null)
-        {
-          _gameCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(GameCollection);
-        }
-
-        return _gameCollectionView;
-      }
-    }
-
     private GameListEntryViewModel _selectedEntry = null;
     /// <summary>
     /// Get the selected entry from the list
     /// </summary>
     public GameListEntryViewModel SelectedEntry { get { return _selectedEntry; } set { _selectedEntry = value; } }
+
+    private string _searchText = String.Empty;
+    /// <summary>
+    /// Holds the search text the to filter game names
+    /// </summary>
+    public string SearchText { get { return _searchText; } set { _searchText = value; UpdateGameList(); } }
 
     #endregion // Properties
 
@@ -124,6 +115,11 @@ namespace Desktop.ViewModels
     private async void UpdateGameList()
     {
       List<GameListEntry> games = await model.GetGameList();
+      
+      if (!String.IsNullOrEmpty(SearchText))
+      {
+        games = games.Where(entry => entry.Name.ToLower().Contains(SearchText.ToLower())).ToList();
+      }
 
       if (games != null)
       {

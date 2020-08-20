@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
+        xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Backlog Manager"
         SizeToContent="WidthAndHeight"
@@ -20,16 +21,32 @@
   <StackPanel x:Name="WindowPanel"
               Margin="5">
 
-    <ToolBarTray>
-      <ToolBar HorizontalAlignment="Right">
-        <Button Content="Add"
-                Command="{Binding AddGameCommand}" />
-        <Button Content="Edit"
-                Command="{Binding EditGameCommand}" />
-        <Button Content="Delete"
-                Command="{Binding DeleteGameCommand}" />
-      </ToolBar>
-    </ToolBarTray>
+    <StackPanel Orientation="Horizontal">
+
+      <ToolBarTray>
+        <ToolBar HorizontalAlignment="Right"
+                 Width="{Binding ActualWidth, ElementName=WindowPanel}">
+          <Button Content="{materialDesign:PackIcon Gamepad}"
+                  Command="{Binding AddGameCommand}"
+                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                  Margin="0,5,5,5" />
+          <Button Content="{materialDesign:PackIcon Pencil}"
+                  Command="{Binding EditGameCommand}"
+                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                  Margin="5" />
+          <Button Content="{materialDesign:PackIcon Delete}"
+                  Command="{Binding DeleteGameCommand}"
+                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                  Margin="5" />
+        </ToolBar>
+      </ToolBarTray>
+
+      <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
+                              Width="200"
+                              Height="30"
+                              Margin="-250,0,0,0"/>
+
+    </StackPanel>
 
     <!--                  Next Game Group                -->
     <GroupBox x:Name="NextGameGroup"
@@ -61,7 +78,7 @@
     <!--                  Games list Group                -->
     <GroupBox x:Name="GamesGroup"
               Header="Games"
-              Height="550">
+              Height="540">
       <DockPanel x:Name="GamesPanel"
                  Width="850">
         <DataGrid x:Name="GameList"
@@ -69,10 +86,11 @@
                   SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
                   AutoGenerateColumns="False">
           <DataGrid.Columns>
-            
+
             <DataGridTextColumn Header="Name"
                                 Binding="{Binding Name, Mode=OneWay}"
-                                Width="*"/>
+                                Width="*"
+                                SortDirection="Ascending" />
 
             <DataGridCheckBoxColumn Header="PC"
                                     Binding="{Binding IsOnPC, Mode=OneWay}"
@@ -100,12 +118,11 @@
 
             <DataGridTextColumn Header="Added"
                                 Binding="{Binding DateAdded, Mode=OneWay, StringFormat='yyyy-MM-dd'}"
-                                Width="125"/>
+                                Width="125" />
 
           </DataGrid.Columns>
         </DataGrid>
       </DockPanel>
     </GroupBox>
-
   </StackPanel>
 </Window>
