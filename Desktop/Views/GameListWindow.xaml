@@ -7,7 +7,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Backlog Manager"
-        SizeToContent="WidthAndHeight"
+        Width="900"
+        Height="730"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -44,7 +45,16 @@
       <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
                               Width="200"
                               Height="30"
-                              Margin="-250,0,0,0"/>
+                              Margin="-300,0,0,0"/>
+
+      <Button Style="{DynamicResource MaterialDesignIconForegroundButton}"
+              Command="{Binding SearchCommand}"
+              x:Name="SearchButton"
+              CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+              Margin="-50,0,0,0"
+              Opacity="0.75">
+        <materialDesign:PackIcon Kind="FilterMenu" />
+      </Button>
 
     </StackPanel>
 
