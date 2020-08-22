@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
+        xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Backlog Manager"
-        Width="900"
-        Height="730"
+        SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -20,9 +20,12 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
 
   <StackPanel x:Name="WindowPanel"
-              Margin="5">
+              Margin="5"
+              Height="730">
 
-    <StackPanel Orientation="Horizontal">
+    <StackPanel x:Name="ToolBarPanel"
+                Orientation="Horizontal"
+                Height="45">
 
       <ToolBarTray>
         <ToolBar HorizontalAlignment="Right"
@@ -62,13 +65,14 @@
     <GroupBox x:Name="FilterGroup"
               Header="Filter"
               Height="300"
-              Visibility="{Binding ShowFilters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+              Visibility="{Binding ShowFilters, Converter={StaticResource BooleanToVisibilityConverter}}">
 
     </GroupBox>
 
     <!--                  Next Game Group                -->
     <GroupBox x:Name="NextGameGroup"
-              Header="Next Game">
+              Header="Next Game"
+              Height="100">
       <StackPanel x:Name="NextGamePanel"
                   Margin="3,0"
                   Orientation="Horizontal">
@@ -93,10 +97,13 @@
       </StackPanel>
     </GroupBox>
       
-      <!--                  Games list Group                -->
+      <!--        540 HEIGHT @@@@@@@@@@@@@@@@@@@@          Games list Group                -->
     <GroupBox x:Name="GamesGroup"
-              Header="Games">
-      <StackPanel x:Name="GamesPanel"
+              Header="Games"
+              properties:ResizeOnOtherVisibility.DesiredHeight="537"
+              properties:ResizeOnOtherVisibility.ResizeTrigger="{Binding ShowFilters}">
+       <!-- :HeightSubtractor.SubtractAmount="{Binding ElementName=FilterGroup, Path=Height}"> -->
+      <DockPanel x:Name="GamesPanel"
                   Width="850">
         <DataGrid x:Name="GameList"
                   ItemsSource="{Binding GameCollection}"
@@ -139,7 +146,7 @@
 
           </DataGrid.Columns>
         </DataGrid>
-      </StackPanel>
+      </DockPanel>
     </GroupBox>
 
   </StackPanel>
