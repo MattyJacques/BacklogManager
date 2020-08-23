@@ -64,8 +64,47 @@
 
     <GroupBox x:Name="FilterGroup"
               Header="Filter"
-              Height="300"
+              Height="180"
               Visibility="{Binding ShowFilters, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <StackPanel Orientation="Horizontal">
+        <GroupBox Header="Play Status"
+                  Width="277"
+                  Margin="0,0,10,0">
+          <StackPanel>
+            <CheckBox Content="Not Played"
+                      IsChecked="{Binding ShowNotPlayed}" />
+            <CheckBox Content="Played"
+                      IsChecked="{Binding ShowPlayed}" />
+            <CheckBox Content="Complete"
+                      IsChecked="{Binding ShowComplete}" />
+            <CheckBox Content="Abandoned"
+                      IsChecked="{Binding ShowAbandoned}" />
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Platform"
+                  Width="277"
+                  Margin="0,0,10,0">
+          <StackPanel>
+            <CheckBox Content="PC"
+                      IsChecked="{Binding ShowPC}" />
+            <CheckBox Content="PlayStation 4"
+                      IsChecked="{Binding ShowPS4}" />
+            <CheckBox Content="PlayStation 3"
+                      IsChecked="{Binding ShowPS3}" />
+            <CheckBox Content="PlayStation Vita"
+                      IsChecked="{Binding ShowPSVita}"/>
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Owned Status"
+                  Width="277">
+          <StackPanel>
+            <CheckBox Content="Not Owned"
+                      IsChecked="{Binding ShowNotOwned}" />
+            <CheckBox Content="Owned"
+                      IsChecked="{Binding ShowOwned}" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
 
     </GroupBox>
 
@@ -97,12 +136,11 @@
       </StackPanel>
     </GroupBox>
       
-      <!--        540 HEIGHT @@@@@@@@@@@@@@@@@@@@          Games list Group                -->
+      <!--               Games list Group                -->
     <GroupBox x:Name="GamesGroup"
               Header="Games"
-              properties:ResizeOnOtherVisibility.DesiredHeight="537"
-              properties:ResizeOnOtherVisibility.ResizeTrigger="{Binding ShowFilters}">
-       <!-- :HeightSubtractor.SubtractAmount="{Binding ElementName=FilterGroup, Path=Height}"> -->
+              properties:StretchControl.ResizeOnStart="True"
+              properties:StretchControl.ResizeTrigger="{Binding ShowFilters}">
       <DockPanel x:Name="GamesPanel"
                   Width="850">
         <DataGrid x:Name="GameList"
@@ -128,7 +166,7 @@
                                     Binding="{Binding IsOnPS4, Mode=OneWay}"
                                     IsReadOnly="True" />
 
-            <DataGridCheckBoxColumn Header="PSVita"
+            <DataGridCheckBoxColumn Header="PS Vita"
                                     Binding="{Binding IsOnPSVita, Mode=OneWay}"
                                     IsReadOnly="True" />
 

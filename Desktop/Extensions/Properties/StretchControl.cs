@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Desktop.Extensions.Properties
 {
-  class ResizeOnOtherVisibility : DependencyObject
+  class StretchControl : DependencyObject
   {
-    public static readonly DependencyProperty DesiredHeightProperty =
-      DependencyProperty.RegisterAttached("DesiredHeight",
-        typeof(double),
-        typeof(ResizeOnOtherVisibility),
-        new PropertyMetadata(DesiredHeightChanged));
+    public static readonly DependencyProperty ResizeOnStartProperty =
+      DependencyProperty.RegisterAttached("ResizeOnStart",
+        typeof(bool),
+        typeof(StretchControl),
+        new PropertyMetadata(ResizeOnStartChanged));
 
     public static readonly DependencyProperty ResizeTriggerProperty =
       DependencyProperty.RegisterAttached("ResizeTrigger",
         typeof(bool),
-        typeof(ResizeOnOtherVisibility),
+        typeof(StretchControl),
         new PropertyMetadata(ResizeTriggerChanged));
 
-    private static void DesiredHeightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void ResizeOnStartChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
       ResizeTriggerChanged(obj, e);
     }
@@ -41,14 +39,14 @@ namespace Desktop.Extensions.Properties
       element.Height = heightRemaining;
     }
 
-    public static double GetDesiredHeight(DependencyObject obj)
+    public static bool GetResizeOnStart(DependencyObject obj)
     {
-      return (double)obj.GetValue(DesiredHeightProperty);
+      return (bool)obj.GetValue(ResizeOnStartProperty);
     }
 
-    public static void SetDesiredHeight(DependencyObject obj, double value)
+    public static void SetResizeOnStart(DependencyObject obj, bool value)
     {
-      obj.SetValue(DesiredHeightProperty, value);
+      obj.SetValue(ResizeOnStartProperty, value);
     }
 
     public static bool GetResizeTrigger(DependencyObject obj)
