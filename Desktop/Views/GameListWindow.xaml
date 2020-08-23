@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
+        xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Backlog Manager"
@@ -19,9 +20,12 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
 
   <StackPanel x:Name="WindowPanel"
-              Margin="5">
+              Margin="5"
+              Height="730">
 
-    <StackPanel Orientation="Horizontal">
+    <StackPanel x:Name="ToolBarPanel"
+                Orientation="Horizontal"
+                Height="45">
 
       <ToolBarTray>
         <ToolBar HorizontalAlignment="Right"
@@ -44,13 +48,70 @@
       <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
                               Width="200"
                               Height="30"
-                              Margin="-250,0,0,0"/>
+                              Margin="-300,0,0,0" />
+
+      <ToggleButton x:Name="FilterButton"
+                    Style="{DynamicResource MaterialDesignActionAccentToggleButton}"
+                    Margin="-50,0,0,0"
+                    IsChecked="{Binding ShowFilters, Mode=TwoWay}">
+        <materialDesign:PackIcon Kind="FilterMenu" />
+        <materialDesign:ToggleButtonAssist.OnContent>
+          <materialDesign:PackIcon Kind="FilterMinus" />
+        </materialDesign:ToggleButtonAssist.OnContent>
+      </ToggleButton>
 
     </StackPanel>
 
+    <GroupBox x:Name="FilterGroup"
+              Header="Filter"
+              Height="180"
+              Visibility="{Binding ShowFilters, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <StackPanel Orientation="Horizontal">
+        <GroupBox Header="Play Status"
+                  Width="277"
+                  Margin="0,0,10,0">
+          <StackPanel>
+            <CheckBox Content="Not Played"
+                      IsChecked="{Binding ShowNotPlayed}" />
+            <CheckBox Content="Played"
+                      IsChecked="{Binding ShowPlayed}" />
+            <CheckBox Content="Complete"
+                      IsChecked="{Binding ShowComplete}" />
+            <CheckBox Content="Abandoned"
+                      IsChecked="{Binding ShowAbandoned}" />
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Platform"
+                  Width="277"
+                  Margin="0,0,10,0">
+          <StackPanel>
+            <CheckBox Content="PC"
+                      IsChecked="{Binding ShowPC}" />
+            <CheckBox Content="PlayStation 4"
+                      IsChecked="{Binding ShowPS4}" />
+            <CheckBox Content="PlayStation 3"
+                      IsChecked="{Binding ShowPS3}" />
+            <CheckBox Content="PlayStation Vita"
+                      IsChecked="{Binding ShowPSVita}"/>
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Owned Status"
+                  Width="277">
+          <StackPanel>
+            <CheckBox Content="Not Owned"
+                      IsChecked="{Binding ShowNotOwned}" />
+            <CheckBox Content="Owned"
+                      IsChecked="{Binding ShowOwned}" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+
+    </GroupBox>
+
     <!--                  Next Game Group                -->
     <GroupBox x:Name="NextGameGroup"
-              Header="Next Game">
+              Header="Next Game"
+              Height="100">
       <StackPanel x:Name="NextGamePanel"
                   Margin="3,0"
                   Orientation="Horizontal">
@@ -74,13 +135,14 @@
                 Width="83" />
       </StackPanel>
     </GroupBox>
-
-    <!--                  Games list Group                -->
+      
+      <!--               Games list Group                -->
     <GroupBox x:Name="GamesGroup"
               Header="Games"
-              Height="540">
+              properties:StretchControl.ResizeOnStart="True"
+              properties:StretchControl.ResizeTrigger="{Binding ShowFilters}">
       <DockPanel x:Name="GamesPanel"
-                 Width="850">
+                  Width="850">
         <DataGrid x:Name="GameList"
                   ItemsSource="{Binding GameCollection}"
                   SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
@@ -104,7 +166,7 @@
                                     Binding="{Binding IsOnPS4, Mode=OneWay}"
                                     IsReadOnly="True" />
 
-            <DataGridCheckBoxColumn Header="PSVita"
+            <DataGridCheckBoxColumn Header="PS Vita"
                                     Binding="{Binding IsOnPSVita, Mode=OneWay}"
                                     IsReadOnly="True" />
 
@@ -124,5 +186,6 @@
         </DataGrid>
       </DockPanel>
     </GroupBox>
+
   </StackPanel>
 </Window>

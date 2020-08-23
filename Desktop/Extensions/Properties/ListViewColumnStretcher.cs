@@ -79,7 +79,7 @@ namespace Desktop.Extensions.Properties
     /// <param name="e">Event arguments</param>
     private static void ListView_Loaded(object sender, RoutedEventArgs e)
     {
-      ListView listView = (sender as ListView);
+      ListView listView = sender as ListView;
       SetColumnWidths(listView);
     } // ListView_Loaded
 
@@ -90,7 +90,7 @@ namespace Desktop.Extensions.Properties
     private static void SetColumnWidths(ListView listView)
     {
       // Pull the stretch columns from the tag property.
-      List<GridViewColumn> columns = (listView.Tag as List<GridViewColumn>);
+      List<GridViewColumn> columns = listView.Tag as List<GridViewColumn>;
       double specifiedWidth = 0;
       GridView gridView = listView.View as GridView;
 

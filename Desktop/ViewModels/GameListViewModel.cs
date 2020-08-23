@@ -1,4 +1,5 @@
-﻿using Desktop.Extensions.Helpers;
+﻿using Desktop.Data.Types;
+using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
 using GalaSoft.MvvmLight;
@@ -68,6 +69,72 @@ namespace Desktop.ViewModels
     /// </summary>
     public string SearchText { get { return _searchText; } set { _searchText = value; UpdateGameList(); } }
 
+    private bool _showFilters = false;
+    /// <summary>
+    /// Whether to show the filter GroupBox
+    /// </summary>
+    public bool ShowFilters { get { return _showFilters; } set { _showFilters = value; RaisePropertyChanged("ShowFilters");  } }
+
+    private bool _showNotPlayed = true;
+    /// <summary>
+    /// Whether to show not played games
+    /// </summary>
+    public bool ShowNotPlayed { get { return _showNotPlayed; } set { _showNotPlayed = value; UpdateGameList(); } }
+
+    private bool _showPlayed = true;
+    /// <summary>
+    /// Whether to show played games
+    /// </summary>
+    public bool ShowPlayed { get{ return _showPlayed; } set { _showPlayed = value; UpdateGameList(); } }
+
+    private bool _showComplete = false;
+    /// <summary>
+    /// Whether to show completed games
+    /// </summary>
+    public bool ShowComplete { get { return _showComplete; } set { _showComplete = value; UpdateGameList(); } }
+
+    private bool _showAbandoned = false;
+    /// <summary>
+    /// Whether to show abandoned games
+    /// </summary>
+    public bool ShowAbandoned { get { return _showAbandoned; } set { _showAbandoned = value; UpdateGameList(); } }
+
+    private bool _showPC = true;
+    /// <summary>
+    /// Whether to show PC games
+    /// </summary>
+    public bool ShowPC { get { return _showPC; } set { _showPC = value; UpdateGameList(); } }
+
+    private bool _showPS4 = true;
+    /// <summary>
+    /// Whether to show PS4 games
+    /// </summary>
+    public bool ShowPS4 { get { return _showPS4; } set { _showPS4 = value; UpdateGameList(); } }
+
+    private bool _showPS3 = true;
+    /// <summary>
+    /// Whether to show PS3 games
+    /// </summary>
+    public bool ShowPS3 { get { return _showPS3; } set { _showPS3 = value; UpdateGameList(); } }
+
+    private bool _showPSVita = true;
+    /// <summary>
+    /// Whether to show vita games
+    /// </summary>
+    public bool ShowPSVita { get { return _showPSVita; } set { _showPSVita = value; UpdateGameList(); } }
+
+    private bool _showNotOwned = true;
+    /// <summary>
+    /// Whether to show not owned games
+    /// </summary>
+    public bool ShowNotOwned { get { return _showNotOwned; } set { _showNotOwned = value; UpdateGameList(); } }
+
+    private bool _showOwned = true;
+    /// <summary>
+    /// Whether to show owned games
+    /// </summary>
+    public bool ShowOwned { get { return _showOwned; } set { _showOwned = value; UpdateGameList(); } }
+
     #endregion // Properties
 
     #region Commands
@@ -115,7 +182,18 @@ namespace Desktop.ViewModels
     private async void UpdateGameList()
     {
       List<GameListEntry> games = await model.GetGameList();
-      
+
+      games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
+                                   (ShowPlayed && entry.PlayStatus == Status.Played) ||
+                                   (ShowComplete && entry.PlayStatus == Status.Complete) ||
+                                   (ShowAbandoned && entry.PlayStatus == Status.Abandoned)) &&
+                                   ((ShowPC && entry.IsOnPC) ||
+                                   (ShowPS4 && entry.IsOnPS4) ||
+                                   (ShowPS3 && entry.IsOnPS3) ||
+                                   (ShowPSVita && entry.IsOnPSVita)) &&
+                                   ((ShowNotOwned && !entry.Owned) ||
+                                   (ShowOwned && entry.Owned))).ToList();
+
       if (!String.IsNullOrEmpty(SearchText))
       {
         games = games.Where(entry => entry.Name.ToLower().Contains(SearchText.ToLower())).ToList();
