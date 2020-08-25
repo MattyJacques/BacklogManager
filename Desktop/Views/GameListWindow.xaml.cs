@@ -6,9 +6,8 @@ namespace Desktop.Views
 {
   public partial class GameListWindow : Window
   {
-    public GameListWindow(GameListViewModel viewModel)
+    public GameListWindow()
     {
-      this.DataContext = viewModel;
       InitializeComponent();
     }
   }

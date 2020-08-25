@@ -100,9 +100,14 @@
     <Compile Include="Extensions\Properties\ReturnDialogResult.cs" />
     <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
+    <Compile Include="Interfaces\IPageViewModel.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
     <Compile Include="Models\GameManagement.cs" />
+    <Compile Include="Pages\GameListPage.xaml.cs">
+      <DependentUpon>GameListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\GameListEntryViewModel.cs" />
     <Compile Include="ViewModels\GameListViewModel.cs" />
     <Compile Include="ViewModels\GameManagementViewModel.cs" />
@@ -116,6 +121,9 @@
     <Compile Include="Views\GameManagementWindow.xaml.cs">
       <DependentUpon>GameManagementWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ApplicationView.xaml.cs">
+      <DependentUpon>ApplicationView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Extensions\Controls\SearchTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -128,6 +136,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\GameListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameListWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,6 +147,10 @@
     <Page Include="Views\GameManagementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ApplicationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
