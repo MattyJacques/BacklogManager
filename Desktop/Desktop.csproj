@@ -83,7 +83,6 @@
     </ApplicationDefinition>
     <Compile Include="Data\Types.cs" />
     <Compile Include="Data\GameCollectionDatabase.cs" />
-    <Compile Include="Extensions\Base Classes\WindowWithResult.cs" />
     <Compile Include="Extensions\Controls\SearchTextBox.xaml.cs">
       <DependentUpon>SearchTextBox.xaml</DependentUpon>
     </Compile>

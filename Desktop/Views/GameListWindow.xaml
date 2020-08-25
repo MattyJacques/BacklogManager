@@ -19,173 +19,203 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
 
-  <StackPanel x:Name="WindowPanel"
-              Margin="5"
-              Height="730">
+  <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
 
-    <StackPanel x:Name="ToolBarPanel"
-                Orientation="Horizontal"
-                Height="45">
+    <!--               Hamburger Menu                -->
+    <materialDesign:DrawerHost.LeftDrawerContent>
+      <DockPanel MinWidth="220">
+        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                      DockPanel.Dock="Top"
+                      HorizontalAlignment="Right"
+                      Margin="16"
+                      IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
 
-      <ToolBarTray>
-        <ToolBar HorizontalAlignment="Right"
-                 Width="{Binding ActualWidth, ElementName=WindowPanel}">
-          <Button Content="{materialDesign:PackIcon Gamepad}"
-                  Command="{Binding AddGameCommand}"
-                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
-                  Margin="0,5,5,5" />
-          <Button Content="{materialDesign:PackIcon Pencil}"
-                  Command="{Binding EditGameCommand}"
-                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
-                  Margin="5" />
-          <Button Content="{materialDesign:PackIcon Delete}"
-                  Command="{Binding DeleteGameCommand}"
-                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
-                  Margin="5" />
-        </ToolBar>
-      </ToolBarTray>
+        <ListBox x:Name="DemoItemsListBox"
+                 Margin="0,16,0,16">
+          <!--SelectedIndex="{Binding SelectedIndex}"
+                 SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                 ItemsSource="{Binding DemoItems}"
+                 PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">-->
+          <ListBox.Resources>
+            <Style TargetType="ScrollBar"
+                   BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
+          </ListBox.Resources>
+        </ListBox>
+      </DockPanel>
+    </materialDesign:DrawerHost.LeftDrawerContent>
 
-      <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
-                              Width="200"
-                              Height="30"
-                              Margin="-300,0,0,0" />
+    <!--               Main Window Content                -->
+    <StackPanel x:Name="WindowPanel"
+                Margin="5"
+                Height="730">
 
-      <ToggleButton x:Name="FilterButton"
-                    Style="{DynamicResource MaterialDesignActionAccentToggleButton}"
-                    Margin="-50,0,0,0"
-                    IsChecked="{Binding ShowFilters, Mode=TwoWay}">
-        <materialDesign:PackIcon Kind="FilterMenu" />
-        <materialDesign:ToggleButtonAssist.OnContent>
-          <materialDesign:PackIcon Kind="FilterMinus" />
-        </materialDesign:ToggleButtonAssist.OnContent>
-      </ToggleButton>
+      <StackPanel x:Name="ToolBarPanel"
+                  Orientation="Horizontal"
+                  Height="45">
+
+        <ToolBarTray>
+          <ToolBar HorizontalAlignment="Right"
+                   Width="{Binding ActualWidth, ElementName=WindowPanel}">
+            <ToggleButton x:Name="MenuToggleButton"
+                          Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                          IsChecked="False" />
+            <Button Content="{materialDesign:PackIcon Gamepad}"
+                    Command="{Binding AddGameCommand}"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                    Margin="0,5,5,5" />
+            <Button Content="{materialDesign:PackIcon Pencil}"
+                    Command="{Binding EditGameCommand}"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                    Margin="5" />
+            <Button Content="{materialDesign:PackIcon Delete}"
+                    Command="{Binding DeleteGameCommand}"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                    Margin="5" />
+          </ToolBar>
+        </ToolBarTray>
+
+        <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
+                                Width="200"
+                                Height="30"
+                                Margin="-300,0,0,0" />
+
+        <ToggleButton x:Name="FilterButton"
+                      Style="{DynamicResource MaterialDesignActionAccentToggleButton}"
+                      Margin="-50,0,0,0"
+                      IsChecked="{Binding ShowFilters, Mode=TwoWay}">
+          <materialDesign:PackIcon Kind="FilterMenu" />
+          <materialDesign:ToggleButtonAssist.OnContent>
+            <materialDesign:PackIcon Kind="FilterMinus" />
+          </materialDesign:ToggleButtonAssist.OnContent>
+        </ToggleButton>
+
+      </StackPanel>
+
+      <GroupBox x:Name="FilterGroup"
+                Header="Filter"
+                Height="180"
+                Visibility="{Binding ShowFilters, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <StackPanel Orientation="Horizontal">
+          <GroupBox Header="Play Status"
+                    Width="277"
+                    Margin="0,0,10,0">
+            <StackPanel>
+              <CheckBox Content="Not Played"
+                        IsChecked="{Binding ShowNotPlayed}" />
+              <CheckBox Content="Played"
+                        IsChecked="{Binding ShowPlayed}" />
+              <CheckBox Content="Complete"
+                        IsChecked="{Binding ShowComplete}" />
+              <CheckBox Content="Abandoned"
+                        IsChecked="{Binding ShowAbandoned}" />
+            </StackPanel>
+          </GroupBox>
+          <GroupBox Header="Platform"
+                    Width="277"
+                    Margin="0,0,10,0">
+            <StackPanel>
+              <CheckBox Content="PC"
+                        IsChecked="{Binding ShowPC}" />
+              <CheckBox Content="PlayStation 4"
+                        IsChecked="{Binding ShowPS4}" />
+              <CheckBox Content="PlayStation 3"
+                        IsChecked="{Binding ShowPS3}" />
+              <CheckBox Content="PlayStation Vita"
+                        IsChecked="{Binding ShowPSVita}" />
+            </StackPanel>
+          </GroupBox>
+          <GroupBox Header="Owned Status"
+                    Width="277">
+            <StackPanel>
+              <CheckBox Content="Not Owned"
+                        IsChecked="{Binding ShowNotOwned}" />
+              <CheckBox Content="Owned"
+                        IsChecked="{Binding ShowOwned}" />
+            </StackPanel>
+          </GroupBox>
+        </StackPanel>
+
+      </GroupBox>
+
+      <!--                  Next Game Group                -->
+      <GroupBox x:Name="NextGameGroup"
+                Header="Next Game"
+                Height="100">
+        <StackPanel x:Name="NextGamePanel"
+                    Margin="3,0"
+                    Orientation="Horizontal">
+          <TextBlock x:Name="NextGameText"
+                     Text="Next game to play will be here"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Stretch"
+                     Margin="0,7,10,0"
+                     Width="600"
+                     Padding="3,0,0,0"
+                     FontSize="16" />
+          <ComboBox x:Name="NextGameStatusCombo"
+                    SelectedIndex="0"
+                    Margin="10,7"
+                    Width="122">
+            <ComboBoxItem Content="Not Implemented" />
+          </ComboBox>
+          <Button x:Name="ChooseAgainButton"
+                  Content="Choose Again"
+                  Margin="10,7,0,7"
+                  Width="83" />
+        </StackPanel>
+      </GroupBox>
+
+      <!--               Games list Group                -->
+      <GroupBox x:Name="GamesGroup"
+                Header="Games"
+                properties:StretchControl.ResizeOnStart="True"
+                properties:StretchControl.ResizeTrigger="{Binding ShowFilters}">
+        <DockPanel x:Name="GamesPanel"
+                   Width="850">
+          <DataGrid x:Name="GameList"
+                    ItemsSource="{Binding GameCollection}"
+                    SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
+                    AutoGenerateColumns="False">
+            <DataGrid.Columns>
+
+              <DataGridTextColumn Header="Name"
+                                  Binding="{Binding Name, Mode=OneWay}"
+                                  Width="*"
+                                  SortDirection="Ascending" />
+
+              <DataGridCheckBoxColumn Header="PC"
+                                      Binding="{Binding IsOnPC, Mode=OneWay}"
+                                      IsReadOnly="True" />
+
+              <DataGridCheckBoxColumn Header="PS3"
+                                      Binding="{Binding IsOnPS3, Mode=OneWay}"
+                                      IsReadOnly="True" />
+
+              <DataGridCheckBoxColumn Header="PS4"
+                                      Binding="{Binding IsOnPS4, Mode=OneWay}"
+                                      IsReadOnly="True" />
+
+              <DataGridCheckBoxColumn Header="PS Vita"
+                                      Binding="{Binding IsOnPSVita, Mode=OneWay}"
+                                      IsReadOnly="True" />
+
+              <DataGridComboBoxColumn Header="Status"
+                                      ItemsSource="{Binding Source={StaticResource playStatusEnum}, Converter={StaticResource EnumArrayDescriptionConverter}}"
+                                      SelectedItemBinding="{Binding PlayStatus, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}" />
+
+              <DataGridCheckBoxColumn Header="Owned"
+                                      Binding="{Binding Owned, Mode=OneWay}"
+                                      IsReadOnly="True" />
+
+              <DataGridTextColumn Header="Added"
+                                  Binding="{Binding DateAdded, Mode=OneWay, StringFormat='yyyy-MM-dd'}"
+                                  Width="125" />
+
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </GroupBox>
 
     </StackPanel>
-
-    <GroupBox x:Name="FilterGroup"
-              Header="Filter"
-              Height="180"
-              Visibility="{Binding ShowFilters, Converter={StaticResource BooleanToVisibilityConverter}}">
-      <StackPanel Orientation="Horizontal">
-        <GroupBox Header="Play Status"
-                  Width="277"
-                  Margin="0,0,10,0">
-          <StackPanel>
-            <CheckBox Content="Not Played"
-                      IsChecked="{Binding ShowNotPlayed}" />
-            <CheckBox Content="Played"
-                      IsChecked="{Binding ShowPlayed}" />
-            <CheckBox Content="Complete"
-                      IsChecked="{Binding ShowComplete}" />
-            <CheckBox Content="Abandoned"
-                      IsChecked="{Binding ShowAbandoned}" />
-          </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Platform"
-                  Width="277"
-                  Margin="0,0,10,0">
-          <StackPanel>
-            <CheckBox Content="PC"
-                      IsChecked="{Binding ShowPC}" />
-            <CheckBox Content="PlayStation 4"
-                      IsChecked="{Binding ShowPS4}" />
-            <CheckBox Content="PlayStation 3"
-                      IsChecked="{Binding ShowPS3}" />
-            <CheckBox Content="PlayStation Vita"
-                      IsChecked="{Binding ShowPSVita}"/>
-          </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Owned Status"
-                  Width="277">
-          <StackPanel>
-            <CheckBox Content="Not Owned"
-                      IsChecked="{Binding ShowNotOwned}" />
-            <CheckBox Content="Owned"
-                      IsChecked="{Binding ShowOwned}" />
-          </StackPanel>
-        </GroupBox>
-      </StackPanel>
-
-    </GroupBox>
-
-    <!--                  Next Game Group                -->
-    <GroupBox x:Name="NextGameGroup"
-              Header="Next Game"
-              Height="100">
-      <StackPanel x:Name="NextGamePanel"
-                  Margin="3,0"
-                  Orientation="Horizontal">
-        <TextBlock x:Name="NextGameText"
-                   Text="Next game to play will be here"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Stretch"
-                   Margin="0,7,10,0"
-                   Width="600"
-                   Padding="3,0,0,0"
-                   FontSize="16" />
-        <ComboBox x:Name="NextGameStatusCombo"
-                  SelectedIndex="0"
-                  Margin="10,7"
-                  Width="122">
-          <ComboBoxItem Content="Not Implemented" />
-        </ComboBox>
-        <Button x:Name="ChooseAgainButton"
-                Content="Choose Again"
-                Margin="10,7,0,7"
-                Width="83" />
-      </StackPanel>
-    </GroupBox>
-      
-      <!--               Games list Group                -->
-    <GroupBox x:Name="GamesGroup"
-              Header="Games"
-              properties:StretchControl.ResizeOnStart="True"
-              properties:StretchControl.ResizeTrigger="{Binding ShowFilters}">
-      <DockPanel x:Name="GamesPanel"
-                  Width="850">
-        <DataGrid x:Name="GameList"
-                  ItemsSource="{Binding GameCollection}"
-                  SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
-                  AutoGenerateColumns="False">
-          <DataGrid.Columns>
-
-            <DataGridTextColumn Header="Name"
-                                Binding="{Binding Name, Mode=OneWay}"
-                                Width="*"
-                                SortDirection="Ascending" />
-
-            <DataGridCheckBoxColumn Header="PC"
-                                    Binding="{Binding IsOnPC, Mode=OneWay}"
-                                    IsReadOnly="True" />
-
-            <DataGridCheckBoxColumn Header="PS3"
-                                    Binding="{Binding IsOnPS3, Mode=OneWay}"
-                                    IsReadOnly="True" />
-
-            <DataGridCheckBoxColumn Header="PS4"
-                                    Binding="{Binding IsOnPS4, Mode=OneWay}"
-                                    IsReadOnly="True" />
-
-            <DataGridCheckBoxColumn Header="PS Vita"
-                                    Binding="{Binding IsOnPSVita, Mode=OneWay}"
-                                    IsReadOnly="True" />
-
-            <DataGridComboBoxColumn Header="Status"
-                                    ItemsSource="{Binding Source={StaticResource playStatusEnum}, Converter={StaticResource EnumArrayDescriptionConverter}}"
-                                    SelectedItemBinding="{Binding PlayStatus, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}" />
-
-            <DataGridCheckBoxColumn Header="Owned"
-                                    Binding="{Binding Owned, Mode=OneWay}"
-                                    IsReadOnly="True" />
-
-            <DataGridTextColumn Header="Added"
-                                Binding="{Binding DateAdded, Mode=OneWay, StringFormat='yyyy-MM-dd'}"
-                                Width="125" />
-
-          </DataGrid.Columns>
-        </DataGrid>
-      </DockPanel>
-    </GroupBox>
-
-  </StackPanel>
+  </materialDesign:DrawerHost>
 </Window>
