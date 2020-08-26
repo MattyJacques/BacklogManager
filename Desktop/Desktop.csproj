@@ -104,16 +104,13 @@
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
     <Compile Include="Models\GameManagement.cs" />
-    <Compile Include="Pages\GameListPage.xaml.cs">
-      <DependentUpon>GameListPage.xaml</DependentUpon>
+    <Compile Include="Views\GameListView.xaml.cs">
+      <DependentUpon>GameListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\GameListEntryViewModel.cs" />
     <Compile Include="ViewModels\GameListViewModel.cs" />
     <Compile Include="ViewModels\GameManagementViewModel.cs" />
-    <Compile Include="Views\GameListWindow.xaml.cs">
-      <DependentUpon>GameListWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -121,8 +118,8 @@
     <Compile Include="Views\GameManagementWindow.xaml.cs">
       <DependentUpon>GameManagementWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ApplicationView.xaml.cs">
-      <DependentUpon>ApplicationView.xaml</DependentUpon>
+    <Compile Include="Views\ApplicationWindow.xaml.cs">
+      <DependentUpon>ApplicationWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Extensions\Controls\SearchTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -136,19 +133,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\GameListPage.xaml">
+    <Page Include="Views\GameListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameListWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameManagementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ApplicationView.xaml">
+    <Page Include="Views\ApplicationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

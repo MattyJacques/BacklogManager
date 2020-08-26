@@ -1,4 +1,4 @@
-﻿<Window x:Class="Desktop.Views.ApplicationView"
+﻿<Window x:Class="Desktop.Views.ApplicationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,14 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:pages="clr-namespace:Desktop.Pages"
         xmlns:viewModels="clr-namespace:Desktop.ViewModels"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
         Title="Backlog Manager"
         Height="450"
@@ -15,7 +23,6 @@
     <DataTemplate DataType="{x:Type viewModels:GameListViewModel}">
       <pages:GameListPage />
     </DataTemplate>
-
   </Window.Resources>
 
   <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
@@ -23,7 +30,8 @@
     <!--               Hamburger Menu                -->
     <materialDesign:DrawerHost.LeftDrawerContent>
       <DockPanel MinWidth="220">
-        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+        <ToggleButton x:Name="MenuToggleButton" 
+                      Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                       DockPanel.Dock="Top"
                       HorizontalAlignment="Right"
                       Margin="16"

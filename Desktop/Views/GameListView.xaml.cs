@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Desktop.Views
+namespace Desktop.Pages
 {
   /// <summary>
-  /// Interaction logic for MainWindow.xaml
+  /// Interaction logic for GameListPage.xaml
   /// </summary>
-  public partial class ApplicationView : Window
+  public partial class GameListPage : UserControl
   {
-    public ApplicationView()
+    public GameListPage()
     {
       InitializeComponent();
     }

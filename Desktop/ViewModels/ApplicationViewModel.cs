@@ -1,5 +1,6 @@
 ﻿using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
+using Desktop.Models;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,7 @@ namespace Desktop.ViewModels
     public ApplicationViewModel()
     {
       // Add available pages
-      PageViewModels.Add(new HomeViewModel());
-      PageViewModels.Add(new ProductsViewModel());
+      PageViewModels.Add(new GameListViewModel(new GameList()));
 
       // Set starting page
       CurrentPageViewModel = PageViewModels[0];
