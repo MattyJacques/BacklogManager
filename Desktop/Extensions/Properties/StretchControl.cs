@@ -41,6 +41,7 @@ namespace Desktop.Extensions.Properties
 
     private static void ResizeTriggerChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
+      _controlName = (obj as FrameworkElement).Name;
       CalculateSize((obj as FrameworkElement).Parent as Panel);
     } // ResizeTriggerChanged
 
