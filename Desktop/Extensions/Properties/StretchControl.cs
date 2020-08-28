@@ -5,11 +5,19 @@ namespace Desktop.Extensions.Properties
 {
   class StretchControl : DependencyObject
   {
-    public static readonly DependencyProperty ResizeOnStartProperty =
-      DependencyProperty.RegisterAttached("ResizeOnStart",
+    #region Members
+
+    private static string _controlName = string.Empty;
+
+    #endregion Members
+
+    #region Properties
+
+    public static readonly DependencyProperty ShouldResizeProperty =
+      DependencyProperty.RegisterAttached("ShouldResize",
         typeof(bool),
         typeof(StretchControl),
-        new PropertyMetadata(ResizeOnStartChanged));
+        new PropertyMetadata(ResizeChanged));
 
     public static readonly DependencyProperty ResizeTriggerProperty =
       DependencyProperty.RegisterAttached("ResizeTrigger",
@@ -17,36 +25,77 @@ namespace Desktop.Extensions.Properties
         typeof(StretchControl),
         new PropertyMetadata(ResizeTriggerChanged));
 
-    private static void ResizeOnStartChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    #endregion // Properties
+
+    #region Events
+
+    private static void ResizeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-      ResizeTriggerChanged(obj, e);
-    }
+      FrameworkElement element = obj as FrameworkElement;
+      FrameworkElement parentElement = element.Parent as FrameworkElement;
+      parentElement.Loaded += new RoutedEventHandler(OnParentLoaded);
+      parentElement.SizeChanged += new SizeChangedEventHandler(OnParentSizeChanged);
+
+      _controlName = element.Name;
+    } // ResizeOnStartChanged
 
     private static void ResizeTriggerChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = obj as FrameworkElement;
-      Panel parentPanel = element.Parent as Panel;
-      double heightRemaining = parentPanel.Height;
+      CalculateSize((obj as FrameworkElement).Parent as Panel);
+    } // ResizeTriggerChanged
+
+    private static void OnParentSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      CalculateSize(sender as Panel);
+    } // OnParentSizeChanged
+
+    private static void OnParentLoaded(object sender, RoutedEventArgs e)
+    {
+      CalculateSize(sender as Panel);
+    } // OnParentLoaded
+
+    #endregion // Events
+
+    #region Implementation
+
+    private static void CalculateSize(Panel parentPanel)
+    {
+      double heightRemaining = parentPanel.ActualHeight;
+      FrameworkElement elementToStretch = null;
 
       foreach (FrameworkElement childElement in parentPanel.Children)
       {
-        if (element.Name != childElement.Name && childElement.Visibility != Visibility.Collapsed)
+        if (_controlName != childElement.Name)
         {
-          heightRemaining -= childElement.Height; 
+          if (childElement.Visibility != Visibility.Collapsed)
+          {
+            heightRemaining -= childElement.ActualHeight;
+          }
+        }
+        else
+        {
+          elementToStretch = childElement;
         }
       }
 
-      element.Height = heightRemaining;
+      if (elementToStretch != null)
+      {
+        elementToStretch.Height = heightRemaining;
+      }
+    } //CalculateSize
+
+    #endregion // Implementation
+
+    #region Gets/Sets
+
+    public static bool GetShouldResize(DependencyObject obj)
+    {
+      return (bool)obj.GetValue(ShouldResizeProperty);
     }
 
-    public static bool GetResizeOnStart(DependencyObject obj)
+    public static void SetShouldResize(DependencyObject obj, bool value)
     {
-      return (bool)obj.GetValue(ResizeOnStartProperty);
-    }
-
-    public static void SetResizeOnStart(DependencyObject obj, bool value)
-    {
-      obj.SetValue(ResizeOnStartProperty, value);
+      obj.SetValue(ShouldResizeProperty, value);
     }
 
     public static bool GetResizeTrigger(DependencyObject obj)
@@ -58,5 +107,7 @@ namespace Desktop.Extensions.Properties
     {
       obj.SetValue(ResizeTriggerProperty, value);
     }
+
+    #endregion // Gets/Sets
   }
 }

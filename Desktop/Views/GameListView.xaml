@@ -132,7 +132,7 @@
     <!--               Games list Group                -->
     <GroupBox x:Name="GamesGroup"
               Header="Games"
-              properties:StretchControl.ResizeOnStart="True"
+              properties:StretchControl.ShouldResize="True"
               properties:StretchControl.ResizeTrigger="{Binding ShowFilters}">
       <DockPanel x:Name="GamesPanel"
                  Width="850">
