@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace Desktop.ViewModels
 {
-  public class GameListViewModel : ViewModelBase
+  public class GameListViewModel : ViewModelBase, IPageViewModel
   {
     #region Variables
 
@@ -38,6 +38,12 @@ namespace Desktop.ViewModels
     #endregion // Construction
 
     #region Properties
+
+    private string _name = "GameList";
+    /// <summary>
+    /// The name of the view model
+    /// </summary>
+    public string Name { get { return _name; } set { _name = value; } }
 
     private ObservableCollection<GameListEntryViewModel> _gameCollection = new ObservableCollection<GameListEntryViewModel>();
     /// <summary>
@@ -166,6 +172,7 @@ namespace Desktop.ViewModels
     /// Delete the currently selected item
     /// </summary>
     public ICommand DeleteGameCommand { get; set; }
+
     public void DeleteGame()
     {
       if (SelectedEntry != null)

@@ -20,10 +20,12 @@ namespace Desktop
     {
       base.OnStartup(e);
 
-      GameList gameList = new GameList();
-      GameListViewModel gameListViewModel = new GameListViewModel(gameList);
-      MainWindow = new GameListWindow(gameListViewModel);
-      MainWindow.Show();
+      ApplicationWindow app = new ApplicationWindow
+      {
+        DataContext = new ApplicationViewModel()
+      };
+
+      app.Show();
     }
   }
 }
