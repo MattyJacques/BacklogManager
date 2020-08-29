@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Desktop.Views
 {
   /// <summary>
-  /// Interaction logic for GameListView.xaml
+  /// Interaction logic for StatsView.xaml
   /// </summary>
-  public partial class GameListView : UserControl
+  public partial class StatsView : UserControl
   {
-    public GameListView()
+    public StatsView()
     {
       InitializeComponent();
     }

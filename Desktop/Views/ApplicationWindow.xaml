@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:pages="clr-namespace:Desktop.Pages"
+        xmlns:views="clr-namespace:Desktop.Views"
         xmlns:viewModels="clr-namespace:Desktop.ViewModels"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -16,12 +16,15 @@
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
         Title="Backlog Manager"
-        Height="450"
-        Width="800">
+        MinHeight="780"
+        MinWidth="900">
 
   <Window.Resources>
     <DataTemplate DataType="{x:Type viewModels:GameListViewModel}">
-      <pages:GameListPage />
+      <views:GameListView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:StatsViewModel}">
+      <views:StatsView />
     </DataTemplate>
   </Window.Resources>
 
@@ -35,19 +38,18 @@
                       DockPanel.Dock="Top"
                       HorizontalAlignment="Right"
                       Margin="16"
-                      IsChecked="False" />
+                      IsChecked="{Binding ShowHamburgerMenu}" />
 
-        <ListBox x:Name="ViewListBox"
-                 Margin="0,16,0,16">
-          <!--SelectedIndex="{Binding SelectedIndex}"
-                 SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
-                 ItemsSource="{Binding Views}"
-                 PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">-->
-          <ListBox.Resources>
-            <Style TargetType="ScrollBar"
-                   BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
-          </ListBox.Resources>
-        </ListBox>
+        <ItemsControl ItemsSource="{Binding PageViewModels}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Button Content="{Binding Name}"
+                      Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                      CommandParameter="{Binding }"
+                      Margin="2,5" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
       </DockPanel>
     </materialDesign:DrawerHost.LeftDrawerContent>
 
