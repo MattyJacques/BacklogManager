@@ -39,7 +39,7 @@ namespace Desktop.ViewModels
 
     #region Properties
 
-    private string _name = "GameList";
+    private string _name = "Games";
     /// <summary>
     /// The name of the view model
     /// </summary>

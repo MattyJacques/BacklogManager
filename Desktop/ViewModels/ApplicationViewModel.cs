@@ -27,7 +27,7 @@ namespace Desktop.ViewModels
     {
       // Add available pages
       PageViewModels.Add(new GameListViewModel(new GameList()));
-      PageViewModels.Add(new StatsViewModel());
+      PageViewModels.Add(new StatsViewModel(new Stats()));
 
       // Set starting page
       CurrentPageViewModel = PageViewModels[0];

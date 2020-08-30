@@ -92,6 +92,9 @@
     <Compile Include="Extensions\Controls\LabelledTextBox.xaml.cs">
       <DependentUpon>LabelledTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\Controls\StatsGroupBox.xaml.cs">
+      <DependentUpon>StatsGroupBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\Helpers\EnumArrayDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\Helpers\RelayCommand.cs" />
@@ -101,9 +104,11 @@
     <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
+    <Compile Include="Interfaces\IStatsModel.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
     <Compile Include="Models\GameManagement.cs" />
+    <Compile Include="Models\Stats.cs" />
     <Compile Include="ViewModels\StatsViewModel.cs" />
     <Compile Include="Views\StatsView.xaml.cs">
       <DependentUpon>StatsView.xaml</DependentUpon>
@@ -134,6 +139,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Extensions\Controls\LabelledTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Extensions\Controls\StatsGroupBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
