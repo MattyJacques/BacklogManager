@@ -129,6 +129,23 @@ namespace Desktop.Data
       return false;
     } // DeleteGame
 
+    /// <summary>
+    /// Get the amount of games 
+    /// </summary>
+    /// <returns></returns>
+    public int GetAmountWithPlatformStatus(string platform, string status)
+    {
+      if (connection.State == System.Data.ConnectionState.Open)
+      {
+        SQLiteCommand command = connection.CreateCommand();
+        command.CommandText = "SELECT count(GameName) FROM Games WHERE " + platform + " = 'true' AND PlayedStatus = '" + status + "'";
+
+        return Convert.ToInt32(command.ExecuteScalar());
+      }
+
+      return 0;
+    }
+
     #endregion
 
     #region Implementation

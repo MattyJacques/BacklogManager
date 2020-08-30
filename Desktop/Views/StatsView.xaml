@@ -10,23 +10,84 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-  <StackPanel x:Name="WindowPanel"
+  <StackPanel x:Name="MainPanel"
               Margin="5"
               Height="730">
 
+    <!-- ToolBar Panel -->
     <StackPanel x:Name="ToolBarPanel"
                 Orientation="Horizontal"
                 Height="45">
 
       <ToolBarTray>
         <ToolBar HorizontalAlignment="Right"
-                 Width="{Binding ActualWidth, ElementName=WindowPanel}">
+                 Width="{Binding ActualWidth, ElementName=MainPanel}">
           <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                         IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
         </ToolBar>
       </ToolBarTray>
 
     </StackPanel>
+    
+    <!-- Stats -->
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <controls:StatsGroupBox Platform="PC"
+                              Grid.Column="0"
+                              Grid.Row="0"
+                              NotPlayedAmount="{Binding NotPlayedAmountPC}"
+                              PlayedAmount="{Binding PlayedAmountPC}"
+                              CompleteAmount="{Binding CompleteAmountPC}"
+                              AbandonedAmount="{Binding AbandonedAmountPC}"
+                              DonePercent="{Binding DonePercentPC}" />
+
+      <controls:StatsGroupBox Platform="PS4"
+                              Grid.Column="1"
+                              Grid.Row="0"
+                              NotPlayedAmount="{Binding NotPlayedAmountPS4}"
+                              PlayedAmount="{Binding PlayedAmountPS4}"
+                              CompleteAmount="{Binding CompleteAmountPS4}"
+                              AbandonedAmount="{Binding AbandonedAmountPS4}"
+                              DonePercent="{Binding DonePercentPS4}" />
+
+      <controls:StatsGroupBox Platform="PS3"
+                              Grid.Column="0"
+                              Grid.Row="1"
+                              NotPlayedAmount="{Binding NotPlayedAmountPS3}"
+                              PlayedAmount="{Binding PlayedAmountPS3}"
+                              CompleteAmount="{Binding CompleteAmountPS3}"
+                              AbandonedAmount="{Binding AbandonedAmountPS3}"
+                              DonePercent="{Binding DonePercentPS3}" />
+
+      <controls:StatsGroupBox Platform="Playstation Vita"
+                              Grid.Column="1"
+                              Grid.Row="1"
+                              NotPlayedAmount="{Binding NotPlayedAmountVita}"
+                              PlayedAmount="{Binding PlayedAmountVita}"
+                              CompleteAmount="{Binding CompleteAmountVita}"
+                              AbandonedAmount="{Binding AbandonedAmountVita}"
+                              DonePercent="{Binding DonePercentVita}" />
+
+      <controls:StatsGroupBox Platform="Total"
+                              Grid.Column="0"
+                              Grid.Row="2"
+                              Grid.ColumnSpan="2"
+                              NotPlayedAmount="{Binding NotPlayedAmountTotal}"
+                              PlayedAmount="{Binding PlayedAmountTotal}"
+                              CompleteAmount="{Binding CompleteAmountTotal}"
+                              AbandonedAmount="{Binding AbandonedAmountTotal}"
+                              DonePercent="{Binding DonePercentTotal}" />
+
+    </Grid>
 
   </StackPanel>
 </UserControl>

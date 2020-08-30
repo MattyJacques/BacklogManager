@@ -10,7 +10,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-  <StackPanel x:Name="WindowPanel"
+  <StackPanel x:Name="MainPanel"
               Margin="5"
               Height="730">
 
@@ -20,7 +20,7 @@
 
       <ToolBarTray>
         <ToolBar HorizontalAlignment="Right"
-                 Width="{Binding ActualWidth, ElementName=WindowPanel}">
+                 Width="{Binding ActualWidth, ElementName=MainPanel}">
           <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                         IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
           <Button Content="{materialDesign:PackIcon Gamepad}"
