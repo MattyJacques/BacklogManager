@@ -7,6 +7,8 @@ namespace Desktop.Extensions.Properties
 {
   internal class ListViewColumnStretcher
   {
+    #region Public Members
+
     /// <summary>
     /// IsStretched Dependency property which can be attached to GridViewColumns.
     /// </summary>
@@ -15,6 +17,10 @@ namespace Desktop.Extensions.Properties
       typeof(bool),
       typeof(ListViewColumnStretcher),
       new UIPropertyMetadata(true, null, OnCoerceStretch));
+
+    #endregion Public Members
+
+    #region Public Methods
 
     /// <summary>
     /// Get whether to stretch or not
@@ -25,16 +31,6 @@ namespace Desktop.Extensions.Properties
     {
       return (bool)obj.GetValue(StretchProperty);
     } // GetStretch
-
-    /// <summary>
-    /// Set whether to stretch or not
-    /// </summary>
-    /// <param name="obj">Dependency object</param>
-    /// <param name="value">Whether to stretch width or not</param>
-    public static void SetStretch(DependencyObject obj, bool value)
-    {
-      obj.SetValue(StretchProperty, value);
-    } // SetStretch
 
     /// <summary>
     /// Check whether the property is attached to a ListView
@@ -56,7 +52,36 @@ namespace Desktop.Extensions.Properties
       listView.Loaded += new RoutedEventHandler(ListView_Loaded);
       listView.SizeChanged += new SizeChangedEventHandler(ListView_SizeChanged);
       return value;
-    } // OnCoerceStretch
+    }
+
+    /// <summary>
+    /// Set whether to stretch or not
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <param name="value">Whether to stretch width or not</param>
+    public static void SetStretch(DependencyObject obj, bool value)
+    {
+      obj.SetValue(StretchProperty, value);
+    }
+
+    #endregion Public Methods
+
+    // SetStretch
+
+    // OnCoerceStretch
+
+    #region Private Methods
+
+    /// <summary>
+    /// Set column widths when ListView is loaded
+    /// </summary>
+    /// <param name="sender">ListView that just loaded</param>
+    /// <param name="e">Event arguments</param>
+    private static void ListView_Loaded(object sender, RoutedEventArgs e)
+    {
+      ListView listView = sender as ListView;
+      SetColumnWidths(listView);
+    }
 
     /// <summary>
     /// Set the column width when the ListView size has changed
@@ -72,16 +97,7 @@ namespace Desktop.Extensions.Properties
       }
     } // ListView_SizeChanged
 
-    /// <summary>
-    /// Set column widths when ListView is loaded
-    /// </summary>
-    /// <param name="sender">ListView that just loaded</param>
-    /// <param name="e">Event arguments</param>
-    private static void ListView_Loaded(object sender, RoutedEventArgs e)
-    {
-      ListView listView = sender as ListView;
-      SetColumnWidths(listView);
-    } // ListView_Loaded
+    // ListView_Loaded
 
     /// <summary>
     /// Set column widths
@@ -138,6 +154,10 @@ namespace Desktop.Extensions.Properties
         // Store the columns in the TAG property for later use.
         listView.Tag = columns;
       }
-    } // SetColumnWidths
+    }
+
+    #endregion Private Methods
+
+    // SetColumnWidths
   }
 }

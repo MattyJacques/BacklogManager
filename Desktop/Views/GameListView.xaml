@@ -52,7 +52,6 @@
           <materialDesign:PackIcon Kind="FilterMinus" />
         </materialDesign:ToggleButtonAssist.OnContent>
       </ToggleButton>
-
     </StackPanel>
 
     <GroupBox x:Name="FilterGroup"
@@ -98,7 +97,6 @@
           </StackPanel>
         </GroupBox>
       </StackPanel>
-
     </GroupBox>
 
     <!--                  Next Game Group                -->
@@ -174,11 +172,9 @@
             <DataGridTextColumn Header="Added"
                                 Binding="{Binding DateAdded, Mode=OneWay, StringFormat='yyyy-MM-dd'}"
                                 Width="125" />
-
           </DataGrid.Columns>
         </DataGrid>
       </DockPanel>
     </GroupBox>
-
   </StackPanel>
 </UserControl>

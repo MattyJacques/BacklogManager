@@ -63,7 +63,6 @@
                 Command="{Binding SaveGameCommand}"
                 Margin="0,5" />
       </StackPanel>
-
     </StackPanel>
   </Grid>
 </Window>

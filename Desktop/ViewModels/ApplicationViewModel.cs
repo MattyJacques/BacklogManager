@@ -10,7 +10,7 @@ namespace Desktop.ViewModels
 {
   public class ApplicationViewModel : ViewModelBase
   {
-    #region Members
+    #region Private Members
 
     private ICommand _changePageCommand;
 
@@ -18,7 +18,9 @@ namespace Desktop.ViewModels
     private List<IPageViewModel> _pageViewModels;
     private bool _showHamburgerMenu = false;
 
-    #endregion // Members
+    #endregion Private Members
+
+    #region Public Constructors
 
     public ApplicationViewModel()
     {
@@ -30,39 +32,9 @@ namespace Desktop.ViewModels
       CurrentPageViewModel = PageViewModels[0];
     }
 
-    #region Properties
+    #endregion Public Constructors
 
-    public List<IPageViewModel> PageViewModels
-    {
-      get
-      {
-        if (_pageViewModels == null)
-        {
-          _pageViewModels = new List<IPageViewModel>();
-        }
-
-        return _pageViewModels;
-      }
-    }
-
-    public IPageViewModel CurrentPageViewModel
-    {
-      get => _currentPageViewModel;
-      set
-      {
-        if (_currentPageViewModel != value)
-        {
-          _currentPageViewModel = value;
-          RaisePropertyChanged("CurrentPageViewModel");
-        }
-      }
-    }
-
-    public bool ShowHamburgerMenu { get => _showHamburgerMenu; set { _showHamburgerMenu = value; RaisePropertyChanged("ShowHamburgerMenu"); } }
-
-    #endregion // Properties
-
-    #region Commands
+    #region Public Properties
 
     /// <summary>
     /// Command to change to the view of the window
@@ -82,9 +54,37 @@ namespace Desktop.ViewModels
       }
     }
 
-    #endregion // Commands
+    public IPageViewModel CurrentPageViewModel
+    {
+      get => _currentPageViewModel;
+      set
+      {
+        if (_currentPageViewModel != value)
+        {
+          _currentPageViewModel = value;
+          RaisePropertyChanged("CurrentPageViewModel");
+        }
+      }
+    }
 
-    #region Implementation
+    public List<IPageViewModel> PageViewModels
+    {
+      get
+      {
+        if (_pageViewModels == null)
+        {
+          _pageViewModels = new List<IPageViewModel>();
+        }
+
+        return _pageViewModels;
+      }
+    }
+
+    public bool ShowHamburgerMenu { get => _showHamburgerMenu; set { _showHamburgerMenu = value; RaisePropertyChanged("ShowHamburgerMenu"); } }
+
+    #endregion Public Properties
+
+    #region Private Methods
 
     /// <summary>
     /// Change the ViewModel to the given type, changing the View
@@ -101,8 +101,10 @@ namespace Desktop.ViewModels
           .FirstOrDefault(vm => vm == viewModel);
 
       ShowHamburgerMenu = false;
-    } // ChangeViewModel
+    }
 
-    #endregion // Implementation
+    #endregion Private Methods
+
+    // ChangeViewModel
   }
 }

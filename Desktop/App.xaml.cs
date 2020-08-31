@@ -9,6 +9,8 @@ namespace Desktop
   /// </summary>
   public partial class App : Application
   {
+    #region Protected Methods
+
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
@@ -20,5 +22,7 @@ namespace Desktop
 
       app.Show();
     }
+
+    #endregion Protected Methods
   }
 }

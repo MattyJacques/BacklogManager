@@ -7,9 +7,13 @@ namespace Desktop.Views
   /// </summary>
   public partial class GameListView : UserControl
   {
+    #region Public Constructors
+
     public GameListView()
     {
       InitializeComponent();
     }
+
+    #endregion Public Constructors
   }
 }

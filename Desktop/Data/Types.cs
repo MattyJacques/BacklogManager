@@ -2,15 +2,6 @@
 
 namespace Desktop.Data.Types
 {
-  public enum Status
-  {
-    [Description("Not Played")]
-    NotPlayed,
-    Played,
-    Complete,
-    Abandoned
-  }
-
   public enum ColIndex
   {
     GameName = 0,
@@ -23,91 +14,39 @@ namespace Desktop.Data.Types
     PlayedStatus
   }
 
+  public enum Status
+  {
+    [Description("Not Played")]
+    NotPlayed,
+
+    Played,
+    Complete,
+    Abandoned
+  }
+
   public class GameDatabaseEntry
   {
-    #region Members
+    #region Public Properties
 
-    public string GameName { get; set; }
     public string AddedDate { get; set; }
+    public string GameName { get; set; }
+    public string OwnedStatus { get; set; }
     public string PC { get; set; }
+    public string PlayedStatus { get; set; }
     public string PS3 { get; set; }
     public string PS4 { get; set; }
     public string PSVita { get; set; }
-    public string OwnedStatus { get; set; }
-    public string PlayedStatus { get; set; }
 
-    #endregion // Members
-  }
-
-  public class StatsCollection
-  {
-    public StatsCollection()
-    {
-      PC = new PlatformStats();
-      PS4 = new PlatformStats();
-      PS3 = new PlatformStats();
-      PSVita = new PlatformStats();
-    } // Constructor
-
-    public PlatformStats PC { get; set; }
-    public PlatformStats PS4 { get; set; }
-    public PlatformStats PS3 { get; set; }
-    public PlatformStats PSVita { get; set; }
-
-    /// <summary>
-    /// Return the total games not played by adding values from all PlatformStats
-    /// </summary>
-    public int TotalNotPlayed => PC.NotPlayedAmount +
-               PS4.NotPlayedAmount +
-               PS3.NotPlayedAmount +
-               PSVita.NotPlayedAmount;
-
-    /// <summary>
-    /// Return the total games played by adding values from all PlatformStats
-    /// </summary>
-    public int TotalPlayed => PC.PlayedAmount +
-               PS4.PlayedAmount +
-               PS3.PlayedAmount +
-               PSVita.PlayedAmount;
-
-    /// <summary>
-    /// Return the total games complete by adding values from all PlatformStats
-    /// </summary>
-    public int TotalComplete => PC.CompleteAmount +
-               PS4.CompleteAmount +
-               PS3.CompleteAmount +
-               PSVita.CompleteAmount;
-
-    /// <summary>
-    /// Return the total games abandoned by adding values from all PlatformStats
-    /// </summary>
-    public int TotalAbandoned => PC.AbandonedAmount +
-               PS4.AbandonedAmount +
-               PS3.AbandonedAmount +
-               PSVita.AbandonedAmount;
-
-    /// <summary>
-    /// Return the total games complete or abandoned by adding values from all PlatformStats
-    /// </summary>
-    public float TotalDonePercent
-    {
-      get
-      {
-        int totalNotDone = TotalNotPlayed + TotalPlayed;
-        int totalDone = TotalComplete + TotalAbandoned;
-        int totalGames = totalNotDone + totalDone;
-
-        return ((float)totalDone / totalGames) * 100;
-      }
-    }
+    #endregion Public Properties
   }
 
   public class PlatformStats
   {
-    public int NotPlayedAmount { get; set; }
-    public int PlayedAmount { get; set; }
-    public int CompleteAmount { get; set; }
+    #region Public Properties
+
     public int AbandonedAmount { get; set; }
+    public int CompleteAmount { get; set; }
+
     public float DonePercent
     {
       get
@@ -129,5 +68,83 @@ namespace Desktop.Data.Types
         return result;
       }
     }
+
+    public int NotPlayedAmount { get; set; }
+    public int PlayedAmount { get; set; }
+
+    #endregion Public Properties
+  }
+
+  public class StatsCollection
+  {
+    #region Public Constructors
+
+    public StatsCollection()
+    {
+      PC = new PlatformStats();
+      PS4 = new PlatformStats();
+      PS3 = new PlatformStats();
+      PSVita = new PlatformStats();
+    }
+
+    #endregion Public Constructors
+
+    // Constructor
+
+    #region Public Properties
+
+    public PlatformStats PC { get; set; }
+    public PlatformStats PS3 { get; set; }
+    public PlatformStats PS4 { get; set; }
+    public PlatformStats PSVita { get; set; }
+
+    /// <summary>
+    /// Return the total games abandoned by adding values from all PlatformStats
+    /// </summary>
+    public int TotalAbandoned => PC.AbandonedAmount +
+               PS4.AbandonedAmount +
+               PS3.AbandonedAmount +
+               PSVita.AbandonedAmount;
+
+    /// <summary>
+    /// Return the total games complete by adding values from all PlatformStats
+    /// </summary>
+    public int TotalComplete => PC.CompleteAmount +
+               PS4.CompleteAmount +
+               PS3.CompleteAmount +
+               PSVita.CompleteAmount;
+
+    /// <summary>
+    /// Return the total games complete or abandoned by adding values from all PlatformStats
+    /// </summary>
+    public float TotalDonePercent
+    {
+      get
+      {
+        int totalNotDone = TotalNotPlayed + TotalPlayed;
+        int totalDone = TotalComplete + TotalAbandoned;
+        int totalGames = totalNotDone + totalDone;
+
+        return ((float)totalDone / totalGames) * 100;
+      }
+    }
+
+    /// <summary>
+    /// Return the total games not played by adding values from all PlatformStats
+    /// </summary>
+    public int TotalNotPlayed => PC.NotPlayedAmount +
+               PS4.NotPlayedAmount +
+               PS3.NotPlayedAmount +
+               PSVita.NotPlayedAmount;
+
+    /// <summary>
+    /// Return the total games played by adding values from all PlatformStats
+    /// </summary>
+    public int TotalPlayed => PC.PlayedAmount +
+               PS4.PlayedAmount +
+               PS3.PlayedAmount +
+               PSVita.PlayedAmount;
+
+    #endregion Public Properties
   }
 }

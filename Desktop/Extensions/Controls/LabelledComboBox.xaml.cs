@@ -9,17 +9,7 @@ namespace Desktop.Extensions.Controls
   /// </summary>
   public partial class LabelledComboBox : UserControl
   {
-    public LabelledComboBox()
-    {
-      InitializeComponent();
-      Root.DataContext = this;
-    }
-
-    public static readonly DependencyProperty LabelProperty =
-      DependencyProperty.Register("Label",
-                                  typeof(string),
-                                  typeof(LabelledComboBox),
-                                  new FrameworkPropertyMetadata("Unnamed Label"));
+    #region Public Members
 
     public static readonly DependencyProperty ItemSourceProperty =
       DependencyProperty.Register("ItemSource",
@@ -27,17 +17,31 @@ namespace Desktop.Extensions.Controls
                                   typeof(LabelledComboBox),
                                   new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+    public static readonly DependencyProperty LabelProperty =
+      DependencyProperty.Register("Label",
+                                  typeof(string),
+                                  typeof(LabelledComboBox),
+                                  new FrameworkPropertyMetadata("Unnamed Label"));
+
     public static readonly DependencyProperty SelectedItemProperty =
       DependencyProperty.Register("SelectedItem",
                                   typeof(object),
                                   typeof(LabelledComboBox),
                                   new PropertyMetadata(null));
 
-    public string Label
+    #endregion Public Members
+
+    #region Public Constructors
+
+    public LabelledComboBox()
     {
-      get => (string)GetValue(LabelProperty);
-      set => SetValue(LabelProperty, value);
+      InitializeComponent();
+      Root.DataContext = this;
     }
+
+    #endregion Public Constructors
+
+    #region Public Properties
 
     public IEnumerable ItemSource
     {
@@ -45,10 +49,18 @@ namespace Desktop.Extensions.Controls
       set => SetValue(ItemSourceProperty, value);
     }
 
+    public string Label
+    {
+      get => (string)GetValue(LabelProperty);
+      set => SetValue(LabelProperty, value);
+    }
+
     public object SelectedItem
     {
       get => GetValue(SelectedItemProperty);
       set => SetValue(SelectedItemProperty, value);
     }
+
+    #endregion Public Properties
   }
 }

@@ -33,7 +33,7 @@
     <!--               Hamburger Menu                -->
     <materialDesign:DrawerHost.LeftDrawerContent>
       <DockPanel MinWidth="220">
-        <ToggleButton x:Name="MenuToggleButton" 
+        <ToggleButton x:Name="MenuToggleButton"
                       Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                       DockPanel.Dock="Top"
                       HorizontalAlignment="Right"
@@ -54,7 +54,5 @@
     </materialDesign:DrawerHost.LeftDrawerContent>
 
     <ContentControl Content="{Binding CurrentPageViewModel}" />
-
   </materialDesign:DrawerHost>
-
 </Window>

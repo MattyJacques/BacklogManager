@@ -7,9 +7,13 @@ namespace Desktop.Views
   /// </summary>
   public partial class ApplicationWindow : Window
   {
+    #region Public Constructors
+
     public ApplicationWindow()
     {
       InitializeComponent();
     }
+
+    #endregion Public Constructors
   }
 }

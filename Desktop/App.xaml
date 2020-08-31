@@ -7,7 +7,7 @@
              xmlns:helpers="clr-namespace:Desktop.Extensions.Helpers">
   <Application.Resources>
     <ResourceDictionary>
-      
+
       <!-- Enum Helpers-->
       <ObjectDataProvider x:Key="playStatusEnum"
                           MethodName="GetValues"
@@ -16,10 +16,10 @@
           <x:Type TypeName="types:Status"></x:Type>
         </ObjectDataProvider.MethodParameters>
       </ObjectDataProvider>
-      
+
       <helpers:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
       <helpers:EnumArrayDescriptionConverter x:Key="EnumArrayDescriptionConverter" />
-      
+
       <!-- Material Design -->
       <ResourceDictionary.MergedDictionaries>
         <materialDesign:CustomColorTheme BaseTheme="Dark"
@@ -27,7 +27,6 @@
                                          SecondaryColor="DarkSlateBlue" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
       </ResourceDictionary.MergedDictionaries>
-      
     </ResourceDictionary>
   </Application.Resources>
 </Application>

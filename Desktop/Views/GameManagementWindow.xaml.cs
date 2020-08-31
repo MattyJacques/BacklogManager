@@ -8,6 +8,8 @@ namespace Desktop.Views
   /// </summary>
   public partial class GameManagementWindow : Window
   {
+    #region Public Constructors
+
     public GameManagementWindow(GameManagementViewModel viewModel)
     {
       InitializeComponent();
@@ -15,5 +17,7 @@ namespace Desktop.Views
       DataContext = viewModel;
       viewModel.CloseAction = Close;
     }
+
+    #endregion Public Constructors
   }
 }

@@ -7,9 +7,13 @@ namespace Desktop.Views
   /// </summary>
   public partial class StatsView : UserControl
   {
+    #region Public Constructors
+
     public StatsView()
     {
       InitializeComponent();
     }
+
+    #endregion Public Constructors
   }
 }

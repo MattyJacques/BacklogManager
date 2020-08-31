@@ -11,14 +11,14 @@ namespace Desktop.Models
 {
   internal class GameList : IGameListModel
   {
-    #region Members
+    #region Private Members
 
     private readonly GameCollectionDatabase _database = new GameCollectionDatabase();
     private List<GameListEntry> _games;
 
-    #endregion // Members
+    #endregion Private Members
 
-    #region IGameListModel Implementation
+    #region Public Methods
 
     public void AddGame()
     {
@@ -94,8 +94,10 @@ namespace Desktop.Models
       }
 
       return _games;
-    } // GetGameList
+    }
 
-    #endregion // IGameListModel Implementation
+    #endregion Public Methods
+
+    // GetGameList
   }
 }

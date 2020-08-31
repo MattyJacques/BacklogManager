@@ -10,14 +10,14 @@ namespace Desktop.Data
 {
   public class GameCollectionDatabase
   {
-    #region Members
+    #region Private Members
 
-    private SQLiteConnection _connection;
     private readonly string _path;
+    private SQLiteConnection _connection;
 
-    #endregion
+    #endregion Private Members
 
-    #region Construction
+    #region Public Constructors
 
     public GameCollectionDatabase()
     {
@@ -26,11 +26,75 @@ namespace Desktop.Data
       SetupDatabaseFile();
       SetupDatabaseConnection();
       SetupTable();
-    } // Constructor
+    }
 
-    #endregion // Construction
+    #endregion Public Constructors
+
+    // Constructor
 
     #region Public Methods
+
+    /// <summary>
+    /// Add a game item to the database
+    /// </summary>
+    public bool AddGame(GameDatabaseEntry entry)
+    {
+      if (_connection.State == System.Data.ConnectionState.Open)
+      {
+        SQLiteCommand command = _connection.CreateCommand();
+        command.CommandText = "INSERT OR REPLACE INTO Games" +
+                              "(GameName, AddedDate, PC, PS3, PS4, PSVita, OwnedStatus, PlayedStatus) " +
+                              "VALUES " +
+                              "(@GameName, @AddedDate, @PC, @PS3, @PS4, @PSVita, @OwnedStatus, @PlayedStatus)";
+
+        command.Parameters.Add(new SQLiteParameter("@GameName", entry.GameName));
+        command.Parameters.Add(new SQLiteParameter("@AddedDate", entry.AddedDate));
+        command.Parameters.Add(new SQLiteParameter("@PC", entry.PC));
+        command.Parameters.Add(new SQLiteParameter("@PS3", entry.PS3));
+        command.Parameters.Add(new SQLiteParameter("@PS4", entry.PS4));
+        command.Parameters.Add(new SQLiteParameter("@PSVita", entry.PSVita));
+        command.Parameters.Add(new SQLiteParameter("@OwnedStatus", entry.OwnedStatus));
+        command.Parameters.Add(new SQLiteParameter("@PlayedStatus", entry.PlayedStatus));
+
+        return command.ExecuteNonQuery() > 0;
+      }
+
+      return false;
+    }
+
+    /// <summary>
+    /// Delete an existing game entry in the database
+    /// </summary>
+    public bool DeleteGame(string gameName)
+    {
+      if (_connection.State == System.Data.ConnectionState.Open)
+      {
+        SQLiteCommand command = _connection.CreateCommand();
+        command.CommandText = "DELETE FROM Games WHERE GameName = @GameName";
+
+        command.Parameters.Add(new SQLiteParameter("@GameName", gameName));
+
+        return command.ExecuteNonQuery() > 0;
+      }
+
+      return false;
+    }
+
+    /// <summary>
+    /// Edit an existing game item in the database
+    /// </summary>
+    public bool EditGame(string nameToEdit, GameDatabaseEntry entry)
+    {
+      if (_connection.State == System.Data.ConnectionState.Open)
+      {
+        if (DeleteGame(nameToEdit))
+        {
+          return AddGame(entry);
+        }
+      }
+
+      return false;
+    }
 
     /// <summary>
     /// Get all games from the game table
@@ -63,73 +127,16 @@ namespace Desktop.Data
       }
 
       return gameList;
-
     } // GetAllGames
 
-    /// <summary>
-    /// Add a game item to the database
-    /// </summary>
-    public bool AddGame(GameDatabaseEntry entry)
-    {
-      if (_connection.State == System.Data.ConnectionState.Open)
-      {
-        SQLiteCommand command = _connection.CreateCommand();
-        command.CommandText = "INSERT OR REPLACE INTO Games" +
-                              "(GameName, AddedDate, PC, PS3, PS4, PSVita, OwnedStatus, PlayedStatus) " +
-                              "VALUES " +
-                              "(@GameName, @AddedDate, @PC, @PS3, @PS4, @PSVita, @OwnedStatus, @PlayedStatus)";
+    // AddGame
 
-        command.Parameters.Add(new SQLiteParameter("@GameName", entry.GameName));
-        command.Parameters.Add(new SQLiteParameter("@AddedDate", entry.AddedDate));
-        command.Parameters.Add(new SQLiteParameter("@PC", entry.PC));
-        command.Parameters.Add(new SQLiteParameter("@PS3", entry.PS3));
-        command.Parameters.Add(new SQLiteParameter("@PS4", entry.PS4));
-        command.Parameters.Add(new SQLiteParameter("@PSVita", entry.PSVita));
-        command.Parameters.Add(new SQLiteParameter("@OwnedStatus", entry.OwnedStatus));
-        command.Parameters.Add(new SQLiteParameter("@PlayedStatus", entry.PlayedStatus));
+    // EditGame
 
-        return command.ExecuteNonQuery() > 0;
-      }
-
-      return false;
-    } // AddGame
+    // DeleteGame
 
     /// <summary>
-    /// Edit an existing game item in the database
-    /// </summary>
-    public bool EditGame(string nameToEdit, GameDatabaseEntry entry)
-    {
-      if (_connection.State == System.Data.ConnectionState.Open)
-      {
-        if (DeleteGame(nameToEdit))
-        {
-          return AddGame(entry);
-        }
-      }
-
-      return false;
-    } // EditGame
-
-    /// <summary>
-    /// Delete an existing game entry in the database
-    /// </summary>
-    public bool DeleteGame(string gameName)
-    {
-      if (_connection.State == System.Data.ConnectionState.Open)
-      {
-        SQLiteCommand command = _connection.CreateCommand();
-        command.CommandText = "DELETE FROM Games WHERE GameName = @GameName";
-
-        command.Parameters.Add(new SQLiteParameter("@GameName", gameName));
-
-        return command.ExecuteNonQuery() > 0;
-      }
-
-      return false;
-    } // DeleteGame
-
-    /// <summary>
-    /// Get the amount of games 
+    /// Get the amount of games
     /// </summary>
     /// <returns></returns>
     public int GetAmountWithPlatformStatus(string platform, string status)
@@ -145,9 +152,51 @@ namespace Desktop.Data
       return 0;
     }
 
-    #endregion
+    #endregion Public Methods
 
-    #region Implementation
+    #region Private Methods
+
+    /// <summary>
+    /// Check if a table with the given name exists in the database
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <returns></returns>
+    private bool CheckTableExists(string tableName)
+    {
+      SQLiteCommand command = _connection.CreateCommand();
+      command.CommandText = "SELECT name FROM sqlite_master WHERE name='" + tableName + "'";
+      object result = command.ExecuteScalar();
+
+      return result != null && result.ToString() == tableName;
+    }
+
+    /// <summary>
+    /// Execute the a non-query command
+    /// </summary>
+    /// <param name="query"></param>
+    private void ExecuteNonQuery(string query)
+    {
+      SQLiteCommand command = _connection.CreateCommand();
+      command.CommandText = query;
+      command.ExecuteNonQuery();
+    }
+
+    private Task<DbDataReader> ExecuteQuery(string query)
+    {
+      SQLiteCommand command = _connection.CreateCommand();
+      command.CommandText = query;
+      return command.ExecuteReaderAsync();
+    }
+
+    /// <summary>
+    /// Create the connection to the database file
+    /// </summary>
+    private void SetupDatabaseConnection()
+    {
+      string connectionString = string.Format("Data Source={0}", _path);
+      _connection = new SQLiteConnection(connectionString);
+      _connection.OpenAsync();
+    }
 
     /// <summary>
     /// Create the database file if it does not already exist
@@ -166,15 +215,7 @@ namespace Desktop.Data
       }
     } // CreateDatabaseFile
 
-    /// <summary>
-    /// Create the connection to the database file
-    /// </summary>
-    private void SetupDatabaseConnection()
-    {
-      string connectionString = string.Format("Data Source={0}", _path);
-      _connection = new SQLiteConnection(connectionString);
-      _connection.OpenAsync();
-    } // CreateConnection
+    // CreateConnection
 
     /// <summary>
     /// Create the table within the database
@@ -193,40 +234,16 @@ namespace Desktop.Data
                         "OwnedStatus text," +
                         "PlayedStatus text NOT NULL); ");
       }
-    } // CreateTable
+    }
 
-    /// <summary>
-    /// Check if a table with the given name exists in the database
-    /// </summary>
-    /// <param name="tableName"></param>
-    /// <returns></returns>
-    private bool CheckTableExists(string tableName)
-    {
-      SQLiteCommand command = _connection.CreateCommand();
-      command.CommandText = "SELECT name FROM sqlite_master WHERE name='" + tableName + "'";
-      object result = command.ExecuteScalar();
+    #endregion Private Methods
 
-      return result != null && result.ToString() == tableName;
-    } // CheckTableExists
+    // CreateTable
 
-    /// <summary>
-    /// Execute the a non-query command
-    /// </summary>
-    /// <param name="query"></param>
-    private void ExecuteNonQuery(string query)
-    {
-      SQLiteCommand command = _connection.CreateCommand();
-      command.CommandText = query;
-      command.ExecuteNonQuery();
-    } // ExecuteQuery
+    // CheckTableExists
 
-    private Task<DbDataReader> ExecuteQuery(string query)
-    {
-      SQLiteCommand command = _connection.CreateCommand();
-      command.CommandText = query;
-      return command.ExecuteReaderAsync();
-    } // ExecuteQuery
+    // ExecuteQuery
 
-    #endregion // Implementation
+    // ExecuteQuery
   }
 }

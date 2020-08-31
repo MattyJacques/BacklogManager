@@ -4,12 +4,27 @@ namespace Desktop.Extensions.Properties
 {
   internal class ReturnDialogResult
   {
+    #region Public Members
+
     public static readonly DependencyProperty DialogResultProperty =
       DependencyProperty.RegisterAttached(
       "DialogResult",
       typeof(bool?),
       typeof(ReturnDialogResult),
       new PropertyMetadata(DialogResultChanged));
+
+    #endregion Public Members
+
+    #region Public Methods
+
+    public static void SetDialogResult(Window target, bool? value)
+    {
+      target.SetValue(DialogResultProperty, value);
+    }
+
+    #endregion Public Methods
+
+    #region Private Methods
 
     private static void DialogResultChanged(DependencyObject dObject, DependencyPropertyChangedEventArgs e)
     {
@@ -20,9 +35,6 @@ namespace Desktop.Extensions.Properties
       }
     }
 
-    public static void SetDialogResult(Window target, bool? value)
-    {
-      target.SetValue(DialogResultProperty, value);
-    }
+    #endregion Private Methods
   }
 }
