@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Desktop.Extensions.Controls
@@ -9,21 +8,33 @@ namespace Desktop.Extensions.Controls
   /// </summary>
   public partial class SearchTextBox : UserControl
   {
-    public SearchTextBox()
-    {
-      InitializeComponent();
-      Root.DataContext = this;
-    }
+    #region Public Members
 
     public static readonly DependencyProperty SearchProperty =
       DependencyProperty.Register("SearchForText",
                                   typeof(string),
                                   typeof(SearchTextBox));
 
+    #endregion Public Members
+
+    #region Public Constructors
+
+    public SearchTextBox()
+    {
+      InitializeComponent();
+      Root.DataContext = this;
+    }
+
+    #endregion Public Constructors
+
+    #region Public Properties
+
     public string SearchForText
     {
-      get { return (string)GetValue(SearchProperty); }
-      set { SetValue(SearchProperty, value); }
+      get => (string)GetValue(SearchProperty);
+      set => SetValue(SearchProperty, value);
     }
+
+    #endregion Public Properties
   }
 }

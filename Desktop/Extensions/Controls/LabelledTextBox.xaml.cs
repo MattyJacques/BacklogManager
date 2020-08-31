@@ -8,11 +8,7 @@ namespace Desktop.Extensions.Controls
   /// </summary>
   public partial class LabelledTextBox : UserControl
   {
-    public LabelledTextBox()
-    {
-      InitializeComponent();
-      Root.DataContext = this;
-    }
+    #region Public Members
 
     public static readonly DependencyProperty LabelProperty =
       DependencyProperty.Register("Label",
@@ -26,16 +22,32 @@ namespace Desktop.Extensions.Controls
                                   typeof(LabelledTextBox),
                                   new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+    #endregion Public Members
+
+    #region Public Constructors
+
+    public LabelledTextBox()
+    {
+      InitializeComponent();
+      Root.DataContext = this;
+    }
+
+    #endregion Public Constructors
+
+    #region Public Properties
+
     public string Label
     {
-      get { return (string)GetValue(LabelProperty); }
-      set { SetValue(LabelProperty, value); }
+      get => (string)GetValue(LabelProperty);
+      set => SetValue(LabelProperty, value);
     }
 
     public string Text
     {
-      get { return (string)GetValue(TextProperty); }
-      set { SetValue(TextProperty, value); }
+      get => (string)GetValue(TextProperty);
+      set => SetValue(TextProperty, value);
     }
+
+    #endregion Public Properties
   }
 }

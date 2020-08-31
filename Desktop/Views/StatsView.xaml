@@ -26,9 +26,8 @@
                         IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
         </ToolBar>
       </ToolBarTray>
-
     </StackPanel>
-    
+
     <!-- Stats -->
     <Grid>
       <Grid.ColumnDefinitions>
@@ -86,8 +85,6 @@
                               CompleteAmount="{Binding CompleteAmountTotal}"
                               AbandonedAmount="{Binding AbandonedAmountTotal}"
                               DonePercent="{Binding DonePercentTotal}" />
-
     </Grid>
-
   </StackPanel>
 </UserControl>

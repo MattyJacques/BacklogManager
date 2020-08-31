@@ -3,58 +3,89 @@ using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
 using GalaSoft.MvvmLight;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Desktop.ViewModels
 {
   public class GameListViewModel : ViewModelBase, IPageViewModel
   {
-    #region Variables
+    #region Private Members
 
-    private IGameListModel model;
+    private readonly IGameListModel _model;
 
-    #endregion // Variables
+    private ObservableCollection<GameListEntryViewModel> _gameCollection = new ObservableCollection<GameListEntryViewModel>();
 
-    #region Construction
+    private string _name = "Games";
+
+    private string _searchText = string.Empty;
+
+    private GameListEntryViewModel _selectedEntry = null;
+
+    private bool _showAbandoned = false;
+
+    private bool _showComplete = false;
+
+    private bool _showFilters = false;
+
+    private bool _showNotOwned = true;
+
+    private bool _showNotPlayed = true;
+
+    private bool _showOwned = true;
+
+    private bool _showPC = true;
+
+    private bool _showPlayed = true;
+
+    private bool _showPS3 = true;
+
+    private bool _showPS4 = true;
+
+    private bool _showPSVita = true;
+
+    #endregion Private Members
+
+    #region Public Constructors
 
     public GameListViewModel(IGameListModel model)
     {
-      this.model = model;
+      _model = model;
 
-      AddGameCommand = new RelayCommand(param => this.AddGame());
-      EditGameCommand = new RelayCommand(param => this.EditGame());
-      DeleteGameCommand = new RelayCommand(param => this.DeleteGame());
+      AddGameCommand = new RelayCommand(param => AddGame());
+      EditGameCommand = new RelayCommand(param => EditGame());
+      DeleteGameCommand = new RelayCommand(param => DeleteGame());
 
       UpdateGameList();
     }
 
-    #endregion // Construction
+    #endregion Public Constructors
 
-    #region Properties
+    #region Public Properties
 
-    private string _name = "Games";
     /// <summary>
-    /// The name of the view model
+    /// Add a new game to the list
     /// </summary>
-    public string Name { get { return _name; } set { _name = value; } }
+    public ICommand AddGameCommand { get; set; }
 
-    private ObservableCollection<GameListEntryViewModel> _gameCollection = new ObservableCollection<GameListEntryViewModel>();
+    /// <summary>
+    /// Delete the currently selected item
+    /// </summary>
+    public ICommand DeleteGameCommand { get; set; }
+
+    /// <summary>
+    /// Edit the currently selected item
+    /// </summary>
+    public ICommand EditGameCommand { get; set; }
+
     /// <summary>
     /// Get/Set the list of games
     /// </summary>
     public ObservableCollection<GameListEntryViewModel> GameCollection
     {
-      get
-      {
-        return _gameCollection;
-      }
+      get => _gameCollection;
       private set
       {
         _gameCollection = value;
@@ -63,132 +94,111 @@ namespace Desktop.ViewModels
       }
     }
 
-    private GameListEntryViewModel _selectedEntry = null;
     /// <summary>
-    /// Get the selected entry from the list
+    /// The name of the view model
     /// </summary>
-    public GameListEntryViewModel SelectedEntry { get { return _selectedEntry; } set { _selectedEntry = value; } }
+    public string Name { get => _name; set => _name = value; }
 
-    private string _searchText = String.Empty;
     /// <summary>
     /// Holds the search text the to filter game names
     /// </summary>
-    public string SearchText { get { return _searchText; } set { _searchText = value; UpdateGameList(); } }
+    public string SearchText { get => _searchText; set { _searchText = value; UpdateGameList(); } }
 
-    private bool _showFilters = false;
     /// <summary>
-    /// Whether to show the filter GroupBox
+    /// Get the selected entry from the list
     /// </summary>
-    public bool ShowFilters { get { return _showFilters; } set { _showFilters = value; RaisePropertyChanged("ShowFilters");  } }
+    public GameListEntryViewModel SelectedEntry { get => _selectedEntry; set => _selectedEntry = value; }
 
-    private bool _showNotPlayed = true;
-    /// <summary>
-    /// Whether to show not played games
-    /// </summary>
-    public bool ShowNotPlayed { get { return _showNotPlayed; } set { _showNotPlayed = value; UpdateGameList(); } }
-
-    private bool _showPlayed = true;
-    /// <summary>
-    /// Whether to show played games
-    /// </summary>
-    public bool ShowPlayed { get{ return _showPlayed; } set { _showPlayed = value; UpdateGameList(); } }
-
-    private bool _showComplete = false;
-    /// <summary>
-    /// Whether to show completed games
-    /// </summary>
-    public bool ShowComplete { get { return _showComplete; } set { _showComplete = value; UpdateGameList(); } }
-
-    private bool _showAbandoned = false;
     /// <summary>
     /// Whether to show abandoned games
     /// </summary>
-    public bool ShowAbandoned { get { return _showAbandoned; } set { _showAbandoned = value; UpdateGameList(); } }
+    public bool ShowAbandoned { get => _showAbandoned; set { _showAbandoned = value; UpdateGameList(); } }
 
-    private bool _showPC = true;
     /// <summary>
-    /// Whether to show PC games
+    /// Whether to show completed games
     /// </summary>
-    public bool ShowPC { get { return _showPC; } set { _showPC = value; UpdateGameList(); } }
+    public bool ShowComplete { get => _showComplete; set { _showComplete = value; UpdateGameList(); } }
 
-    private bool _showPS4 = true;
     /// <summary>
-    /// Whether to show PS4 games
+    /// Whether to show the filter GroupBox
     /// </summary>
-    public bool ShowPS4 { get { return _showPS4; } set { _showPS4 = value; UpdateGameList(); } }
+    public bool ShowFilters { get => _showFilters; set { _showFilters = value; RaisePropertyChanged("ShowFilters"); } }
 
-    private bool _showPS3 = true;
-    /// <summary>
-    /// Whether to show PS3 games
-    /// </summary>
-    public bool ShowPS3 { get { return _showPS3; } set { _showPS3 = value; UpdateGameList(); } }
-
-    private bool _showPSVita = true;
-    /// <summary>
-    /// Whether to show vita games
-    /// </summary>
-    public bool ShowPSVita { get { return _showPSVita; } set { _showPSVita = value; UpdateGameList(); } }
-
-    private bool _showNotOwned = true;
     /// <summary>
     /// Whether to show not owned games
     /// </summary>
-    public bool ShowNotOwned { get { return _showNotOwned; } set { _showNotOwned = value; UpdateGameList(); } }
+    public bool ShowNotOwned { get => _showNotOwned; set { _showNotOwned = value; UpdateGameList(); } }
 
-    private bool _showOwned = true;
+    /// <summary>
+    /// Whether to show not played games
+    /// </summary>
+    public bool ShowNotPlayed { get => _showNotPlayed; set { _showNotPlayed = value; UpdateGameList(); } }
+
     /// <summary>
     /// Whether to show owned games
     /// </summary>
-    public bool ShowOwned { get { return _showOwned; } set { _showOwned = value; UpdateGameList(); } }
-
-    #endregion // Properties
-
-    #region Commands
+    public bool ShowOwned { get => _showOwned; set { _showOwned = value; UpdateGameList(); } }
 
     /// <summary>
-    /// Add a new game to the list
+    /// Whether to show PC games
     /// </summary>
-    public ICommand AddGameCommand { get; set; }
+    public bool ShowPC { get => _showPC; set { _showPC = value; UpdateGameList(); } }
+
+    /// <summary>
+    /// Whether to show played games
+    /// </summary>
+    public bool ShowPlayed { get => _showPlayed; set { _showPlayed = value; UpdateGameList(); } }
+
+    /// <summary>
+    /// Whether to show PS3 games
+    /// </summary>
+    public bool ShowPS3 { get => _showPS3; set { _showPS3 = value; UpdateGameList(); } }
+
+    /// <summary>
+    /// Whether to show PS4 games
+    /// </summary>
+    public bool ShowPS4 { get => _showPS4; set { _showPS4 = value; UpdateGameList(); } }
+
+    /// <summary>
+    /// Whether to show vita games
+    /// </summary>
+    public bool ShowPSVita { get => _showPSVita; set { _showPSVita = value; UpdateGameList(); } }
+
+    #endregion Public Properties
+
+    #region Public Methods
+
     public void AddGame()
     {
-      model.AddGame();
+      _model.AddGame();
       UpdateGameList();
     }
-
-    /// <summary>
-    /// Edit the currently selected item
-    /// </summary>
-    public ICommand EditGameCommand { get; set; }
-    public void EditGame()
-    {
-      if (SelectedEntry != null)
-      {
-        model.EditGame(SelectedEntry.Model);
-        UpdateGameList();
-      }
-    }
-
-    /// <summary>
-    /// Delete the currently selected item
-    /// </summary>
-    public ICommand DeleteGameCommand { get; set; }
 
     public void DeleteGame()
     {
       if (SelectedEntry != null)
       {
-        model.DeleteGame(SelectedEntry.Model);
+        _model.DeleteGame(SelectedEntry.Model);
         UpdateGameList();
       }
     }
 
-    #endregion // Commands
+    public void EditGame()
+    {
+      if (SelectedEntry != null)
+      {
+        _model.EditGame(SelectedEntry.Model);
+        UpdateGameList();
+      }
+    }
 
-    #region Implementation
+    #endregion Public Methods
+
+    #region Private Methods
 
     private async void UpdateGameList()
     {
-      List<GameListEntry> games = await model.GetGameList();
+      List<GameListEntry> games = await _model.GetGameList();
 
       games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
                                    (ShowPlayed && entry.PlayStatus == Status.Played) ||
@@ -201,7 +211,7 @@ namespace Desktop.ViewModels
                                    ((ShowNotOwned && !entry.Owned) ||
                                    (ShowOwned && entry.Owned))).ToList();
 
-      if (!String.IsNullOrEmpty(SearchText))
+      if (!string.IsNullOrEmpty(SearchText))
       {
         games = games.Where(entry => entry.Name.ToLower().Contains(SearchText.ToLower())).ToList();
       }
@@ -209,14 +219,14 @@ namespace Desktop.ViewModels
       if (games != null)
       {
         GameCollection.Clear();
-        
-        foreach(GameListEntry entry in games)
+
+        foreach (GameListEntry entry in games)
         {
           GameCollection.Add(new GameListEntryViewModel(entry));
         }
       }
-    } // UpdateGameList
+    }
 
-    #endregion // Implementation
+    #endregion Private Methods
   }
 }

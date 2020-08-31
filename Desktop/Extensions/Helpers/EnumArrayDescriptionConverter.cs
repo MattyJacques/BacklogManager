@@ -9,24 +9,15 @@ using System.Windows.Data;
 
 namespace Desktop.Extensions.Helpers
 {
-  class EnumArrayDescriptionConverter : IValueConverter
+  internal class EnumArrayDescriptionConverter : IValueConverter
   {
-    private string GetEnumDescription(Enum enumObject)
-    {
-      FieldInfo fieldInfo = enumObject.GetType().GetField(enumObject.ToString());
-
-      object[] attribArray = fieldInfo.GetCustomAttributes(false);
-      DescriptionAttribute attrib = attribArray.OfType<DescriptionAttribute>().FirstOrDefault();
-
-      return attrib == null ? enumObject.ToString() : attrib.Description;
-    }
+    #region Public Methods
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      IEnumerable enums = value as IEnumerable;
       List<string> descriptions = new List<string>();
 
-      if (enums != null)
+      if (value is IEnumerable enums)
       {
         foreach (object element in enums)
         {
@@ -48,5 +39,21 @@ namespace Desktop.Extensions.Helpers
     {
       return string.Empty;
     }
+
+    #endregion Public Methods
+
+    #region Private Methods
+
+    private string GetEnumDescription(Enum enumObject)
+    {
+      FieldInfo fieldInfo = enumObject.GetType().GetField(enumObject.ToString());
+
+      object[] attribArray = fieldInfo.GetCustomAttributes(false);
+      DescriptionAttribute attrib = attribArray.OfType<DescriptionAttribute>().FirstOrDefault();
+
+      return attrib == null ? enumObject.ToString() : attrib.Description;
+    }
+
+    #endregion Private Methods
   }
 }

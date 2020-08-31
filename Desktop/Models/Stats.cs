@@ -1,22 +1,146 @@
 ﻿using Desktop.Data;
 using Desktop.Data.Types;
 using Desktop.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Desktop.Models
 {
-  class Stats : IStatsModel
+  internal class Stats : IStatsModel
   {
-    #region Members
+    #region Private Members
 
+    private readonly GameCollectionDatabase _database = new GameCollectionDatabase();
     private StatsCollection _stats = new StatsCollection();
-    private GameCollectionDatabase _database = new GameCollectionDatabase();
 
-    #endregion // Members
+    #endregion Private Members
+
+    #region Public Properties
+
+    /// <summary>
+    /// Get the amount of games that are abandoned for PC
+    /// </summary>
+    public int GetPCAbandonedAmount => _stats.PC.AbandonedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are complete for PC
+    /// </summary>
+    public int GetPCCompleteAmount => _stats.PC.CompleteAmount;
+
+    /// <summary>
+    /// Get the percentage of PC games that are complete or abandoned
+    /// </summary>
+    public float GetPCDonePercent => _stats.PC.DonePercent;
+
+    /// <summary>
+    /// Get the amount of games that are not played for PC
+    /// </summary>
+    public int GetPCNotPlayedAmount => _stats.PC.NotPlayedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are played for PC
+    /// </summary>
+    public int GetPCPlayedAmount => _stats.PC.PlayedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are abandoned for PS3
+    /// </summary>
+    public int GetPS3AbandonedAmount => _stats.PS3.AbandonedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are complete for PS3
+    /// </summary>
+    public int GetPS3CompleteAmount => _stats.PS3.CompleteAmount;
+
+    /// <summary>
+    /// Get the percentage of PS3 games that are complete or abandoned
+    /// </summary>
+    public float GetPS3DonePercent => _stats.PS3.DonePercent;
+
+    /// <summary>
+    /// Get the amount of games that are not played for PS3
+    /// </summary>
+    public int GetPS3NotPlayedAmount => _stats.PS3.NotPlayedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are played for PS3
+    /// </summary>
+    public int GetPS3PlayedAmount => _stats.PS3.PlayedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are abandoned for PS4
+    /// </summary>
+    public int GetPS4AbandonedAmount => _stats.PS4.AbandonedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are complete for PS4
+    /// </summary>
+    public int GetPS4CompleteAmount => _stats.PS4.CompleteAmount;
+
+    /// <summary>
+    /// Get the percentage of PS4 games that are complete or abandoned
+    /// </summary>
+    public float GetPS4DonePercent => _stats.PS4.DonePercent;
+
+    /// <summary>
+    /// Get the amount of games that are not played for PS4
+    /// </summary>
+    public int GetPS4NotPlayedAmount => _stats.PS4.NotPlayedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are played for PS4
+    /// </summary>
+    public int GetPS4PlayedAmount => _stats.PS4.PlayedAmount;
+
+    /// <summary>
+    /// Get the total amount of games that are abandoned
+    /// </summary>
+    public int GetTotalAbandonedAmount => _stats.TotalAbandoned;
+
+    /// <summary>
+    /// Get the total amount of games that are complete
+    /// </summary>
+    public int GetTotalCompleteAmount => _stats.TotalComplete;
+
+    /// <summary>
+    /// Get the percentage of Vita games that are complete or abandoned
+    /// </summary>
+    public float GetTotalDonePercent => _stats.TotalDonePercent;
+
+    /// <summary>
+    /// Get the total amount of games that are not played
+    /// </summary>
+    public int GetTotalNotPlayedAmount => _stats.TotalNotPlayed;
+
+    /// <summary>
+    /// Get the total amount of games that are played
+    /// </summary>
+    public int GetTotalPlayedAmount => _stats.TotalPlayed;
+
+    /// <summary>
+    /// Get the amount of games that are abandoned for Vita
+    /// </summary>
+    public int GetVitaAbandonedAmount => _stats.PSVita.AbandonedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are complete for Vita
+    /// </summary>
+    public int GetVitaCompleteAmount => _stats.PSVita.CompleteAmount;
+
+    /// <summary>
+    /// Get the percentage of Vita games that are complete or abandoned
+    /// </summary>
+    public float GetVitaDonePercent => _stats.PSVita.DonePercent;
+
+    /// <summary>
+    /// Get the amount of games that are not played for Vita
+    /// </summary>
+    public int GetVitaNotPlayedAmount => _stats.PSVita.NotPlayedAmount;
+
+    /// <summary>
+    /// Get the amount of games that are played for Vita
+    /// </summary>
+    public int GetVitaPlayedAmount => _stats.PSVita.PlayedAmount;
+
+    #endregion Public Properties
 
     #region Public Methods
 
@@ -51,132 +175,6 @@ namespace Desktop.Models
       return _stats;
     }
 
-    /// <summary>
-    /// Get the amount of games that are not played for PC
-    /// </summary>
-    public int GetPCNotPlayedAmount => _stats.PC.NotPlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are played for PC
-    /// </summary>
-    public int GetPCPlayedAmount => _stats.PC.PlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are complete for PC
-    /// </summary>
-    public int GetPCCompleteAmount => _stats.PC.CompleteAmount;
-
-    /// <summary>
-    /// Get the amount of games that are abandoned for PC
-    /// </summary>
-    public int GetPCAbandonedAmount => _stats.PC.AbandonedAmount;
-
-    /// <summary>
-    /// Get the percentage of PC games that are complete or abandoned
-    /// </summary>
-    public float GetPCDonePercent => _stats.PC.DonePercent;
-
-    /// <summary>
-    /// Get the amount of games that are not played for PS4
-    /// </summary>
-    public int GetPS4NotPlayedAmount => _stats.PS4.NotPlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are played for PS4
-    /// </summary>
-    public int GetPS4PlayedAmount => _stats.PS4.PlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are complete for PS4
-    /// </summary>
-    public int GetPS4CompleteAmount => _stats.PS4.CompleteAmount;
-
-    /// <summary>
-    /// Get the amount of games that are abandoned for PS4
-    /// </summary>
-    public int GetPS4AbandonedAmount => _stats.PS4.AbandonedAmount;
-
-    /// <summary>
-    /// Get the percentage of PS4 games that are complete or abandoned
-    /// </summary>
-    public float GetPS4DonePercent => _stats.PS4.DonePercent;
-
-    /// <summary>
-    /// Get the amount of games that are not played for PS3
-    /// </summary>
-    public int GetPS3NotPlayedAmount => _stats.PS3.NotPlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are played for PS3
-    /// </summary>
-    public int GetPS3PlayedAmount => _stats.PS3.PlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are complete for PS3
-    /// </summary>
-    public int GetPS3CompleteAmount => _stats.PS3.CompleteAmount;
-
-    /// <summary>
-    /// Get the amount of games that are abandoned for PS3
-    /// </summary>
-    public int GetPS3AbandonedAmount => _stats.PS3.AbandonedAmount;
-
-    /// <summary>
-    /// Get the percentage of PS3 games that are complete or abandoned
-    /// </summary>
-    public float GetPS3DonePercent => _stats.PS3.DonePercent;
-
-    /// <summary>
-    /// Get the amount of games that are not played for Vita
-    /// </summary>
-    public int GetVitaNotPlayedAmount => _stats.PSVita.NotPlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are played for Vita
-    /// </summary>
-    public int GetVitaPlayedAmount => _stats.PSVita.PlayedAmount;
-
-    /// <summary>
-    /// Get the amount of games that are complete for Vita
-    /// </summary>
-    public int GetVitaCompleteAmount => _stats.PSVita.CompleteAmount;
-
-    /// <summary>
-    /// Get the amount of games that are abandoned for Vita
-    /// </summary>
-    public int GetVitaAbandonedAmount => _stats.PSVita.AbandonedAmount;
-
-    /// <summary>
-    /// Get the percentage of Vita games that are complete or abandoned
-    /// </summary>
-    public float GetVitaDonePercent => _stats.PSVita.DonePercent;
-
-    /// <summary>
-    /// Get the total amount of games that are not played
-    /// </summary>
-    public int GetTotalNotPlayedAmount => _stats.TotalNotPlayed;
-
-    /// <summary>
-    /// Get the total amount of games that are played
-    /// </summary>
-    public int GetTotalPlayedAmount => _stats.TotalPlayed;
-
-    /// <summary>
-    /// Get the total amount of games that are complete
-    /// </summary>
-    public int GetTotalCompleteAmount => _stats.TotalComplete;
-
-    /// <summary>
-    /// Get the total amount of games that are abandoned
-    /// </summary>
-    public int GetTotalAbandonedAmount => _stats.TotalAbandoned;
-
-    /// <summary>
-    /// Get the percentage of Vita games that are complete or abandoned
-    /// </summary>
-    public float GetTotalDonePercent => _stats.TotalDonePercent;
-
-
-    #endregion // Public Methods
+    #endregion Public Methods
   }
 }

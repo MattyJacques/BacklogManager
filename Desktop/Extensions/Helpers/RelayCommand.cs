@@ -5,29 +5,45 @@ namespace Desktop.Extensions.Helpers
 {
   public class RelayCommand : ICommand
   {
-    private Action<object> execute;
-    private Func<object, bool> canExecute;
+    #region Private Members
+
+    private readonly Func<object, bool> _canExecute;
+    private readonly Action<object> _execute;
+
+    #endregion Private Members
+
+    #region Public Constructors
 
     public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
     {
-      this.execute = execute;
-      this.canExecute = canExecute;
-    } // Constructor
+      _execute = execute;
+      _canExecute = canExecute;
+    }
+
+    #endregion Public Constructors
+
+    #region Public Events
 
     public event EventHandler CanExecuteChanged
     {
       add { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
-    } // CanExecuteChanged
+    }
+
+    #endregion Public Events
+
+    #region Public Methods
 
     public bool CanExecute(object parameter)
     {
-      return this.canExecute == null || this.canExecute(parameter);
-    } // CanExecute
+      return _canExecute == null || _canExecute(parameter);
+    }
 
     public void Execute(object parameter)
     {
-      this.execute(parameter);
-    } // Execute
+      _execute(parameter);
+    }
+
+    #endregion Public Methods
   }
 }
