@@ -12,7 +12,7 @@ namespace Desktop.ViewModels
   {
     #region Members
 
-    private GameManagement model { get; }
+    private GameManagement _model;
 
     #endregion // Members
 
@@ -20,7 +20,7 @@ namespace Desktop.ViewModels
 
     public GameManagementViewModel(GameManagement model)
     {
-      this.model = model;
+      this._model = model;
 
       SaveGameCommand = new RelayCommand(param => this.SaveGame());
       CancelCommand = new RelayCommand(param => this.Cancel());
@@ -40,37 +40,37 @@ namespace Desktop.ViewModels
     /// <summary>
     /// Get/Set the game name from the model
     /// </summary>
-    public string Name { get { return model.Name; } set { model.Name = value; } }
+    public string Name { get { return _model.Name; } set { _model.Name = value; } }
 
     /// <summary>
     /// Get/Set if the game is playable on PS4 from the model
     /// </summary>
-    public bool IsOnPS4 { get { return model.IsOnPS4; } set { model.IsOnPS4 = value; } }
+    public bool IsOnPS4 { get { return _model.IsOnPS4; } set { _model.IsOnPS4 = value; } }
 
     /// <summary>
     /// Get/Set if the game is playable on PS3 from the model
     /// </summary>
-    public bool IsOnPS3 { get { return model.IsOnPS3; } set { model.IsOnPS3 = value; } }
+    public bool IsOnPS3 { get { return _model.IsOnPS3; } set { _model.IsOnPS3 = value; } }
 
     /// <summary>
     /// Get/Set if the game is playable on PS Vita from the model
     /// </summary>
-    public bool IsOnPSVita { get { return model.IsOnPSVita; } set { model.IsOnPSVita = value; } }
+    public bool IsOnPSVita { get { return _model.IsOnPSVita; } set { _model.IsOnPSVita = value; } }
 
     /// <summary>
     /// Get/Set if the game is playable on PC from the model
     /// </summary>
-    public bool IsOnPC { get { return model.IsOnPC; } set { model.IsOnPC = value; } }
+    public bool IsOnPC { get { return _model.IsOnPC; } set { _model.IsOnPC = value; } }
 
     /// <summary>
     /// Get/Set the current played status from the model
     /// </summary>
-    public Status PlayStatus { get { return model.PlayStatus; } set { model.PlayStatus = value; } }
+    public Status PlayStatus { get { return _model.PlayStatus; } set { _model.PlayStatus = value; } }
 
     /// <summary>
     /// Get/Set if the game is currently owned from the model
     /// </summary>
-    public bool Owned { get { return model.Owned; } set { model.Owned = value; } }
+    public bool Owned { get { return _model.Owned; } set { _model.Owned = value; } }
 
     /// <summary>
     /// Stored action to close the attached view
@@ -87,7 +87,7 @@ namespace Desktop.ViewModels
     public ICommand SaveGameCommand { get; set; }
     public void SaveGame()
     {
-      model.SaveGame();
+      _model.SaveGame();
       DialogResult = true;
       RaisePropertyChanged("DialogResult");
 

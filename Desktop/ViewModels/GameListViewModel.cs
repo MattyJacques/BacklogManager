@@ -18,7 +18,7 @@ namespace Desktop.ViewModels
   {
     #region Variables
 
-    private IGameListModel model;
+    private IGameListModel _model;
 
     #endregion // Variables
 
@@ -26,7 +26,7 @@ namespace Desktop.ViewModels
 
     public GameListViewModel(IGameListModel model)
     {
-      this.model = model;
+      this._model = model;
 
       AddGameCommand = new RelayCommand(param => this.AddGame());
       EditGameCommand = new RelayCommand(param => this.EditGame());
@@ -151,7 +151,7 @@ namespace Desktop.ViewModels
     public ICommand AddGameCommand { get; set; }
     public void AddGame()
     {
-      model.AddGame();
+      _model.AddGame();
       UpdateGameList();
     }
 
@@ -163,7 +163,7 @@ namespace Desktop.ViewModels
     {
       if (SelectedEntry != null)
       {
-        model.EditGame(SelectedEntry.Model);
+        _model.EditGame(SelectedEntry.Model);
         UpdateGameList();
       }
     }
@@ -177,7 +177,7 @@ namespace Desktop.ViewModels
     {
       if (SelectedEntry != null)
       {
-        model.DeleteGame(SelectedEntry.Model);
+        _model.DeleteGame(SelectedEntry.Model);
         UpdateGameList();
       }
     }
@@ -188,7 +188,7 @@ namespace Desktop.ViewModels
 
     private async void UpdateGameList()
     {
-      List<GameListEntry> games = await model.GetGameList();
+      List<GameListEntry> games = await _model.GetGameList();
 
       games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
                                    (ShowPlayed && entry.PlayStatus == Status.Played) ||

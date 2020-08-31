@@ -13,8 +13,8 @@ namespace Desktop.Data
   {
     #region Members
 
-    private SQLiteConnection connection;
-    private string path;
+    private SQLiteConnection _connection;
+    private readonly string _path;
 
     #endregion
 
@@ -22,7 +22,7 @@ namespace Desktop.Data
 
     public GameCollectionDatabase()
     {
-      path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BacklogManager\\GameCollection.db");
+      _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BacklogManager\\GameCollection.db");
 
       SetupDatabaseFile();
       SetupDatabaseConnection();
@@ -40,11 +40,9 @@ namespace Desktop.Data
     {
       List<GameDatabaseEntry> gameList = new List<GameDatabaseEntry>();
 
-      if (connection.State == System.Data.ConnectionState.Open)
+      if (_connection.State == System.Data.ConnectionState.Open)
       {
-        SQLiteDataReader reader = await ExecuteQuery("SELECT * FROM Games") as SQLiteDataReader;
-
-        if (reader != null)
+        if (await ExecuteQuery("SELECT * FROM Games") is SQLiteDataReader reader)
         {
           while (reader.Read())
           {
@@ -72,9 +70,9 @@ namespace Desktop.Data
     /// </summary>
     public bool AddGame(GameDatabaseEntry entry)
     {
-      if (connection.State == System.Data.ConnectionState.Open)
+      if (_connection.State == System.Data.ConnectionState.Open)
       {
-        SQLiteCommand command = connection.CreateCommand();
+        SQLiteCommand command = _connection.CreateCommand();
         command.CommandText = "INSERT OR REPLACE INTO Games" +
                               "(GameName, AddedDate, PC, PS3, PS4, PSVita, OwnedStatus, PlayedStatus) " +
                               "VALUES " +
@@ -100,7 +98,7 @@ namespace Desktop.Data
     /// </summary>
     public bool EditGame(string nameToEdit, GameDatabaseEntry entry)
     {
-      if (connection.State == System.Data.ConnectionState.Open)
+      if (_connection.State == System.Data.ConnectionState.Open)
       {
         if (DeleteGame(nameToEdit))
         {
@@ -116,9 +114,9 @@ namespace Desktop.Data
     /// </summary>
     public bool DeleteGame(string gameName)
     {
-      if (connection.State == System.Data.ConnectionState.Open)
+      if (_connection.State == System.Data.ConnectionState.Open)
       {
-        SQLiteCommand command = connection.CreateCommand();
+        SQLiteCommand command = _connection.CreateCommand();
         command.CommandText = "DELETE FROM Games WHERE GameName = @GameName";
 
         command.Parameters.Add(new SQLiteParameter("@GameName", gameName));
@@ -135,9 +133,9 @@ namespace Desktop.Data
     /// <returns></returns>
     public int GetAmountWithPlatformStatus(string platform, string status)
     {
-      if (connection.State == System.Data.ConnectionState.Open)
+      if (_connection.State == System.Data.ConnectionState.Open)
       {
-        SQLiteCommand command = connection.CreateCommand();
+        SQLiteCommand command = _connection.CreateCommand();
         command.CommandText = "SELECT count(GameName) FROM Games WHERE " + platform + " = 'true' AND PlayedStatus = '" + status + "'";
 
         return Convert.ToInt32(command.ExecuteScalar());
@@ -155,15 +153,15 @@ namespace Desktop.Data
     /// </summary>
     private void SetupDatabaseFile()
     {
-      if (!string.IsNullOrEmpty(path) && !File.Exists(path))
+      if (!string.IsNullOrEmpty(_path) && !File.Exists(_path))
       {
-        string strang = Path.GetDirectoryName(path);
-        if (!Directory.Exists(Path.GetDirectoryName(path)))
+        string strang = Path.GetDirectoryName(_path);
+        if (!Directory.Exists(Path.GetDirectoryName(_path)))
         {
-          Directory.CreateDirectory(Path.GetDirectoryName(path));
+          Directory.CreateDirectory(Path.GetDirectoryName(_path));
         }
 
-        SQLiteConnection.CreateFile(path);
+        SQLiteConnection.CreateFile(_path);
       }
     } // CreateDatabaseFile
 
@@ -172,9 +170,9 @@ namespace Desktop.Data
     /// </summary>
     private void SetupDatabaseConnection()
     {
-      string connectionString = string.Format("Data Source={0}", path);
-      connection = new SQLiteConnection(connectionString);
-      connection.OpenAsync();
+      string connectionString = string.Format("Data Source={0}", _path);
+      _connection = new SQLiteConnection(connectionString);
+      _connection.OpenAsync();
     } // CreateConnection
 
     /// <summary>
@@ -203,7 +201,7 @@ namespace Desktop.Data
     /// <returns></returns>
     private bool CheckTableExists(string tableName)
     {
-      SQLiteCommand command = connection.CreateCommand();
+      SQLiteCommand command = _connection.CreateCommand();
       command.CommandText = "SELECT name FROM sqlite_master WHERE name='" + tableName + "'";
       var result = command.ExecuteScalar();
 
@@ -216,14 +214,14 @@ namespace Desktop.Data
     /// <param name="query"></param>
     private void ExecuteNonQuery(string query)
     {
-      SQLiteCommand command = connection.CreateCommand();
+      SQLiteCommand command = _connection.CreateCommand();
       command.CommandText = query;
       command.ExecuteNonQuery();
     } // ExecuteQuery
 
     private Task<DbDataReader> ExecuteQuery(string query)
     {
-      SQLiteCommand command = connection.CreateCommand();
+      SQLiteCommand command = _connection.CreateCommand();
       command.CommandText = query;
       return command.ExecuteReaderAsync();
     } // ExecuteQuery

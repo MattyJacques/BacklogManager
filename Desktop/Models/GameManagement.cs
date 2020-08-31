@@ -10,7 +10,7 @@ namespace Desktop.Models
   {
     #region Members
 
-    private GameListEntry game;
+    private GameListEntry _game;
 
     #endregion // Members
 
@@ -18,7 +18,7 @@ namespace Desktop.Models
 
     public GameManagement(GameListEntry gameEntry)
     {
-      game = gameEntry;
+      _game = gameEntry;
 
       Name = gameEntry.Name;
       IsOnPS4 = gameEntry.IsOnPS4;
@@ -85,13 +85,13 @@ namespace Desktop.Models
     /// </summary>
     public void SaveGame()
     {
-      game.Name = Name;
-      game.IsOnPS4 = IsOnPS4;
-      game.IsOnPS3 = IsOnPS3;
-      game.IsOnPSVita = IsOnPSVita;
-      game.IsOnPC = IsOnPC;
-      game.Owned = Owned;
-      game.PlayStatus = PlayStatus;
+      _game.Name = Name;
+      _game.IsOnPS4 = IsOnPS4;
+      _game.IsOnPS3 = IsOnPS3;
+      _game.IsOnPSVita = IsOnPSVita;
+      _game.IsOnPC = IsOnPC;
+      _game.Owned = Owned;
+      _game.PlayStatus = PlayStatus;
     } // SaveGame
 
     #endregion // IGameManagementModel Implementation

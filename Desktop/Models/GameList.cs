@@ -15,8 +15,8 @@ namespace Desktop.Models
   {
     #region Members
 
-    GameCollectionDatabase database = new GameCollectionDatabase();
-    List<GameListEntry> games;
+    GameCollectionDatabase _database = new GameCollectionDatabase();
+    List<GameListEntry> _games;
 
     #endregion // Members
 
@@ -34,9 +34,9 @@ namespace Desktop.Models
       // Result is true if save button is pressed
       if (window.ShowDialog() == true)
       {
-        if (database.AddGame(newGame.ToDatabaseEntry()))
+        if (_database.AddGame(newGame.ToDatabaseEntry()))
         {
-          games.Add(newGame);
+          _games.Add(newGame);
         }
         else
         {
@@ -47,9 +47,9 @@ namespace Desktop.Models
 
     public void DeleteGame(GameListEntry entry)
     {
-      if (database.DeleteGame(entry.Name))
+      if (_database.DeleteGame(entry.Name))
       {
-        games.Remove(entry);
+        _games.Remove(entry);
       }
       else
       {
@@ -70,7 +70,7 @@ namespace Desktop.Models
       // Result is true if save button is pressed
       if (window.ShowDialog() == true)
       {
-        if (database.EditGame(entry.Name, newEntry.ToDatabaseEntry()))
+        if (_database.EditGame(entry.Name, newEntry.ToDatabaseEntry()))
         {
           entry.Copy(newEntry);
         }
@@ -83,19 +83,19 @@ namespace Desktop.Models
 
     public async Task<List<GameListEntry>> GetGameList()
     {
-      if (games == null)
+      if (_games == null)
       {
-        games = new List<GameListEntry>();
+        _games = new List<GameListEntry>();
 
-        List<GameDatabaseEntry> databaseList = await database.GetAllGames();
+        List<GameDatabaseEntry> databaseList = await _database.GetAllGames();
 
         foreach (GameDatabaseEntry databaseEntry in databaseList)
         {
-          games.Add(new GameListEntry(databaseEntry));
+          _games.Add(new GameListEntry(databaseEntry));
         }
       }
 
-      return games;
+      return _games;
     } // GetGameList
 
     #endregion // IGameListModel Implementation
