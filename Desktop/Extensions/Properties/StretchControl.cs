@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Desktop.Extensions.Properties
 {
-  class StretchControl : DependencyObject
+  internal class StretchControl : DependencyObject
   {
     #region Members
 

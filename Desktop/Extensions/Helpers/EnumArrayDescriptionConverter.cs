@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace Desktop.Extensions.Helpers
 {
-  class EnumArrayDescriptionConverter : IValueConverter
+  internal class EnumArrayDescriptionConverter : IValueConverter
   {
     private string GetEnumDescription(Enum enumObject)
     {

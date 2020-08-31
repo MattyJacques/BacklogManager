@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace Desktop.Extensions.Properties
 {
-  class ListViewColumnStretcher
+  internal class ListViewColumnStretcher
   {
     /// <summary>
     /// IsStretched Dependency property which can be attached to GridViewColumns.

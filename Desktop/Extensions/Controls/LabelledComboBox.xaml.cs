@@ -35,20 +35,20 @@ namespace Desktop.Extensions.Controls
 
     public string Label
     {
-      get { return (string)GetValue(LabelProperty); }
-      set { SetValue(LabelProperty, value); }
+      get => (string)GetValue(LabelProperty);
+      set => SetValue(LabelProperty, value);
     }
 
     public IEnumerable ItemSource
     {
-      get { return (IEnumerable)GetValue(ItemSourceProperty); }
-      set { SetValue(ItemSourceProperty, value); }
+      get => (IEnumerable)GetValue(ItemSourceProperty);
+      set => SetValue(ItemSourceProperty, value);
     }
 
     public object SelectedItem
     {
-      get { return GetValue(SelectedItemProperty); }
-      set { SetValue(SelectedItemProperty, value); }
+      get => GetValue(SelectedItemProperty);
+      set => SetValue(SelectedItemProperty, value);
     }
   }
 }

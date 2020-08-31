@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Desktop.Extensions.Controls
 {
@@ -57,38 +45,38 @@ namespace Desktop.Extensions.Controls
                                   typeof(StatsGroupBox));
     public string Platform
     {
-      get { return (string)GetValue(PlatformProperty); }
-      set { SetValue(PlatformProperty, value); }
+      get => (string)GetValue(PlatformProperty);
+      set => SetValue(PlatformProperty, value);
     }
 
     public string NotPlayedAmount
     {
-      get { return (string)GetValue(NotPlayedAmountProperty); }
-      set { SetValue(NotPlayedAmountProperty, value); }
+      get => (string)GetValue(NotPlayedAmountProperty);
+      set => SetValue(NotPlayedAmountProperty, value);
     }
 
     public string PlayedAmount
     {
-      get { return (string)GetValue(PlayedAmountProperty); }
-      set { SetValue(PlayedAmountProperty, value); }
+      get => (string)GetValue(PlayedAmountProperty);
+      set => SetValue(PlayedAmountProperty, value);
     }
 
     public string CompleteAmount
     {
-      get { return (string)GetValue(CompleteAmountProperty); }
-      set { SetValue(CompleteAmountProperty, value); }
+      get => (string)GetValue(CompleteAmountProperty);
+      set => SetValue(CompleteAmountProperty, value);
     }
 
     public string AbandonedAmount
     {
-      get { return (string)GetValue(AbandonedAmountProperty); }
-      set { SetValue(AbandonedAmountProperty, value); }
+      get => (string)GetValue(AbandonedAmountProperty);
+      set => SetValue(AbandonedAmountProperty, value);
     }
 
     public string DonePercent
     {
-      get { return (string)GetValue(DonePercentProperty); }
-      set { SetValue(DonePercentProperty, value); }
+      get => (string)GetValue(DonePercentProperty);
+      set => SetValue(DonePercentProperty, value);
     }
   }
 }

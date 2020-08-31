@@ -1,5 +1,4 @@
 ﻿using Desktop.Data.Types;
-using Desktop.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -46,15 +45,17 @@ namespace Desktop.Data
         {
           while (reader.Read())
           {
-            GameDatabaseEntry entry = new GameDatabaseEntry();
-            entry.GameName = reader.GetString((int)ColIndex.GameName);
-            entry.AddedDate = reader.GetString((int)ColIndex.AddedDate);
-            entry.PC = reader.GetString((int)ColIndex.PC);
-            entry.PS3 = reader.GetString((int)ColIndex.PS3);
-            entry.PS4 = reader.GetString((int)ColIndex.PS4);
-            entry.PSVita = reader.GetString((int)ColIndex.PSVita);
-            entry.OwnedStatus = reader.GetString((int)ColIndex.OwnedStatus);
-            entry.PlayedStatus = reader.GetString((int)ColIndex.PlayedStatus);
+            GameDatabaseEntry entry = new GameDatabaseEntry
+            {
+              GameName = reader.GetString((int)ColIndex.GameName),
+              AddedDate = reader.GetString((int)ColIndex.AddedDate),
+              PC = reader.GetString((int)ColIndex.PC),
+              PS3 = reader.GetString((int)ColIndex.PS3),
+              PS4 = reader.GetString((int)ColIndex.PS4),
+              PSVita = reader.GetString((int)ColIndex.PSVita),
+              OwnedStatus = reader.GetString((int)ColIndex.OwnedStatus),
+              PlayedStatus = reader.GetString((int)ColIndex.PlayedStatus)
+            };
 
             gameList.Add(entry);
           }
@@ -203,7 +204,7 @@ namespace Desktop.Data
     {
       SQLiteCommand command = _connection.CreateCommand();
       command.CommandText = "SELECT name FROM sqlite_master WHERE name='" + tableName + "'";
-      var result = command.ExecuteScalar();
+      object result = command.ExecuteScalar();
 
       return result != null && result.ToString() == tableName;
     } // CheckTableExists

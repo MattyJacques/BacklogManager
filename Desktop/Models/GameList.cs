@@ -3,20 +3,18 @@ using Desktop.Data.Types;
 using Desktop.Interfaces;
 using Desktop.ViewModels;
 using Desktop.Views;
-using GalaSoft.MvvmLight.Messaging;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Desktop.Models
 {
-  class GameList : IGameListModel
+  internal class GameList : IGameListModel
   {
     #region Members
 
-    GameCollectionDatabase _database = new GameCollectionDatabase();
-    List<GameListEntry> _games;
+    private readonly GameCollectionDatabase _database = new GameCollectionDatabase();
+    private List<GameListEntry> _games;
 
     #endregion // Members
 

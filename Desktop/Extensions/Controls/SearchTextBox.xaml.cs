@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Desktop.Extensions.Controls
@@ -22,8 +21,8 @@ namespace Desktop.Extensions.Controls
 
     public string SearchForText
     {
-      get { return (string)GetValue(SearchProperty); }
-      set { SetValue(SearchProperty, value); }
+      get => (string)GetValue(SearchProperty);
+      set => SetValue(SearchProperty, value);
     }
   }
 }

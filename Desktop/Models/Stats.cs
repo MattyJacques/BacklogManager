@@ -1,20 +1,15 @@
 ﻿using Desktop.Data;
 using Desktop.Data.Types;
 using Desktop.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Desktop.Models
 {
-  class Stats : IStatsModel
+  internal class Stats : IStatsModel
   {
     #region Members
 
     private StatsCollection _stats = new StatsCollection();
-    private GameCollectionDatabase _database = new GameCollectionDatabase();
+    private readonly GameCollectionDatabase _database = new GameCollectionDatabase();
 
     #endregion // Members
 

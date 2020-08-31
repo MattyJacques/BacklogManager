@@ -3,13 +3,9 @@ using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
 using GalaSoft.MvvmLight;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Desktop.ViewModels
@@ -18,7 +14,7 @@ namespace Desktop.ViewModels
   {
     #region Variables
 
-    private IGameListModel _model;
+    private readonly IGameListModel _model;
 
     #endregion // Variables
 
@@ -26,11 +22,11 @@ namespace Desktop.ViewModels
 
     public GameListViewModel(IGameListModel model)
     {
-      this._model = model;
+      _model = model;
 
-      AddGameCommand = new RelayCommand(param => this.AddGame());
-      EditGameCommand = new RelayCommand(param => this.EditGame());
-      DeleteGameCommand = new RelayCommand(param => this.DeleteGame());
+      AddGameCommand = new RelayCommand(param => AddGame());
+      EditGameCommand = new RelayCommand(param => EditGame());
+      DeleteGameCommand = new RelayCommand(param => DeleteGame());
 
       UpdateGameList();
     }
@@ -43,7 +39,7 @@ namespace Desktop.ViewModels
     /// <summary>
     /// The name of the view model
     /// </summary>
-    public string Name { get { return _name; } set { _name = value; } }
+    public string Name { get => _name; set => _name = value; }
 
     private ObservableCollection<GameListEntryViewModel> _gameCollection = new ObservableCollection<GameListEntryViewModel>();
     /// <summary>
@@ -51,10 +47,7 @@ namespace Desktop.ViewModels
     /// </summary>
     public ObservableCollection<GameListEntryViewModel> GameCollection
     {
-      get
-      {
-        return _gameCollection;
-      }
+      get => _gameCollection;
       private set
       {
         _gameCollection = value;
@@ -67,79 +60,79 @@ namespace Desktop.ViewModels
     /// <summary>
     /// Get the selected entry from the list
     /// </summary>
-    public GameListEntryViewModel SelectedEntry { get { return _selectedEntry; } set { _selectedEntry = value; } }
+    public GameListEntryViewModel SelectedEntry { get => _selectedEntry; set => _selectedEntry = value; }
 
-    private string _searchText = String.Empty;
+    private string _searchText = string.Empty;
     /// <summary>
     /// Holds the search text the to filter game names
     /// </summary>
-    public string SearchText { get { return _searchText; } set { _searchText = value; UpdateGameList(); } }
+    public string SearchText { get => _searchText; set { _searchText = value; UpdateGameList(); } }
 
     private bool _showFilters = false;
     /// <summary>
     /// Whether to show the filter GroupBox
     /// </summary>
-    public bool ShowFilters { get { return _showFilters; } set { _showFilters = value; RaisePropertyChanged("ShowFilters");  } }
+    public bool ShowFilters { get => _showFilters; set { _showFilters = value; RaisePropertyChanged("ShowFilters"); } }
 
     private bool _showNotPlayed = true;
     /// <summary>
     /// Whether to show not played games
     /// </summary>
-    public bool ShowNotPlayed { get { return _showNotPlayed; } set { _showNotPlayed = value; UpdateGameList(); } }
+    public bool ShowNotPlayed { get => _showNotPlayed; set { _showNotPlayed = value; UpdateGameList(); } }
 
     private bool _showPlayed = true;
     /// <summary>
     /// Whether to show played games
     /// </summary>
-    public bool ShowPlayed { get{ return _showPlayed; } set { _showPlayed = value; UpdateGameList(); } }
+    public bool ShowPlayed { get => _showPlayed; set { _showPlayed = value; UpdateGameList(); } }
 
     private bool _showComplete = false;
     /// <summary>
     /// Whether to show completed games
     /// </summary>
-    public bool ShowComplete { get { return _showComplete; } set { _showComplete = value; UpdateGameList(); } }
+    public bool ShowComplete { get => _showComplete; set { _showComplete = value; UpdateGameList(); } }
 
     private bool _showAbandoned = false;
     /// <summary>
     /// Whether to show abandoned games
     /// </summary>
-    public bool ShowAbandoned { get { return _showAbandoned; } set { _showAbandoned = value; UpdateGameList(); } }
+    public bool ShowAbandoned { get => _showAbandoned; set { _showAbandoned = value; UpdateGameList(); } }
 
     private bool _showPC = true;
     /// <summary>
     /// Whether to show PC games
     /// </summary>
-    public bool ShowPC { get { return _showPC; } set { _showPC = value; UpdateGameList(); } }
+    public bool ShowPC { get => _showPC; set { _showPC = value; UpdateGameList(); } }
 
     private bool _showPS4 = true;
     /// <summary>
     /// Whether to show PS4 games
     /// </summary>
-    public bool ShowPS4 { get { return _showPS4; } set { _showPS4 = value; UpdateGameList(); } }
+    public bool ShowPS4 { get => _showPS4; set { _showPS4 = value; UpdateGameList(); } }
 
     private bool _showPS3 = true;
     /// <summary>
     /// Whether to show PS3 games
     /// </summary>
-    public bool ShowPS3 { get { return _showPS3; } set { _showPS3 = value; UpdateGameList(); } }
+    public bool ShowPS3 { get => _showPS3; set { _showPS3 = value; UpdateGameList(); } }
 
     private bool _showPSVita = true;
     /// <summary>
     /// Whether to show vita games
     /// </summary>
-    public bool ShowPSVita { get { return _showPSVita; } set { _showPSVita = value; UpdateGameList(); } }
+    public bool ShowPSVita { get => _showPSVita; set { _showPSVita = value; UpdateGameList(); } }
 
     private bool _showNotOwned = true;
     /// <summary>
     /// Whether to show not owned games
     /// </summary>
-    public bool ShowNotOwned { get { return _showNotOwned; } set { _showNotOwned = value; UpdateGameList(); } }
+    public bool ShowNotOwned { get => _showNotOwned; set { _showNotOwned = value; UpdateGameList(); } }
 
     private bool _showOwned = true;
     /// <summary>
     /// Whether to show owned games
     /// </summary>
-    public bool ShowOwned { get { return _showOwned; } set { _showOwned = value; UpdateGameList(); } }
+    public bool ShowOwned { get => _showOwned; set { _showOwned = value; UpdateGameList(); } }
 
     #endregion // Properties
 
@@ -201,7 +194,7 @@ namespace Desktop.ViewModels
                                    ((ShowNotOwned && !entry.Owned) ||
                                    (ShowOwned && entry.Owned))).ToList();
 
-      if (!String.IsNullOrEmpty(SearchText))
+      if (!string.IsNullOrEmpty(SearchText))
       {
         games = games.Where(entry => entry.Name.ToLower().Contains(SearchText.ToLower())).ToList();
       }
@@ -209,8 +202,8 @@ namespace Desktop.ViewModels
       if (games != null)
       {
         GameCollection.Clear();
-        
-        foreach(GameListEntry entry in games)
+
+        foreach (GameListEntry entry in games)
         {
           GameCollection.Add(new GameListEntryViewModel(entry));
         }

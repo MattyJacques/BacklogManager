@@ -2,7 +2,7 @@
 
 namespace Desktop.Extensions.Properties
 {
-  class ReturnDialogResult
+  internal class ReturnDialogResult
   {
     public static readonly DependencyProperty DialogResultProperty =
       DependencyProperty.RegisterAttached(
@@ -15,7 +15,9 @@ namespace Desktop.Extensions.Properties
     {
       Window window = dObject as Window;
       if (window != null)
+      {
         window.DialogResult = e.NewValue as bool?;
+      }
     }
 
     public static void SetDialogResult(Window target, bool? value)

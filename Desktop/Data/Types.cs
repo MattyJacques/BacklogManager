@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Desktop.Data.Types
 {
@@ -28,14 +27,14 @@ namespace Desktop.Data.Types
   {
     #region Members
 
-    public String GameName { get; set; }
-    public String AddedDate { get; set; }
-    public String PC { get; set; }
-    public String PS3 { get; set; }
-    public String PS4 { get; set; }
-    public String PSVita { get; set; }
-    public String OwnedStatus { get; set; }
-    public String PlayedStatus { get; set; }
+    public string GameName { get; set; }
+    public string AddedDate { get; set; }
+    public string PC { get; set; }
+    public string PS3 { get; set; }
+    public string PS4 { get; set; }
+    public string PSVita { get; set; }
+    public string OwnedStatus { get; set; }
+    public string PlayedStatus { get; set; }
 
     #endregion // Members
   }
@@ -58,58 +57,34 @@ namespace Desktop.Data.Types
     /// <summary>
     /// Return the total games not played by adding values from all PlatformStats
     /// </summary>
-    public int TotalNotPlayed
-    { 
-      get
-      {
-        return PC.NotPlayedAmount +
+    public int TotalNotPlayed => PC.NotPlayedAmount +
                PS4.NotPlayedAmount +
                PS3.NotPlayedAmount +
                PSVita.NotPlayedAmount;
-      }
-    }
 
     /// <summary>
     /// Return the total games played by adding values from all PlatformStats
     /// </summary>
-    public int TotalPlayed
-    {
-      get
-      {
-        return PC.PlayedAmount +
+    public int TotalPlayed => PC.PlayedAmount +
                PS4.PlayedAmount +
                PS3.PlayedAmount +
                PSVita.PlayedAmount;
-      }
-    }
 
     /// <summary>
     /// Return the total games complete by adding values from all PlatformStats
     /// </summary>
-    public int TotalComplete
-    {
-      get
-      {
-        return PC.CompleteAmount +
+    public int TotalComplete => PC.CompleteAmount +
                PS4.CompleteAmount +
                PS3.CompleteAmount +
                PSVita.CompleteAmount;
-      }
-    }
 
     /// <summary>
     /// Return the total games abandoned by adding values from all PlatformStats
     /// </summary>
-    public int TotalAbandoned
-    {
-      get
-      {
-        return PC.AbandonedAmount +
+    public int TotalAbandoned => PC.AbandonedAmount +
                PS4.AbandonedAmount +
                PS3.AbandonedAmount +
                PSVita.AbandonedAmount;
-      }
-    }
 
     /// <summary>
     /// Return the total games complete or abandoned by adding values from all PlatformStats

@@ -2,11 +2,8 @@
 using Desktop.Interfaces;
 using Desktop.Models;
 using GalaSoft.MvvmLight;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Desktop.ViewModels
@@ -40,7 +37,9 @@ namespace Desktop.ViewModels
       get
       {
         if (_pageViewModels == null)
+        {
           _pageViewModels = new List<IPageViewModel>();
+        }
 
         return _pageViewModels;
       }
@@ -48,10 +47,7 @@ namespace Desktop.ViewModels
 
     public IPageViewModel CurrentPageViewModel
     {
-      get
-      {
-        return _currentPageViewModel;
-      }
+      get => _currentPageViewModel;
       set
       {
         if (_currentPageViewModel != value)
@@ -62,7 +58,7 @@ namespace Desktop.ViewModels
       }
     }
 
-    public bool ShowHamburgerMenu { get { return _showHamburgerMenu; } set { _showHamburgerMenu = value; RaisePropertyChanged("ShowHamburgerMenu"); } }
+    public bool ShowHamburgerMenu { get => _showHamburgerMenu; set { _showHamburgerMenu = value; RaisePropertyChanged("ShowHamburgerMenu"); } }
 
     #endregion // Properties
 
