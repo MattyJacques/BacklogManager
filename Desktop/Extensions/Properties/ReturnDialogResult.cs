@@ -28,8 +28,7 @@ namespace Desktop.Extensions.Properties
 
     private static void DialogResultChanged(DependencyObject dObject, DependencyPropertyChangedEventArgs e)
     {
-      Window window = dObject as Window;
-      if (window != null)
+      if (dObject is Window window)
       {
         window.DialogResult = e.NewValue as bool?;
       }

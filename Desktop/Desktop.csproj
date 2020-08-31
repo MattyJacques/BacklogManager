@@ -101,6 +101,7 @@
     <Compile Include="Extensions\Properties\StretchControl.cs" />
     <Compile Include="Extensions\Properties\ListViewColumnStretcher.cs" />
     <Compile Include="Extensions\Properties\ReturnDialogResult.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />

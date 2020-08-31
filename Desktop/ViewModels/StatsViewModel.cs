@@ -19,7 +19,7 @@ namespace Desktop.ViewModels
     public StatsViewModel(IStatsModel model)
     {
       _model = model;
-      _stats = model.GetStats();
+      _stats = _model.GetStats();
     }
 
     #endregion Public Constructors

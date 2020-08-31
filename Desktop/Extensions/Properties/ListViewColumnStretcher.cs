@@ -30,7 +30,7 @@ namespace Desktop.Extensions.Properties
     public static bool GetStretch(DependencyObject obj)
     {
       return (bool)obj.GetValue(StretchProperty);
-    } // GetStretch
+    }
 
     /// <summary>
     /// Check whether the property is attached to a ListView
@@ -91,9 +91,7 @@ namespace Desktop.Extensions.Properties
       {
         SetColumnWidths(listView);
       }
-    } // ListView_SizeChanged
-
-    // ListView_Loaded
+    }
 
     /// <summary>
     /// Set column widths

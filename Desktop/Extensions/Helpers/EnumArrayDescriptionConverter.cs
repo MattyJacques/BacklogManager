@@ -15,10 +15,9 @@ namespace Desktop.Extensions.Helpers
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      IEnumerable enums = value as IEnumerable;
       List<string> descriptions = new List<string>();
 
-      if (enums != null)
+      if (value is IEnumerable enums)
       {
         foreach (object element in enums)
         {
