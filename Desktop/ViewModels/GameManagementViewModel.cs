@@ -31,7 +31,6 @@ namespace Desktop.ViewModels
 
     #region Public Properties
 
-    // Constructor
     /// <summary>
     /// Cancel the dialog without saving the data
     /// </summary>

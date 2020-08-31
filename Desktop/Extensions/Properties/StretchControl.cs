@@ -97,7 +97,7 @@ namespace Desktop.Extensions.Properties
       parentElement.SizeChanged += new SizeChangedEventHandler(OnParentSizeChanged);
 
       _controlName = element.Name;
-    } // ResizeOnStartChanged
+    }
 
     private static void ResizeTriggerChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -106,13 +106,5 @@ namespace Desktop.Extensions.Properties
     }
 
     #endregion Private Methods
-
-    // ResizeTriggerChanged
-
-    // OnParentSizeChanged
-
-    // OnParentLoaded
-
-    //CalculateSize
   }
 }

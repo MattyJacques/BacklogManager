@@ -89,8 +89,6 @@ namespace Desktop.Data.Types
 
     #endregion Public Constructors
 
-    // Constructor
-
     #region Public Properties
 
     public PlatformStats PC { get; set; }

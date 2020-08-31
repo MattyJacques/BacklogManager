@@ -48,7 +48,7 @@ namespace Desktop.Models
       {
         MessageBox.Show(exception.Message);
       }
-    } // Constructor - From GameDatabaseEntry
+    }
 
     public GameListEntry(GameListEntry entry)
     {
@@ -63,7 +63,6 @@ namespace Desktop.Models
 
     #region Public Properties
 
-    // Constructor - Default
     /// <summary>
     /// Get/set the date the game was added to the database
     /// </summary>
@@ -139,7 +138,5 @@ namespace Desktop.Models
     }
 
     #endregion Public Methods
-
-    // ToDatabaseEntry
   }
 }

@@ -44,7 +44,6 @@ namespace Desktop.Models
 
     #region Public Properties
 
-    // Constructor
     /// <summary>
     /// Get/set if the game is playable on PC
     /// </summary>
@@ -99,7 +98,5 @@ namespace Desktop.Models
     }
 
     #endregion Public Methods
-
-    // SaveGame
   }
 }

@@ -24,8 +24,6 @@ namespace Desktop.ViewModels
 
     #endregion Public Constructors
 
-    // Constructor
-
     #region Public Properties
 
     /// <summary>

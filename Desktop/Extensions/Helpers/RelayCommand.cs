@@ -22,8 +22,6 @@ namespace Desktop.Extensions.Helpers
 
     #endregion Public Constructors
 
-    // Constructor
-
     #region Public Events
 
     public event EventHandler CanExecuteChanged
@@ -34,14 +32,12 @@ namespace Desktop.Extensions.Helpers
 
     #endregion Public Events
 
-    // CanExecuteChanged
-
     #region Public Methods
 
     public bool CanExecute(object parameter)
     {
       return _canExecute == null || _canExecute(parameter);
-    } // CanExecute
+    }
 
     public void Execute(object parameter)
     {
@@ -49,7 +45,5 @@ namespace Desktop.Extensions.Helpers
     }
 
     #endregion Public Methods
-
-    // Execute
   }
 }

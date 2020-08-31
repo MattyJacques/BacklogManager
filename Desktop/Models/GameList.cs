@@ -41,7 +41,7 @@ namespace Desktop.Models
           MessageBox.Show("Failed to add game to database", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
       }
-    } // AddGame
+    }
 
     public void DeleteGame(GameListEntry entry)
     {
@@ -53,7 +53,7 @@ namespace Desktop.Models
       {
         MessageBox.Show("Failed to delete game from database", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
       }
-    } // DeleteGame
+    }
 
     public void EditGame(GameListEntry entry)
     {
@@ -77,7 +77,7 @@ namespace Desktop.Models
           MessageBox.Show("Failed to update game in database", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
       }
-    } // EditGame
+    }
 
     public async Task<List<GameListEntry>> GetGameList()
     {
@@ -97,7 +97,5 @@ namespace Desktop.Models
     }
 
     #endregion Public Methods
-
-    // GetGameList
   }
 }

@@ -30,8 +30,6 @@ namespace Desktop.Data
 
     #endregion Public Constructors
 
-    // Constructor
-
     #region Public Methods
 
     /// <summary>
@@ -127,13 +125,7 @@ namespace Desktop.Data
       }
 
       return gameList;
-    } // GetAllGames
-
-    // AddGame
-
-    // EditGame
-
-    // DeleteGame
+    }
 
     /// <summary>
     /// Get the amount of games
@@ -205,7 +197,6 @@ namespace Desktop.Data
     {
       if (!string.IsNullOrEmpty(_path) && !File.Exists(_path))
       {
-        string strang = Path.GetDirectoryName(_path);
         if (!Directory.Exists(Path.GetDirectoryName(_path)))
         {
           Directory.CreateDirectory(Path.GetDirectoryName(_path));
@@ -213,9 +204,7 @@ namespace Desktop.Data
 
         SQLiteConnection.CreateFile(_path);
       }
-    } // CreateDatabaseFile
-
-    // CreateConnection
+    }
 
     /// <summary>
     /// Create the table within the database
@@ -237,13 +226,5 @@ namespace Desktop.Data
     }
 
     #endregion Private Methods
-
-    // CreateTable
-
-    // CheckTableExists
-
-    // ExecuteQuery
-
-    // ExecuteQuery
   }
 }

@@ -104,7 +104,5 @@ namespace Desktop.ViewModels
     }
 
     #endregion Private Methods
-
-    // ChangeViewModel
   }
 }

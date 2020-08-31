@@ -66,10 +66,6 @@ namespace Desktop.Extensions.Properties
 
     #endregion Public Methods
 
-    // SetStretch
-
-    // OnCoerceStretch
-
     #region Private Methods
 
     /// <summary>
@@ -157,7 +153,5 @@ namespace Desktop.Extensions.Properties
     }
 
     #endregion Private Methods
-
-    // SetColumnWidths
   }
 }
