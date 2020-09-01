@@ -5,7 +5,9 @@ using Desktop.Models;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Desktop.ViewModels
@@ -18,6 +20,7 @@ namespace Desktop.ViewModels
 
     private ObservableCollection<GameListEntryViewModel> _gameCollection = new ObservableCollection<GameListEntryViewModel>();
 
+    private CollectionView _gameCollectionView = null;
     private string _name = "Games";
 
     private string _searchText = string.Empty;
@@ -59,6 +62,7 @@ namespace Desktop.ViewModels
       DeleteGameCommand = new RelayCommand(param => DeleteGame());
 
       UpdateGameList();
+      GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
     }
 
     #endregion Public Constructors
@@ -91,6 +95,22 @@ namespace Desktop.ViewModels
         _gameCollection = value;
         RaisePropertyChanged("GameList");
         RaisePropertyChanged("GameCollection");
+      }
+    }
+
+    /// <summary>
+    /// Get/Set the collection view, used for sorting
+    /// </summary>
+    public CollectionView GameCollectionView
+    {
+      get
+      {
+        if (_gameCollectionView == null)
+        {
+          _gameCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(GameCollection);
+        }
+
+        return _gameCollectionView;
       }
     }
 

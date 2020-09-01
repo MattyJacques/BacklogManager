@@ -135,7 +135,7 @@
       <DockPanel x:Name="GamesPanel"
                  Width="850">
         <DataGrid x:Name="GameList"
-                  ItemsSource="{Binding GameCollection}"
+                  ItemsSource="{Binding GameCollectionView}"
                   SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
                   AutoGenerateColumns="False">
           <DataGrid.Columns>
