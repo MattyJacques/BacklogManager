@@ -107,23 +107,24 @@
                   Margin="3,0"
                   Orientation="Horizontal">
         <TextBlock x:Name="NextGameText"
-                   Text="Next game to play will be here"
+                   Text="{Binding NextGameEntry.Name}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Stretch"
-                   Margin="0,7,10,0"
+                   Margin="0,7,10,7"
                    Width="600"
                    Padding="3,0,0,0"
                    FontSize="16" />
         <ComboBox x:Name="NextGameStatusCombo"
-                  SelectedIndex="0"
+                  ItemsSource="{Binding Source={StaticResource playStatusEnum}, Converter={StaticResource EnumArrayDescriptionConverter}}"
+                  SelectedItem="{Binding NextGameEntry.PlayStatus, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}"
+                  IsEnabled="False"
                   Margin="10,7"
-                  Width="122">
-          <ComboBoxItem Content="Not Implemented" />
-        </ComboBox>
+                  Width="122" />
         <Button x:Name="ChooseAgainButton"
                 Content="Choose Again"
+                Command="{Binding ChooseNextGameCommand}"
                 Margin="10,7,0,7"
-                Width="83" />
+                Width="120" />
       </StackPanel>
     </GroupBox>
 

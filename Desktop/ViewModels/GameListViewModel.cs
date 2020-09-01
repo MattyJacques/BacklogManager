@@ -3,6 +3,7 @@ using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
 using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,10 +24,10 @@ namespace Desktop.ViewModels
     private CollectionView _gameCollectionView = null;
     private string _name = "Games";
 
+    private GameListEntryViewModel _nextGameEntry = null;
     private string _searchText = string.Empty;
 
     private GameListEntryViewModel _selectedEntry = null;
-
     private bool _showAbandoned = false;
 
     private bool _showComplete = false;
@@ -60,9 +61,12 @@ namespace Desktop.ViewModels
       AddGameCommand = new RelayCommand(param => AddGame());
       EditGameCommand = new RelayCommand(param => EditGame());
       DeleteGameCommand = new RelayCommand(param => DeleteGame());
+      ChooseNextGameCommand = new RelayCommand(param => ChooseNextGame());
 
       UpdateGameList();
       GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+
+      ChooseNextGame();
     }
 
     #endregion Public Constructors
@@ -73,6 +77,11 @@ namespace Desktop.ViewModels
     /// Add a new game to the list
     /// </summary>
     public ICommand AddGameCommand { get; set; }
+
+    /// <summary>
+    /// Choose a random next game from the list
+    /// </summary>
+    public ICommand ChooseNextGameCommand { get; set; }
 
     /// <summary>
     /// Delete the currently selected item
@@ -118,6 +127,11 @@ namespace Desktop.ViewModels
     /// The name of the view model
     /// </summary>
     public string Name { get => _name; set => _name = value; }
+
+    /// <summary>
+    /// Get the next game to play chosen at random
+    /// </summary>
+    public GameListEntryViewModel NextGameEntry { get => _nextGameEntry; set => _nextGameEntry = value; }
 
     /// <summary>
     /// Holds the search text the to filter game names
@@ -192,6 +206,13 @@ namespace Desktop.ViewModels
     {
       _model.AddGame();
       UpdateGameList();
+    }
+
+    public void ChooseNextGame()
+    {
+      Random nextIndexGen = new Random();
+      NextGameEntry = GameCollection[nextIndexGen.Next(GameCollection.Count)];
+      RaisePropertyChanged("NextGameEntry");
     }
 
     public void DeleteGame()
