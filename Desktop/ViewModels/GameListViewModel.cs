@@ -2,12 +2,16 @@
 using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
+using Desktop.Properties;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -66,7 +70,7 @@ namespace Desktop.ViewModels
       UpdateGameList();
       GameCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
-      ChooseNextGame();
+      LoadNextGame();
     }
 
     #endregion Public Constructors
@@ -213,6 +217,9 @@ namespace Desktop.ViewModels
       Random nextIndexGen = new Random();
       NextGameEntry = GameCollection[nextIndexGen.Next(GameCollection.Count)];
       RaisePropertyChanged("NextGameEntry");
+
+      Settings.Default.NextGameName = NextGameEntry.Name;
+      Settings.Default.Save();
     }
 
     public void DeleteGame()
@@ -236,6 +243,24 @@ namespace Desktop.ViewModels
     #endregion Public Methods
 
     #region Private Methods
+
+    private void LoadNextGame()
+    {
+      if (!String.IsNullOrEmpty(Settings.Default.NextGameName))
+      {
+        try
+        {
+          NextGameEntry = GameCollection.Where(entry => entry.Name == Settings.Default.NextGameName).First();
+        }
+        catch (Exception) { } // We choose another game below so nothing to do here
+      }
+
+      // This is the first time or something happened to the saved game, choose another
+      if (NextGameEntry == null)
+      {
+        ChooseNextGame();
+      }
+    }
 
     private async void UpdateGameList()
     {
