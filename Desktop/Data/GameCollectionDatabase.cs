@@ -1,4 +1,5 @@
 ﻿using Desktop.Data.Types;
+using Desktop.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -19,9 +20,17 @@ namespace Desktop.Data
 
     #region Public Constructors
 
-    public GameCollectionDatabase()
+    public GameCollectionDatabase(string path = "")
     {
-      _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BacklogManager\\GameCollection.db");
+      if (String.IsNullOrEmpty(path))
+      {
+        _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                             "BacklogManager\\GameCollection.db");
+      }
+      else
+      {
+        _path = path;
+      }
 
       SetupDatabaseFile();
       SetupDatabaseConnection();
@@ -213,16 +222,42 @@ namespace Desktop.Data
     {
       if (!CheckTableExists("Games"))
       {
-        ExecuteNonQuery("CREATE TABLE Games (" +
-                        "GameName text NOT NULL PRIMARY KEY," +
-                        "AddedDate text NOT NULL," +
-                        "PC text NOT NULL," +
-                        "PS3 text NOT NULL," +
-                        "PS4 text NOT NULL," +
-                        "PSVita text NOT NULL," +
-                        "OwnedStatus text," +
-                        "PlayedStatus text NOT NULL); ");
+        ExecuteNonQuery("CREATE TABLE " + DatabaseResources.TableNames_Games + " (" +
+                        DatabaseResources.Column_GameName + " text NOT NULL PRIMARY KEY," +
+                        DatabaseResources.Column_AddedDate + " text NOT NULL," +
+                        DatabaseResources.Column_PC + " text NOT NULL," +
+                        DatabaseResources.Column_PS3 + " text NOT NULL," +
+                        DatabaseResources.Column_PS4 + " text NOT NULL," +
+                        DatabaseResources.Column_PSVita + " text NOT NULL," +
+                        DatabaseResources.Column_OwnedStatus + " text, " +
+                        DatabaseResources.Column_PlayedStatus + " text NOT NULL);");
+        ExecuteNonQuery("CREATE TABLE " + DatabaseResources.TableName_Settings + " (" +
+                        DatabaseResources.Column_Key + " text NOT NULL PRIMARY KEY," +
+                        DatabaseResources.Column_Value + " text NOT NULL);");
       }
+    }
+
+    /// <summary>
+    /// Check to see if the existing database has the current schema version
+    /// </summary>
+    /// <returns></returns>
+    private bool ShouldUpgrade()
+    {
+      bool result = true;
+
+      if (CheckTableExists(DatabaseResources.TableName_Settings))
+      {
+        if (_connection.State == System.Data.ConnectionState.Open)
+        {
+          SQLiteCommand command = _connection.CreateCommand();
+          command.CommandText = "SELECT " + DatabaseResources.Column_Value +
+                                " FROM " + DatabaseResources.TableName_Settings +
+                                " WHERE " + DatabaseResources.Column_Key + " = '" +
+                                DatabaseResources.Settings_SchemaVersion + "'";
+        }
+      }
+
+      return result;
     }
 
     #endregion Private Methods

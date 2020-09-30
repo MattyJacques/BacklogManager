@@ -113,6 +113,11 @@
     <Compile Include="Models\GameListEntry.cs" />
     <Compile Include="Models\GameManagement.cs" />
     <Compile Include="Models\Stats.cs" />
+    <Compile Include="Properties\DatabaseResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatabaseResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\StatsViewModel.cs" />
     <Compile Include="Views\StatsView.xaml.cs">
       <DependentUpon>StatsView.xaml</DependentUpon>
@@ -181,6 +186,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\DatabaseResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DatabaseResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
