@@ -9,18 +9,26 @@ using System.Threading.Tasks;
 
 namespace Desktop.Data
 {
-  public class GameCollectionDatabase
+  public class GameCollectionDatabase : IDisposable
   {
     #region Private Members
 
+    private readonly Mode _dbMode;
+
     private readonly string _path;
+
     private SQLiteConnection _connection;
 
     #endregion Private Members
 
     #region Public Constructors
 
-    public GameCollectionDatabase(string path = "")
+    /// <summary>
+    /// Setup the controller for the game collection database
+    /// </summary>
+    /// <param name="path">Data source of the database, can be file or :memory:</param>
+    /// <param name="dbMode">Mode of the database, can be closed after query or left open</param>
+    public GameCollectionDatabase(string path = "", Mode dbMode = Mode.CloseAfterQuery)
     {
       if (String.IsNullOrEmpty(path))
       {
@@ -32,12 +40,24 @@ namespace Desktop.Data
         _path = path;
       }
 
+      _dbMode = dbMode;
+
       SetupDatabaseFile();
       SetupDatabaseConnection();
       SetupTable();
     }
 
     #endregion Public Constructors
+
+    #region Public Enums
+
+    public enum Mode
+    {
+      CloseAfterQuery,
+      LeaveOpen
+    };
+
+    #endregion Public Enums
 
     #region Public Methods
 
@@ -46,7 +66,7 @@ namespace Desktop.Data
     /// </summary>
     public bool AddGame(GameDatabaseEntry entry)
     {
-      if (_connection.State == System.Data.ConnectionState.Open)
+      if (Open())
       {
         SQLiteCommand command = _connection.CreateCommand();
         command.CommandText = "INSERT OR REPLACE INTO Games" +
@@ -63,28 +83,56 @@ namespace Desktop.Data
         command.Parameters.Add(new SQLiteParameter("@OwnedStatus", entry.OwnedStatus));
         command.Parameters.Add(new SQLiteParameter("@PlayedStatus", entry.PlayedStatus));
 
-        return command.ExecuteNonQuery() > 0;
+        int rowsAffected = command.ExecuteNonQuery();
+
+        if (_dbMode == Mode.CloseAfterQuery)
+        {
+          Close();
+        }
+
+        return rowsAffected > 0;
       }
 
       return false;
     }
 
     /// <summary>
+    /// Close the connection to the database
+    /// </summary>
+    public void Close() => _connection.Close();
+
+    /// <summary>
     /// Delete an existing game entry in the database
     /// </summary>
     public bool DeleteGame(string gameName)
     {
-      if (_connection.State == System.Data.ConnectionState.Open)
+      if (Open())
       {
         SQLiteCommand command = _connection.CreateCommand();
         command.CommandText = "DELETE FROM Games WHERE GameName = @GameName";
 
         command.Parameters.Add(new SQLiteParameter("@GameName", gameName));
 
-        return command.ExecuteNonQuery() > 0;
+        int rowsAffected = command.ExecuteNonQuery();
+
+        if (_dbMode == Mode.CloseAfterQuery)
+        {
+          Close();
+        }
+
+        return rowsAffected > 0;
       }
 
       return false;
+    }
+
+    /// <summary>
+    /// Dispose the connection to the database
+    /// </summary>
+    public void Dispose()
+    {
+      Close();
+      _connection.Dispose();
     }
 
     /// <summary>
@@ -92,11 +140,16 @@ namespace Desktop.Data
     /// </summary>
     public bool EditGame(string nameToEdit, GameDatabaseEntry entry)
     {
-      if (_connection.State == System.Data.ConnectionState.Open)
+      if (Open())
       {
         if (DeleteGame(nameToEdit))
         {
           return AddGame(entry);
+        }
+
+        if (_dbMode == Mode.CloseAfterQuery)
+        {
+          Close();
         }
       }
 
@@ -110,7 +163,7 @@ namespace Desktop.Data
     {
       List<GameDatabaseEntry> gameList = new List<GameDatabaseEntry>();
 
-      if (_connection.State == System.Data.ConnectionState.Open)
+      if (Open())
       {
         if (await ExecuteQuery("SELECT * FROM Games") is SQLiteDataReader reader)
         {
@@ -131,6 +184,11 @@ namespace Desktop.Data
             gameList.Add(entry);
           }
         }
+
+        if (_dbMode == Mode.CloseAfterQuery)
+        {
+          Close();
+        }
       }
 
       return gameList;
@@ -142,12 +200,19 @@ namespace Desktop.Data
     /// <returns></returns>
     public int GetAmountWithPlatformStatus(string platform, string status)
     {
-      if (_connection.State == System.Data.ConnectionState.Open)
+      if (Open())
       {
         SQLiteCommand command = _connection.CreateCommand();
         command.CommandText = "SELECT count(GameName) FROM Games WHERE " + platform + " = 'true' AND PlayedStatus = '" + status + "'";
 
-        return Convert.ToInt32(command.ExecuteScalar());
+        object queryResult = command.ExecuteScalar();
+
+        if (_dbMode == Mode.CloseAfterQuery)
+        {
+          Close();
+        }
+
+        return Convert.ToInt32(queryResult);
       }
 
       return 0;
@@ -164,11 +229,16 @@ namespace Desktop.Data
     /// <returns></returns>
     private bool CheckTableExists(string tableName)
     {
-      SQLiteCommand command = _connection.CreateCommand();
-      command.CommandText = "SELECT name FROM sqlite_master WHERE name='" + tableName + "'";
-      object result = command.ExecuteScalar();
+      if (Open())
+      {
+        SQLiteCommand command = _connection.CreateCommand();
+        command.CommandText = "SELECT name FROM sqlite_master WHERE name='" + tableName + "'";
+        object result = command.ExecuteScalar();
 
-      return result != null && result.ToString() == tableName;
+        return result != null && result.ToString() == tableName;
+      }
+
+      return false;
     }
 
     /// <summary>
@@ -177,16 +247,38 @@ namespace Desktop.Data
     /// <param name="query"></param>
     private void ExecuteNonQuery(string query)
     {
-      SQLiteCommand command = _connection.CreateCommand();
-      command.CommandText = query;
-      command.ExecuteNonQuery();
+      if (Open())
+      {
+        SQLiteCommand command = _connection.CreateCommand();
+        command.CommandText = query;
+        command.ExecuteNonQuery();
+      }
     }
 
     private Task<DbDataReader> ExecuteQuery(string query)
     {
-      SQLiteCommand command = _connection.CreateCommand();
-      command.CommandText = query;
-      return command.ExecuteReaderAsync();
+      if (Open())
+      {
+        SQLiteCommand command = _connection.CreateCommand();
+        command.CommandText = query;
+        return command.ExecuteReaderAsync();
+      }
+
+      return null;
+    }
+
+    /// <summary>
+    /// Open a connection to the database
+    /// </summary>
+    /// <returns>Returns if the database is open</returns>
+    private bool Open()
+    {
+      if (_connection.State != System.Data.ConnectionState.Open)
+      {
+        _connection.Open();
+      }
+
+      return _connection.State == System.Data.ConnectionState.Open;
     }
 
     /// <summary>
@@ -196,7 +288,6 @@ namespace Desktop.Data
     {
       string connectionString = string.Format("Data Source={0}", _path);
       _connection = new SQLiteConnection(connectionString);
-      _connection.OpenAsync();
     }
 
     /// <summary>
@@ -208,10 +299,18 @@ namespace Desktop.Data
       {
         if (!Directory.Exists(Path.GetDirectoryName(_path)))
         {
-          Directory.CreateDirectory(Path.GetDirectoryName(_path));
+          try
+          {
+            Directory.CreateDirectory(Path.GetDirectoryName(_path));
+          }
+          catch { }
         }
 
-        SQLiteConnection.CreateFile(_path);
+        try
+        {
+          SQLiteConnection.CreateFile(_path);
+        }
+        catch { }
       }
     }
 
@@ -220,7 +319,7 @@ namespace Desktop.Data
     /// </summary>
     private void SetupTable()
     {
-      if (!CheckTableExists("Games"))
+      if (Open() && !CheckTableExists("Games"))
       {
         ExecuteNonQuery("CREATE TABLE " + DatabaseResources.TableNames_Games + " (" +
                         DatabaseResources.Column_GameName + " text NOT NULL PRIMARY KEY," +
@@ -247,7 +346,7 @@ namespace Desktop.Data
 
       if (CheckTableExists(DatabaseResources.TableName_Settings))
       {
-        if (_connection.State == System.Data.ConnectionState.Open)
+        if (Open())
         {
           SQLiteCommand command = _connection.CreateCommand();
           command.CommandText = "SELECT " + DatabaseResources.Column_Value +
