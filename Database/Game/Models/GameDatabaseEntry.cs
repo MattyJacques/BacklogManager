@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace Database.Models
+namespace Database.Game.Models
 {
+  public enum Status
+  {
+    [Description("Not Played")]
+    NotPlayed,
+    Played,
+    Complete,
+    Abandoned
+  }
+
   public class GameDatabaseEntry
   {
     #region Public Properties
