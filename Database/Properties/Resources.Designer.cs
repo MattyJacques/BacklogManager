@@ -160,20 +160,29 @@ namespace Database.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Games.
+        /// </summary>
+        internal static string TableName_Games {
+            get {
+                return ResourceManager.GetString("TableName_Games", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GamesBackup.
+        /// </summary>
+        internal static string TableName_GamesBackup {
+            get {
+                return ResourceManager.GetString("TableName_GamesBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string TableName_Settings {
             get {
                 return ResourceManager.GetString("TableName_Settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Games.
-        /// </summary>
-        internal static string TableNames_Games {
-            get {
-                return ResourceManager.GetString("TableNames_Games", resourceCulture);
             }
         }
     }

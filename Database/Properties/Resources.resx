@@ -161,9 +161,13 @@
     <value>SchemaVersion</value>
     <comment>Settings key for database schema version</comment>
   </data>
-  <data name="TableNames_Games" xml:space="preserve">
+  <data name="TableName_Games" xml:space="preserve">
     <value>Games</value>
     <comment>Database table name for the Games table</comment>
+  </data>
+  <data name="TableName_GamesBackup" xml:space="preserve">
+    <value>GamesBackup</value>
+    <comment>Database table name for the Games table during a upgrade</comment>
   </data>
   <data name="TableName_Settings" xml:space="preserve">
     <value>Settings</value>
