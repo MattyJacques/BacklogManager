@@ -81,7 +81,8 @@ namespace Database.Game
     /// <returns>Whether the operation was successful</returns>
     public bool AddGame(GameDatabaseEntry entry)
     {
-      return ExecuteNonQuery("INSERT OR REPLACE INTO " + Resources.TableName_Games + " (" +
+      return CheckTableExists(Resources.TableName_Games) &&
+             ExecuteNonQuery("INSERT OR REPLACE INTO " + Resources.TableName_Games + " (" +
                              Resources.Column_GameName + ", " +
                              Resources.Column_AddedDate + ", " +
                              Resources.Column_PC + ", " +
@@ -172,7 +173,8 @@ namespace Database.Game
     {
       List<GameDatabaseEntry> gameList = new List<GameDatabaseEntry>();
 
-      if (ExecuteQuery("SELECT * FROM " + Resources.TableName_Games) is SqliteDataReader reader)
+      if (CheckTableExists(Resources.TableName_Games) &&
+          ExecuteQuery("SELECT * FROM " + Resources.TableName_Games) is SqliteDataReader reader)
       {
         while (reader.Read())
         {
@@ -324,7 +326,8 @@ namespace Database.Game
     {
       Dictionary<string, string> settingList = new Dictionary<string, string>();
 
-      if (ExecuteQuery("SELECT * FROM " + Resources.TableName_Settings) is SqliteDataReader reader)
+      if (CheckTableExists(Resources.TableName_Settings) &&
+          ExecuteQuery("SELECT * FROM " + Resources.TableName_Settings) is SqliteDataReader reader)
       {
         while (reader.Read())
         {
@@ -368,11 +371,8 @@ namespace Database.Game
     /// <returns></returns>
     private bool RenameTable(string currentName, string newName)
     {
-      return ExecuteNonQuery("ALTER TABLE " + Resources.TableName_Games +
-                             " RENAME TO " + Resources.TableName_Games +
-                             DateTime.Now.ToString("yyyyMMddHHmmss")) &&
-             !CheckTableExists(currentName) &&
-             CheckTableExists(newName);
+      ExecuteNonQuery("ALTER TABLE " + Resources.TableName_Games + " RENAME TO " + newName);
+      return !CheckTableExists(currentName) && CheckTableExists(newName);
     }
 
     /// <summary>
@@ -381,22 +381,20 @@ namespace Database.Game
     /// <returns>Whether the table was created successfully</returns>
     private bool SetupGamesTable()
     {
-      bool result = false;
-
       if (!CheckTableExists(Resources.TableName_Games))
       {
-        result = ExecuteNonQuery("CREATE TABLE " + Resources.TableName_Games + " (" +
-                                 Resources.Column_GameName + " text NOT NULL PRIMARY KEY," +
-                                 Resources.Column_AddedDate + " text NOT NULL," +
-                                 Resources.Column_PC + " text NOT NULL," +
-                                 Resources.Column_PS3 + " text NOT NULL," +
-                                 Resources.Column_PS4 + " text NOT NULL," +
-                                 Resources.Column_PSVita + " text NOT NULL," +
-                                 Resources.Column_OwnedStatus + " text, " +
-                                 Resources.Column_PlayedStatus + " text NOT NULL);");
+        ExecuteNonQuery("CREATE TABLE " + Resources.TableName_Games + " (" +
+                        Resources.Column_GameName + " text NOT NULL PRIMARY KEY," +
+                        Resources.Column_AddedDate + " text NOT NULL," +
+                        Resources.Column_PC + " text NOT NULL," +
+                        Resources.Column_PS3 + " text NOT NULL," +
+                        Resources.Column_PS4 + " text NOT NULL," +
+                        Resources.Column_PSVita + " text NOT NULL," +
+                        Resources.Column_OwnedStatus + " text, " +
+                        Resources.Column_PlayedStatus + " text NOT NULL);");
       }
 
-      return result;
+      return CheckTableExists(Resources.TableName_Games);
     }
 
     /// <summary>
@@ -405,16 +403,14 @@ namespace Database.Game
     /// <returns>Whether the table was created successfully</returns>
     private bool SetupSettingsTable()
     {
-      bool result = false;
-
       if (!CheckTableExists(Resources.TableName_Settings))
       {
-        result = ExecuteNonQuery("CREATE TABLE " + Resources.TableName_Settings + " (" +
-                                 Resources.Column_Key + " text NOT NULL PRIMARY KEY," +
-                                 Resources.Column_Value + " text NOT NULL);");
+        ExecuteNonQuery("CREATE TABLE " + Resources.TableName_Settings + " (" +
+                        Resources.Column_Key + " text NOT NULL PRIMARY KEY," +
+                        Resources.Column_Value + " text NOT NULL);");
       }
 
-      return result;
+      return CheckTableExists(Resources.TableName_Settings);
     }
 
     /// <summary>

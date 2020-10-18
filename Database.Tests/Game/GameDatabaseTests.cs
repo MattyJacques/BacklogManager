@@ -4,6 +4,7 @@ using Database.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace Database.Tests.Game
@@ -111,6 +112,33 @@ namespace Database.Tests.Game
     [TestMethod]
     public void UpgradesSchema()
     {
+      TemporaryFile file = new TemporaryFile();
+
+      bool didSetup = DatabaseHelper.CreateV0Database(file.FilePath);
+      Assert.IsTrue(didSetup);
+
+      didSetup = DatabaseHelper.DropTable(file.FilePath, "Settings");
+      Assert.IsTrue(didSetup);
+
+      GameDatabase database = new GameDatabase(file.FilePath);
+
+      bool didUpgrade = DatabaseHelper.GetCurrentSchema(file.FilePath) ==
+                        Convert.ToInt32(ConfigurationManager.AppSettings["SchemaVersion"]);
+      Assert.IsTrue(didUpgrade);
+
+      List<GameDatabaseEntry> games = database.GetAllGames();
+      Assert.IsTrue(games.Count == 1);
+
+      GameDatabaseEntry gameEntry = games.First();
+
+      Assert.AreEqual(gameEntry.GameName, _dbEntry.GameName);
+      Assert.AreEqual(gameEntry.AddedDate, _dbEntry.AddedDate);
+      Assert.AreEqual(gameEntry.PC, _dbEntry.PC);
+      Assert.AreEqual(gameEntry.PS3, _dbEntry.PS3);
+      Assert.AreEqual(gameEntry.PS4, _dbEntry.PS4);
+      Assert.AreEqual(gameEntry.PSVita, _dbEntry.PSVita);
+      Assert.AreEqual(gameEntry.OwnedStatus, _dbEntry.OwnedStatus);
+      Assert.AreEqual(gameEntry.PlayedStatus, _dbEntry.PlayedStatus);
     }
 
     #endregion Public Methods
