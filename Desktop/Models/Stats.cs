@@ -1,4 +1,5 @@
-﻿using Desktop.Data;
+﻿using Database.Game;
+using Database.Game.Models;
 using Desktop.Data.Types;
 using Desktop.Interfaces;
 
@@ -8,7 +9,7 @@ namespace Desktop.Models
   {
     #region Private Members
 
-    private readonly GameCollectionDatabase _database = new GameCollectionDatabase();
+    private readonly GameDatabase _database = new GameDatabase();
     private StatsCollection _stats = new StatsCollection();
 
     #endregion Private Members

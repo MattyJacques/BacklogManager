@@ -1,4 +1,5 @@
-﻿using Desktop.Data.Types;
+﻿using Database.Game.Models;
+using Desktop.Data.Types;
 using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
@@ -262,9 +263,9 @@ namespace Desktop.ViewModels
       }
     }
 
-    private async void UpdateGameList()
+    private void UpdateGameList()
     {
-      List<GameListEntry> games = await _model.GetGameList();
+      List<GameListEntry> games = _model.GetGameList();
 
       games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
                                    (ShowPlayed && entry.PlayStatus == Status.Played) ||

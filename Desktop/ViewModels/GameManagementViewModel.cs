@@ -1,4 +1,5 @@
-﻿using Desktop.Data.Types;
+﻿using Database.Game.Models;
+using Desktop.Data.Types;
 using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
@@ -12,9 +13,9 @@ namespace Desktop.ViewModels
   {
     #region Private Members
 
+    private readonly GameListEntry _entry;
     private readonly IGameManagementModel _model;
     private bool? _dialogResult;
-    private GameListEntry _entry;
 
     #endregion Private Members
 

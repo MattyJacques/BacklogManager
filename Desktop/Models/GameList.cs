@@ -1,4 +1,5 @@
-﻿using Desktop.Data;
+﻿using Database.Game;
+using Database.Game.Models;
 using Desktop.Data.Types;
 using Desktop.Interfaces;
 using Desktop.ViewModels;
@@ -13,7 +14,7 @@ namespace Desktop.Models
   {
     #region Private Members
 
-    private readonly GameCollectionDatabase _database = new GameCollectionDatabase();
+    private readonly GameDatabase _database = new GameDatabase();
     private List<GameListEntry> _games;
 
     #endregion Private Members
@@ -79,13 +80,13 @@ namespace Desktop.Models
       }
     }
 
-    public async Task<List<GameListEntry>> GetGameList()
+    public List<GameListEntry> GetGameList()
     {
       if (_games == null)
       {
         _games = new List<GameListEntry>();
 
-        List<GameDatabaseEntry> databaseList = await _database.GetAllGames();
+        List<GameDatabaseEntry> databaseList = _database.GetAllGames();
 
         foreach (GameDatabaseEntry databaseEntry in databaseList)
         {

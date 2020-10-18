@@ -85,7 +85,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Types.cs" />
-    <Compile Include="Data\GameCollectionDatabase.cs" />
     <Compile Include="Extensions\Controls\SearchTextBox.xaml.cs">
       <DependentUpon>SearchTextBox.xaml</DependentUpon>
     </Compile>
@@ -203,7 +202,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{CE6C5437-519C-4331-A047-8286D21A14E0}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
   </ItemGroup>

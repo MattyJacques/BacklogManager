@@ -68,12 +68,12 @@ namespace Database.Tests.Helpers
 
       // Games table
       SqliteCommand command = connection.CreateCommand();
-      command.CommandText = "DROP TABLE Settings";
+      command.CommandText = "DROP TABLE " + tableName;
       command.ExecuteNonQuery();
 
       connection.Close();
 
-      return !CheckTableExists(path, "Settings");
+      return !CheckTableExists(path, tableName);
     }
 
     /// <summary>

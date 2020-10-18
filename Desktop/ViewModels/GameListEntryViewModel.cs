@@ -1,4 +1,5 @@
-﻿using Desktop.Data.Types;
+﻿using Database.Game.Models;
+using Desktop.Data.Types;
 using Desktop.Models;
 using System;
 
