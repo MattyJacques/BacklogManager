@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace Desktop.Extensions.Helpers
 {
-  internal class EnumArrayDescriptionConverter : IValueConverter
+  public class EnumArrayDescriptionConverter : IValueConverter
   {
     #region Public Methods
 

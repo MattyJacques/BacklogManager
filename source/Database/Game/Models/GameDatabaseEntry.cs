@@ -6,6 +6,7 @@ namespace Database.Game.Models
   {
     [Description("Not Played")]
     NotPlayed,
+
     Played,
     Complete,
     Abandoned
@@ -16,6 +17,7 @@ namespace Database.Game.Models
     #region Public Properties
 
     public string AddedDate { get; set; }
+    public string DownloadedData { get; set; }
     public string GameName { get; set; }
     public string OwnedStatus { get; set; }
     public string PC { get; set; }

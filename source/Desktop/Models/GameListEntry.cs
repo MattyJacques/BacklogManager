@@ -1,5 +1,6 @@
 ﻿using Database.Game.Models;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace Desktop.Models
@@ -8,23 +9,32 @@ namespace Desktop.Models
   {
     #region Private Members
 
+    private GameCollection _collection = new GameCollection();
     private DateTime _dateAdded = DateTime.Today;
-
+    private bool _hasDownloadedData = false;
     private bool _isOnPC = false;
-
     private bool _isOnPS3 = false;
-
     private bool _isOnPS4 = false;
-
     private bool _isOnPSVita = false;
-
     private string _name = string.Empty;
-
     private bool _owned = false;
-
     private Status _playStatus = Status.NotPlayed;
 
     #endregion Private Members
+
+    /*private Cover Cover
+
+    private List<GameName> Dlcs
+
+    private List<GameName> Expansions
+
+    private DateTimeOffset? FirstReleaseDate
+
+    private List<Genre> Genres
+
+    private List<Platform> Platforms
+
+    private double? TotalRating*/
 
     #region Public Constructors
 
@@ -38,6 +48,7 @@ namespace Desktop.Models
         IsOnPSVita = databaseEntry.PSVita == "true";
         IsOnPC = databaseEntry.PC == "true";
         Owned = databaseEntry.OwnedStatus == "true";
+        HasDownloadedData = databaseEntry.DownloadedData == "true";
 
         string statusNoSpace = databaseEntry.PlayedStatus.Replace(" ", "");
         PlayStatus = (Status)Enum.Parse(typeof(Status), statusNoSpace, true);
@@ -63,10 +74,17 @@ namespace Desktop.Models
 
     #region Public Properties
 
+    public GameCollection Collection { get => _collection; set => _collection = value; }
+
     /// <summary>
     /// Get/set the date the game was added to the database
     /// </summary>
     public DateTime DateAdded { get => _dateAdded; set => _dateAdded = value; }
+
+    /// <summary>
+    /// Has this entry previously has metadata downloaded
+    /// </summary>
+    public bool HasDownloadedData { get => _hasDownloadedData; set => _hasDownloadedData = value; }
 
     /// <summary>
     /// Get/set if the game is playable on PC

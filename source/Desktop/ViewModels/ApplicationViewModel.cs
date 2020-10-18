@@ -12,10 +12,10 @@ namespace Desktop.ViewModels
   {
     #region Private Members
 
+    private readonly List<IPageViewModel> _pageViewModels = new List<IPageViewModel>();
     private ICommand _changePageCommand;
 
     private IPageViewModel _currentPageViewModel;
-    private List<IPageViewModel> _pageViewModels;
     private bool _showHamburgerMenu = false;
 
     #endregion Private Members
@@ -24,9 +24,12 @@ namespace Desktop.ViewModels
 
     public ApplicationViewModel()
     {
+      GameList gameListModel = new GameList();
+
       // Add available pages
-      PageViewModels.Add(new GameListViewModel(new GameList()));
+      PageViewModels.Add(new GameListViewModel(gameListModel));
       PageViewModels.Add(new StatsViewModel(new Stats()));
+      PageViewModels.Add(new MetadataDownloadViewModel(gameListModel, new MetadataDownload()));
 
       // Set starting page
       CurrentPageViewModel = PageViewModels[0];
@@ -45,9 +48,8 @@ namespace Desktop.ViewModels
       {
         if (_changePageCommand == null)
         {
-          _changePageCommand = new RelayCommand(
-              p => ChangeViewModel((IPageViewModel)p),
-              p => p is IPageViewModel);
+          _changePageCommand = new RelayCommand(p => ChangeViewModel((IPageViewModel)p),
+                                                p => p is IPageViewModel);
         }
 
         return _changePageCommand;
@@ -57,30 +59,16 @@ namespace Desktop.ViewModels
     public IPageViewModel CurrentPageViewModel
     {
       get => _currentPageViewModel;
-      set
-      {
-        if (_currentPageViewModel != value)
-        {
-          _currentPageViewModel = value;
-          RaisePropertyChanged("CurrentPageViewModel");
-        }
-      }
+      set => Set(ref _currentPageViewModel, value);
     }
 
-    public List<IPageViewModel> PageViewModels
+    public List<IPageViewModel> PageViewModels { get => _pageViewModels; }
+
+    public bool ShowHamburgerMenu
     {
-      get
-      {
-        if (_pageViewModels == null)
-        {
-          _pageViewModels = new List<IPageViewModel>();
-        }
-
-        return _pageViewModels;
-      }
+      get => _showHamburgerMenu;
+      set => Set(ref _showHamburgerMenu, value);
     }
-
-    public bool ShowHamburgerMenu { get => _showHamburgerMenu; set { _showHamburgerMenu = value; RaisePropertyChanged("ShowHamburgerMenu"); } }
 
     #endregion Public Properties
 

@@ -106,18 +106,24 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IGameManagementModel.cs" />
     <Compile Include="Interfaces\IGameListModel.cs" />
+    <Compile Include="Interfaces\IMetadataDownloadModel.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
     <Compile Include="Interfaces\IStatsModel.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
     <Compile Include="Models\GameManagement.cs" />
+    <Compile Include="Models\MetadataDownload.cs" />
     <Compile Include="Models\Stats.cs" />
     <Compile Include="Properties\DatabaseResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DatabaseResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\MetadataDownloadViewModel.cs" />
     <Compile Include="ViewModels\StatsViewModel.cs" />
+    <Compile Include="Views\MetadataDownloadView.xaml.cs">
+      <DependentUpon>MetadataDownloadView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatsView.xaml.cs">
       <DependentUpon>StatsView.xaml</DependentUpon>
     </Compile>
@@ -151,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Extensions\Controls\StatsGroupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MetadataDownloadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,6 +216,10 @@
     <ProjectReference Include="..\Database\Database.csproj">
       <Project>{CE6C5437-519C-4331-A047-8286D21A14E0}</Project>
       <Name>Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IGDB\IGDB.csproj">
+      <Project>{573226d5-63ce-4054-9973-8561524c9218}</Project>
+      <Name>IGDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
