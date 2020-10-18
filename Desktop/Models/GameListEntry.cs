@@ -1,4 +1,4 @@
-﻿using Desktop.Data.Types;
+﻿using Database.Game.Models;
 using System;
 using System.Windows;
 

@@ -2,44 +2,6 @@
 
 namespace Desktop.Data.Types
 {
-  public enum ColIndex
-  {
-    GameName = 0,
-    AddedDate,
-    PC,
-    PS3,
-    PS4,
-    PSVita,
-    OwnedStatus,
-    PlayedStatus
-  }
-
-  public enum Status
-  {
-    [Description("Not Played")]
-    NotPlayed,
-
-    Played,
-    Complete,
-    Abandoned
-  }
-
-  public class GameDatabaseEntry
-  {
-    #region Public Properties
-
-    public string AddedDate { get; set; }
-    public string GameName { get; set; }
-    public string OwnedStatus { get; set; }
-    public string PC { get; set; }
-    public string PlayedStatus { get; set; }
-    public string PS3 { get; set; }
-    public string PS4 { get; set; }
-    public string PSVita { get; set; }
-
-    #endregion Public Properties
-  }
-
   public class PlatformStats
   {
     #region Public Properties

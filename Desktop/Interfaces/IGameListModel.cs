@@ -26,7 +26,7 @@ namespace Desktop.Interfaces
     /// <summary>
     /// Return the current game list
     /// </summary>
-    Task<List<GameListEntry>> GetGameList();
+    List<GameListEntry> GetGameList();
 
     #endregion Public Methods
   }
