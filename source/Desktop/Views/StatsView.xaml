@@ -3,32 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
-             xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-  <StackPanel x:Name="MainPanel"
-              Margin="5"
-              Height="730">
+  <DockPanel x:Name="MainPanel">
 
-    <!-- ToolBar Panel -->
+    <!--#region ToolBar Panel-->
+
     <StackPanel x:Name="ToolBarPanel"
                 Orientation="Horizontal"
-                Height="45">
+                Height="45"
+                DockPanel.Dock="Top">
 
       <ToolBarTray>
         <ToolBar HorizontalAlignment="Right"
                  Width="{Binding ActualWidth, ElementName=MainPanel}">
           <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                        IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                        IsChecked="{Binding ElementName=MenuToggleButton,
+                                            Path=IsChecked,
+                                            Mode=TwoWay}" />
         </ToolBar>
       </ToolBarTray>
     </StackPanel>
 
-    <!-- Stats -->
+    <!--#endregion ToolBar Panel-->
+
+    <!--#region Stats -->
+
     <Grid>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
@@ -86,5 +89,7 @@
                               AbandonedAmount="{Binding AbandonedAmountTotal}"
                               DonePercent="{Binding DonePercentTotal}" />
     </Grid>
-  </StackPanel>
+
+    <!--#endregion Stats-->
+  </DockPanel>
 </UserControl>

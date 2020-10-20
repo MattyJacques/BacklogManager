@@ -5,24 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
-             xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-  <StackPanel x:Name="MainPanel"
-              Margin="5"
-              Height="730">
+  <DockPanel x:Name="MainPanel">
+
+    <!--#region ToolBar Panel-->
 
     <StackPanel x:Name="ToolBarPanel"
                 Orientation="Horizontal"
-                Height="45">
+                Height="45"
+                DockPanel.Dock="Top">
 
       <ToolBarTray>
         <ToolBar HorizontalAlignment="Right"
                  Width="{Binding ActualWidth, ElementName=MainPanel}">
           <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                        IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                        IsChecked="{Binding ElementName=MenuToggleButton,
+                                            Path=IsChecked,
+                                            Mode=TwoWay}" />
           <Button Content="{materialDesign:PackIcon Gamepad}"
                   Command="{Binding AddGameCommand}"
                   Style="{DynamicResource MaterialDesignRaisedAccentButton}"
@@ -54,14 +56,28 @@
       </ToggleButton>
     </StackPanel>
 
+    <!--#endregion ToolBar-->
+
+    <!--#region Filters-->
+
     <GroupBox x:Name="FilterGroup"
               Header="Filter"
               Height="180"
-              Visibility="{Binding ShowFilters, Converter={StaticResource BooleanToVisibilityConverter}}">
-      <StackPanel Orientation="Horizontal">
+              Visibility="{Binding ShowFilters,
+                                   Converter={StaticResource BooleanToVisibilityConverter}}"
+              DockPanel.Dock="Top">
+
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
         <GroupBox Header="Play Status"
-                  Width="277"
-                  Margin="0,0,10,0">
+                  Margin="0,0,10,0"
+                  DockPanel.Dock="Left"
+                  Grid.Column="0">
           <StackPanel>
             <CheckBox Content="Not Played"
                       IsChecked="{Binding ShowNotPlayed}" />
@@ -74,8 +90,8 @@
           </StackPanel>
         </GroupBox>
         <GroupBox Header="Platform"
-                  Width="277"
-                  Margin="0,0,10,0">
+                  Margin="0,0,10,0"
+                  Grid.Column="1">
           <StackPanel>
             <CheckBox Content="PC"
                       IsChecked="{Binding ShowPC}" />
@@ -88,7 +104,7 @@
           </StackPanel>
         </GroupBox>
         <GroupBox Header="Owned Status"
-                  Width="277">
+                  Grid.Column="2">
           <StackPanel>
             <CheckBox Content="Not Owned"
                       IsChecked="{Binding ShowNotOwned}" />
@@ -96,16 +112,19 @@
                       IsChecked="{Binding ShowOwned}" />
           </StackPanel>
         </GroupBox>
-      </StackPanel>
+      </Grid>
     </GroupBox>
 
-    <!--                  Next Game Group                -->
+    <!--#endregion Filters-->
+
+    <!--#region Next Game-->
     <GroupBox x:Name="NextGameGroup"
               Header="Next Game"
-              Height="100">
-      <StackPanel x:Name="NextGamePanel"
+              Height="100"
+              DockPanel.Dock="Top">
+      <DockPanel x:Name="NextGamePanel"
                   Margin="3,0"
-                  Orientation="Horizontal">
+                 LastChildFill="False">
         <TextBlock x:Name="NextGameText"
                    Text="{Binding NextGameEntry.Name}"
                    VerticalAlignment="Center"
@@ -113,28 +132,35 @@
                    Margin="0,7,10,7"
                    Width="600"
                    Padding="3,0,0,0"
-                   FontSize="16" />
-        <ComboBox x:Name="NextGameStatusCombo"
-                  ItemsSource="{Binding Source={StaticResource playStatusEnum}, Converter={StaticResource EnumArrayDescriptionConverter}}"
-                  SelectedItem="{Binding NextGameEntry.PlayStatus, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}"
-                  IsEnabled="False"
-                  Margin="10,7"
-                  Width="122" />
+                   FontSize="16"
+                   DockPanel.Dock="Left" />
         <Button x:Name="ChooseAgainButton"
                 Content="Choose Again"
                 Command="{Binding ChooseNextGameCommand}"
                 Margin="10,7,0,7"
-                Width="120" />
-      </StackPanel>
+                Width="120"
+                DockPanel.Dock="Right" />
+        <ComboBox x:Name="NextGameStatusCombo"
+                  ItemsSource="{Binding Source={StaticResource playStatusEnum},
+                                        Converter={StaticResource EnumArrayDescriptionConverter}}"
+                  SelectedItem="{Binding NextGameEntry.PlayStatus,
+                                         Mode=OneWay,
+                                         Converter={StaticResource EnumDescriptionConverter}}"
+                  IsEnabled="False"
+                  Margin="10,7"
+                  Width="122"
+                  DockPanel.Dock="Right" />
+      </DockPanel>
     </GroupBox>
 
-    <!--               Games list Group                -->
+    <!--#endregion Next Game-->
+
+    <!--#region Game List-->
+
     <GroupBox x:Name="GamesGroup"
               Header="Games"
-              properties:StretchControl.ShouldResize="True"
-              properties:StretchControl.ResizeTrigger="{Binding ShowFilters}">
-      <DockPanel x:Name="GamesPanel"
-                 Width="850">
+              DockPanel.Dock="Top">
+      <DockPanel x:Name="GamesPanel">
         <DataGrid x:Name="GameList"
                   ItemsSource="{Binding GameCollectionView}"
                   SelectedItem="{Binding SelectedEntry, Mode=OneWayToSource}"
@@ -163,19 +189,27 @@
                                     IsReadOnly="True" />
 
             <DataGridComboBoxColumn Header="Status"
-                                    ItemsSource="{Binding Source={StaticResource playStatusEnum}, Converter={StaticResource EnumArrayDescriptionConverter}}"
-                                    SelectedItemBinding="{Binding PlayStatus, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}" />
+                                    ItemsSource="{Binding Source={StaticResource playStatusEnum},
+                                                          Converter={StaticResource
+                                                            EnumArrayDescriptionConverter}}"
+                                    SelectedItemBinding="{Binding PlayStatus,
+                                                                  Mode=OneWay,
+                                                                  Converter={StaticResource
+                                                                    EnumDescriptionConverter}}" />
 
             <DataGridCheckBoxColumn Header="Owned"
                                     Binding="{Binding Owned, Mode=OneWay}"
                                     IsReadOnly="True" />
 
             <DataGridTextColumn Header="Added"
-                                Binding="{Binding DateAdded, Mode=OneWay, StringFormat='yyyy-MM-dd'}"
+                                Binding="{Binding DateAdded,
+                                                  Mode=OneWay,
+                                                  StringFormat='yyyy-MM-dd'}"
                                 Width="125" />
           </DataGrid.Columns>
         </DataGrid>
       </DockPanel>
     </GroupBox>
-  </StackPanel>
+    <!--#endregion Game List-->
+  </DockPanel>
 </UserControl>

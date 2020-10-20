@@ -109,6 +109,7 @@
     <Compile Include="Interfaces\IMetadataDownloadModel.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
     <Compile Include="Interfaces\IStatsModel.cs" />
+    <Compile Include="Models\GameCollection.cs" />
     <Compile Include="Models\GameList.cs" />
     <Compile Include="Models\GameListEntry.cs" />
     <Compile Include="Models\GameManagement.cs" />
