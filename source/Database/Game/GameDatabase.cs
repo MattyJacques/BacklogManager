@@ -418,6 +418,11 @@ namespace Database.Game
     /// </summary>
     private void SetupTables()
     {
+      if (!Directory.Exists(Path.GetDirectoryName(_path)))
+      {
+        Directory.CreateDirectory(Path.GetDirectoryName(_path));
+      }
+
       if (!File.Exists(_path))
       {
         SetupGamesTable();

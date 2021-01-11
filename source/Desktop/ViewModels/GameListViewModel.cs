@@ -257,7 +257,7 @@ namespace Desktop.ViewModels
       }
 
       // This is the first time or something happened to the saved game, choose another
-      if (NextGameEntry == null)
+      if (NextGameEntry == null && GameCollection.Count > 0)
       {
         ChooseNextGame();
       }
