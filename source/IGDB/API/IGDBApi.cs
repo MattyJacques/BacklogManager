@@ -1,4 +1,5 @@
-﻿using IGDB.Models;
+﻿using IGDB.API;
+using IGDB.Models;
 using IGDB.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -15,21 +16,14 @@ namespace IGDB
     #region Public Properties
 
     /// <summary>
-    /// API key to use with queries
+    /// OAuth Client ID to use with queries
     /// </summary>
-    [Header("user-key")]
-    string ApiKey { get; set; }
+    [Header("client-id")]
+    string ClientID { get; set; }
 
     #endregion Public Properties
 
     #region Public Methods
-
-    /// <summary>
-    /// Return the API usage stats
-    /// </summary>
-    /// <returns></returns>
-    [Get("/api_status")]
-    Task<ApiStatus[]> GetApiStatus();
 
     /// <summary>
     /// Query the IGDB API using the endpoint given. https://api-docs.igdb.com/#endpoints
@@ -44,7 +38,7 @@ namespace IGDB
     #endregion Public Methods
   }
 
-  public static class Client
+  public class Client
   {
     #region Public Members
 
@@ -62,20 +56,74 @@ namespace IGDB
 
     #endregion Public Members
 
-    #region Public Methods
+    #region Private Members
+
+    private readonly IGDBApi _api;
+    private readonly TokenHandler _tokenHandler;
+
+    #endregion Private Members
+
+    #region Public Constructors
 
     /// <summary>
     /// Create a RestEase client for the IGDB api
     /// </summary>
-    /// <returns>Return IGDB RestEase client</returns>
-    public static IGDBApi Create()
+    public Client(string id, string secret)
     {
-      RestClient client = new RestClient("https://api-v3.igdb.com");
-      client.JsonSerializerSettings = DefaultJsonSerializerSettings;
+      _tokenHandler = new TokenHandler(new OAuthClient(id, secret));
 
-      var api = client.For<IGDBApi>();
-      api.ApiKey = Environment.GetEnvironmentVariable("IGDB_API_KEY");
-      return api;
+      var api = new RestClient("https://api.igdb.com/v4", async (request, cancellationToken) =>
+      {
+        var twitchToken = await _tokenHandler.AcquireTokenAsync();
+
+        if (twitchToken?.AccessToken != null)
+        {
+          request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
+            "Bearer", twitchToken.AccessToken);
+        }
+      })
+      {
+        JsonSerializerSettings = DefaultJsonSerializerSettings
+      }.For<IGDBApi>();
+
+      api.ClientID = id;
+      _api = api;
+    }
+
+    #endregion Public Constructors
+
+    #region Public Methods
+
+    /// <summary>
+    /// Whether or not the exception is due to a invalid token
+    /// </summary>
+    /// <param name="ex"></param>
+    /// <remarks>See: https://dev.twitch.tv/docs/authentication</remarks>
+    /// <returns>Whether the token was valid</returns>
+    public static bool IsInvalidTokenResponse(ApiException ex)
+    {
+      return ex.StatusCode == System.Net.HttpStatusCode.Unauthorized &&
+        ex.Headers.WwwAuthenticate.ToString().Contains("invalid_token");
+    }
+
+    public async Task<T[]> QueryAsync<T>(string endpoint, string query = null)
+    {
+      try
+      {
+        return await _api.QueryAsync<T>(endpoint, query);
+      }
+      catch (ApiException apiEx)
+      {
+        // Acquire new token and retry request (once)
+        if (IsInvalidTokenResponse(apiEx))
+        {
+          await _tokenHandler.RefreshTokenAsync();
+
+          return await _api.QueryAsync<T>(endpoint, query);
+        }
+
+        throw apiEx;
+      }
     }
 
     #endregion Public Methods
@@ -89,8 +137,6 @@ namespace IGDB
     {
       #region Public Members
 
-      public const string AchievementIcons = "achievement_icons";
-      public const string Achievements = "achievements";
       public const string AgeRating = "age_ratings";
       public const string AgeRatingContentDescriptions = "age_rating_content_descriptions";
       public const string AlternativeNames = "alternative_names";
@@ -102,7 +148,6 @@ namespace IGDB
       public const string CompanyWebsites = "company_websites";
       public const string Covers = "covers";
       public const string ExternalGames = "external_games";
-      public const string Feeds = "feeds";
       public const string Franchies = "franchises";
       public const string GameEngineLogos = "game_engine_logos";
       public const string GameEngines = "game_engines";
@@ -116,9 +161,7 @@ namespace IGDB
       public const string InvolvedCompanies = "involved_companies";
       public const string Keywords = "keywords";
       public const string MultiplayerModes = "multiplayer_modes";
-      public const string PageBackgrounds = "page_backgrounds";
-      public const string PageLogos = "page_logos";
-      public const string Pages = "pages";
+      public const string PlatformFamilies = "platform_families";
       public const string PlatformLogos = "platform_logos";
       public const string Platforms = "platforms";
       public const string PlatformVersionCompanies = "platform_version_companies";
@@ -126,17 +169,10 @@ namespace IGDB
       public const string PlatformVersions = "platform_versions";
       public const string PlatformWebsites = "platform_websites";
       public const string PlayerPerspectives = "player_perspectives";
-      public const string ProductFamilies = "product_families";
-      public const string PulseGroups = "pulse_groups";
-      public const string Pulses = "pulses";
-      public const string PulseSources = "pulse_sources";
-      public const string PulseUrls = "pulse_urls";
       public const string ReleaseDates = "release_dates";
       public const string Screenshots = "screenshots";
       public const string Search = "search";
       public const string Themes = "themes";
-      public const string TimeToBeats = "time_to_beats";
-      public const string Titles = "titles";
       public const string Websites = "websites";
 
       #endregion Public Members
