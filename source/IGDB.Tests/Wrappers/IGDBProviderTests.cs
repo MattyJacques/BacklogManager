@@ -12,7 +12,7 @@ namespace IGDB.Tests.Wrappers
   {
     #region Private Members
 
-    private Game _remasteredData = new Game()
+    private readonly Game _remasteredData = new Game()
     {
       Category = Category.MainGame,
       Collection = new Collection() { Name = "The Last of Us" },
@@ -35,7 +35,7 @@ namespace IGDB.Tests.Wrappers
       TotalRating = 95
     };
 
-    private Game _theLastOfUsData = new Game()
+    private readonly Game _theLastOfUsData = new Game()
     {
       Category = Category.MainGame,
       Collection = new Collection() { Name = "The Last of Us" },

@@ -11,7 +11,10 @@ namespace IGDB.Tests.Endpoints
   {
     #region Private Members
 
-    private IGDBApi _api = IGDB.Client.Create();
+    private readonly Client _api = new IGDB.Client(
+      Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
+      Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
+    );
 
     #endregion Private Members
 
@@ -29,7 +32,7 @@ namespace IGDB.Tests.Endpoints
     [TestMethod]
     public async Task ShouldReturnResponseWithSingleGame()
     {
-      var games = await _api.QueryAsync<Game>(Client.Endpoints.Games, "fields collection.id, cover.id, expansions.name, first_release_date, genres.id, id, name, platforms.id, time_to_beat.completely, total_rating; where name = \"The Last of Us\";");
+      var games = await _api.QueryAsync<Game>(Client.Endpoints.Games, "fields collection.id, cover.id, expansions.name, first_release_date, genres.id, id, name, platforms.id, total_rating; where name = \"The Last of Us\";");
 
       Assert.IsNotNull(games);
       Assert.IsTrue(games.Length == 1);

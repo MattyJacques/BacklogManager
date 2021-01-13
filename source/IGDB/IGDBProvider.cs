@@ -19,7 +19,10 @@ namespace IGDB
                                         "parent_game.*, " +
                                         "platforms.*, platforms.platform_logo.*;";
 
-    private static readonly IGDBApi _api = IGDB.Client.Create();
+    private static readonly Client _api = new IGDB.Client(
+      Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
+      Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
+    );
 
     #endregion Private Members
 
@@ -33,7 +36,7 @@ namespace IGDB
     {
       return (await _api.QueryAsync<Platform>(Client.Endpoints.Platforms,
                                               "fields *, " +
-                                              "product_family.*, " +
+                                              "platform_family.*, " +
                                               "platform_logo.*; " +
                                               "limit 500;")).ToList();
     }
