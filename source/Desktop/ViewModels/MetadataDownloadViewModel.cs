@@ -1,4 +1,5 @@
-﻿using Desktop.Extensions.Helpers;
+﻿using Database.Game;
+using Desktop.Extensions.Helpers;
 using Desktop.Interfaces;
 using Desktop.Models;
 using Desktop.Properties;
@@ -22,6 +23,7 @@ namespace Desktop.ViewModels
 
     private readonly IGameListModel _gameListModel;
     private readonly IMetadataDownloadModel _metadataModel;
+    private readonly GameDatabase _database = new GameDatabase();
 
     private ObservableCollection<GameListEntryViewModel> _gameCollection =
       new ObservableCollection<GameListEntryViewModel>();
@@ -148,6 +150,12 @@ namespace Desktop.ViewModels
     private async void UpdateAllGames()
     {
       await _metadataModel.IGDBGetAllGames(_gameCollection);
+
+      // TODO: Implement way to tell which game(s) have changed
+      foreach (GameListEntryViewModel game in _gameCollection)
+      {
+        _database.EditGame(game.Name, game.Model.ToDatabaseEntry());
+      }
 
       MessengerInstance.Send(new NotificationMessage(Resources.NotificationUpdateGameList));
     }
