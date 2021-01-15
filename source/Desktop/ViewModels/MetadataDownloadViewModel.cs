@@ -32,6 +32,7 @@ namespace Desktop.ViewModels
     private string _name = "Metadata Download";
     private ObservableCollection<IGDB.Models.Game> _searchResults;
     private GameListEntryViewModel _selectedEntry = null;
+    private IGDB.Models.Game _selectedResult = null;
 
     #endregion Private Members
 
@@ -115,6 +116,23 @@ namespace Desktop.ViewModels
         if (value != null)
         {
           SearchGame(_selectedEntry.Name);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Search result that the user has selected
+    /// </summary>
+    public IGDB.Models.Game SelectedSearchResult
+    {
+      get => _selectedResult;
+      set
+      {
+        _selectedResult = value;
+
+        if (_selectedResult != null)
+        {
+          SelectedEntry.UpdateFromIGDB(_selectedResult);
         }
       }
     }

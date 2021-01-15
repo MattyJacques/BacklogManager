@@ -67,7 +67,8 @@
 
     <ListBox x:Name="ResultsList"
              DockPanel.Dock="Left"
-             ItemsSource="{Binding SearchResults}">
+             ItemsSource="{Binding SearchResults}"
+             SelectedItem="{Binding SelectedSearchResult, Mode=OneWayToSource}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <TextBlock Text="{Binding Name}" />
