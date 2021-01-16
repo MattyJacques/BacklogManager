@@ -21,9 +21,9 @@ namespace Desktop.ViewModels
   {
     #region Private Members
 
+    private readonly GameDatabase _database = new GameDatabase();
     private readonly IGameListModel _gameListModel;
     private readonly IMetadataDownloadModel _metadataModel;
-    private readonly GameDatabase _database = new GameDatabase();
 
     private ObservableCollection<GameListEntryViewModel> _gameCollection =
       new ObservableCollection<GameListEntryViewModel>();
@@ -133,6 +133,7 @@ namespace Desktop.ViewModels
         if (_selectedResult != null)
         {
           SelectedEntry.UpdateFromIGDB(_selectedResult);
+          _database.EditGame(SelectedEntry.Name, SelectedEntry.Model.ToDatabaseEntry());
         }
       }
     }

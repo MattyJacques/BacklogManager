@@ -51,7 +51,8 @@ namespace Database.Game
       PS4,
       PSVita,
       OwnedStatus,
-      PlayedStatus
+      PlayedStatus,
+      DownloadedData
     }
 
     private enum SettingsColIndex
@@ -90,7 +91,8 @@ namespace Database.Game
                              Resources.Column_PS4 + ", " +
                              Resources.Column_PSVita + ", " +
                              Resources.Column_OwnedStatus + ", " +
-                             Resources.Column_PlayedStatus +
+                             Resources.Column_PlayedStatus + ", " +
+                             Resources.Column_DownloadedData +
                              ") VALUES ('" +
                              entry.GameName + "', '" +
                              entry.AddedDate + "', '" +
@@ -99,7 +101,8 @@ namespace Database.Game
                              entry.PS4 + "', '" +
                              entry.PSVita + "', '" +
                              entry.OwnedStatus + "', '" +
-                             entry.PlayedStatus + "')");
+                             entry.PlayedStatus + "', '" +
+                             entry.DownloadedData + "')");
     }
 
     /// <summary>
@@ -188,7 +191,8 @@ namespace Database.Game
               PS4 = reader.GetString((int)GamesColIndex.PS4),
               PSVita = reader.GetString((int)GamesColIndex.PSVita),
               OwnedStatus = reader.GetString((int)GamesColIndex.OwnedStatus),
-              PlayedStatus = reader.GetString((int)GamesColIndex.PlayedStatus)
+              PlayedStatus = reader.GetString((int)GamesColIndex.PlayedStatus),
+              DownloadedData = reader.GetString((int)GamesColIndex.DownloadedData)
             });
         }
       }
@@ -371,7 +375,7 @@ namespace Database.Game
     /// <returns></returns>
     private bool RenameTable(string currentName, string newName)
     {
-      ExecuteNonQuery("ALTER TABLE " + Resources.TableName_Games + " RENAME TO " + newName);
+      ExecuteNonQuery("ALTER TABLE " + currentName + " RENAME TO " + newName);
       return !CheckTableExists(currentName) && CheckTableExists(newName);
     }
 
@@ -391,7 +395,8 @@ namespace Database.Game
                         Resources.Column_PS4 + " text NOT NULL," +
                         Resources.Column_PSVita + " text NOT NULL," +
                         Resources.Column_OwnedStatus + " text, " +
-                        Resources.Column_PlayedStatus + " text NOT NULL);");
+                        Resources.Column_PlayedStatus + " text NOT NULL," +
+                        Resources.Column_DownloadedData + " text NOT NULL);");
       }
 
       return CheckTableExists(Resources.TableName_Games);
@@ -506,8 +511,8 @@ namespace Database.Game
       Dictionary<string, string> settings = GetAllSettings();
 
       if (!CheckTableExists(Resources.TableName_Settings) ||
-          RenameTable(Resources.TableName_Games,
-                      Resources.TableName_GamesBackup + DateTime.Now.ToString("yyyyMMddTHHmmss")))
+          RenameTable(Resources.TableName_Settings,
+                      Resources.TableName_SettingsBackup + DateTime.Now.ToString("yyyyMMddTHHmmss")))
       {
         if (SetupSettingsTable())
         {

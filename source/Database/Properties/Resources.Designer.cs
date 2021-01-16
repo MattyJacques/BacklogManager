@@ -70,6 +70,15 @@ namespace Database.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DownloadedData.
+        /// </summary>
+        internal static string Column_DownloadedData {
+            get {
+                return ResourceManager.GetString("Column_DownloadedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GameName.
         /// </summary>
         internal static string Column_GameName {
@@ -183,6 +192,15 @@ namespace Database.Properties {
         internal static string TableName_Settings {
             get {
                 return ResourceManager.GetString("TableName_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SettingsBackup.
+        /// </summary>
+        internal static string TableName_SettingsBackup {
+            get {
+                return ResourceManager.GetString("TableName_SettingsBackup", resourceCulture);
             }
         }
     }

@@ -135,6 +135,7 @@ namespace Desktop.Models
       Owned = entry.Owned;
       PlayStatus = entry.PlayStatus;
       DateAdded = entry.DateAdded;
+      HasDownloadedData = entry.HasDownloadedData;
     }
 
     public GameDatabaseEntry ToDatabaseEntry()
@@ -149,7 +150,8 @@ namespace Desktop.Models
         PS4 = IsOnPS4.ToString().ToLower(),
         PSVita = IsOnPSVita.ToString().ToLower(),
         OwnedStatus = Owned.ToString().ToLower(),
-        PlayedStatus = PlayStatus.ToString()
+        PlayedStatus = PlayStatus.ToString(),
+        DownloadedData = HasDownloadedData.ToString().ToLower()
       };
 
       return entry;
