@@ -157,6 +157,28 @@ namespace Desktop.Models
       return entry;
     }
 
+    public void UpdateFromIGDB(IGDB.Models.Game igdbGame)
+    {
+      HasDownloadedData = true;
+      Name = igdbGame.Name;
+      IsOnPS4 = igdbGame.Platforms.Where(e => e.Name == "PlayStation 4").FirstOrDefault() != null;
+      IsOnPS3 = igdbGame.Platforms.Where(e => e.Name == "PlayStation 3").FirstOrDefault() != null;
+      IsOnPSVita =
+        igdbGame.Platforms.Where(e => e.Name == "PlayStation Vita").FirstOrDefault() != null;
+      IsOnPC =
+        igdbGame.Platforms.Where(e => e.Name == "PC(Microsoft Windows)").FirstOrDefault() != null;
+
+      /*  Category? Category
+          Collection Collection
+          Cover Cover
+          List<GameName> Dlcs
+          List<GameName> Expansions
+          DateTimeOffset? FirstReleaseDate
+          List<Genre> Genres
+          List<Platform> Platforms
+          double? TotalRating */
+    }
+
     #endregion Public Methods
   }
 }

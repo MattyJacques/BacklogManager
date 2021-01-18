@@ -25,6 +25,12 @@
                         IsChecked="{Binding ElementName=MenuToggleButton,
                                             Path=IsChecked,
                                             Mode=TwoWay}" />
+          <Button Command="{Binding AddFromIGDBCommand}"
+                  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                  Margin="5">
+            <Image Source="\Resources\igdb.png"
+                   Stretch="Fill" />
+          </Button>
           <Button Content="{materialDesign:PackIcon Gamepad}"
                   Command="{Binding AddGameCommand}"
                   Style="{DynamicResource MaterialDesignRaisedAccentButton}"
