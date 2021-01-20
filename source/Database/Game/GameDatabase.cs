@@ -181,19 +181,26 @@ namespace Database.Game
       {
         while (reader.Read())
         {
-          gameList.Add(
-            new GameDatabaseEntry
-            {
-              GameName = reader.GetString((int)GamesColIndex.GameName),
-              AddedDate = reader.GetString((int)GamesColIndex.AddedDate),
-              PC = reader.GetString((int)GamesColIndex.PC),
-              PS3 = reader.GetString((int)GamesColIndex.PS3),
-              PS4 = reader.GetString((int)GamesColIndex.PS4),
-              PSVita = reader.GetString((int)GamesColIndex.PSVita),
-              OwnedStatus = reader.GetString((int)GamesColIndex.OwnedStatus),
-              PlayedStatus = reader.GetString((int)GamesColIndex.PlayedStatus),
-              DownloadedData = reader.GetString((int)GamesColIndex.DownloadedData)
-            });
+          GameDatabaseEntry newGame = new GameDatabaseEntry();
+
+          try
+          {
+            newGame.GameName = reader.GetString((int)GamesColIndex.GameName);
+            newGame.AddedDate = reader.GetString((int)GamesColIndex.AddedDate);
+            newGame.PC = reader.GetString((int)GamesColIndex.PC);
+            newGame.PS3 = reader.GetString((int)GamesColIndex.PS3);
+            newGame.PS4 = reader.GetString((int)GamesColIndex.PS4);
+            newGame.PSVita = reader.GetString((int)GamesColIndex.PSVita);
+            newGame.OwnedStatus = reader.GetString((int)GamesColIndex.OwnedStatus);
+            newGame.PlayedStatus = reader.GetString((int)GamesColIndex.PlayedStatus);
+            newGame.DownloadedData = reader.GetString((int)GamesColIndex.DownloadedData);
+          }
+          catch (Exception)
+          {
+            // Value was missing, hopefully it should not be vital
+          }
+
+          gameList.Add(newGame);
         }
       }
 
