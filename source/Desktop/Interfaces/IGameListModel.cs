@@ -9,6 +9,11 @@ namespace Desktop.Interfaces
     #region Public Methods
 
     /// <summary>
+    /// Add a new game to the collection using IGDB
+    /// </summary>
+    void AddFromIGDB();
+
+    /// <summary>
     /// Add a new game to the collection
     /// </summary>
     void AddGame();

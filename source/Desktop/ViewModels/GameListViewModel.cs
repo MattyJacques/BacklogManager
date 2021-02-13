@@ -64,6 +64,7 @@ namespace Desktop.ViewModels
       _model = model;
 
       AddGameCommand = new RelayCommand(param => AddGame());
+      AddFromIGDBCommand = new RelayCommand(param => AddFromIGDB());
       EditGameCommand = new RelayCommand(param => EditGame());
       DeleteGameCommand = new RelayCommand(param => DeleteGame());
       ChooseNextGameCommand = new RelayCommand(param => ChooseNextGame());
@@ -77,6 +78,11 @@ namespace Desktop.ViewModels
     #endregion Public Constructors
 
     #region Public Properties
+
+    /// <summary>
+    /// Add a new game to the list using IGDB metadata
+    /// </summary>
+    public ICommand AddFromIGDBCommand { get; set; }
 
     /// <summary>
     /// Add a new game to the list
@@ -207,6 +213,12 @@ namespace Desktop.ViewModels
 
     #region Public Methods
 
+    public void AddFromIGDB()
+    {
+      _model.AddFromIGDB();
+      UpdateGameList();
+    }
+
     public void AddGame()
     {
       _model.AddGame();
@@ -257,7 +269,7 @@ namespace Desktop.ViewModels
       }
 
       // This is the first time or something happened to the saved game, choose another
-      if (NextGameEntry == null)
+      if (NextGameEntry == null && GameCollection.Count > 0)
       {
         ChooseNextGame();
       }
@@ -267,7 +279,7 @@ namespace Desktop.ViewModels
     {
       List<GameListEntry> games = _model.GetGameList();
 
-      games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
+      /*games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
                                    (ShowPlayed && entry.PlayStatus == Status.Played) ||
                                    (ShowComplete && entry.PlayStatus == Status.Complete) ||
                                    (ShowAbandoned && entry.PlayStatus == Status.Abandoned)) &&
@@ -276,7 +288,7 @@ namespace Desktop.ViewModels
                                    (ShowPS3 && entry.IsOnPS3) ||
                                    (ShowPSVita && entry.IsOnPSVita)) &&
                                    ((ShowNotOwned && !entry.Owned) ||
-                                   (ShowOwned && entry.Owned))).ToList();
+                                   (ShowOwned && entry.Owned))).ToList();*/
 
       if (!string.IsNullOrEmpty(SearchText))
       {

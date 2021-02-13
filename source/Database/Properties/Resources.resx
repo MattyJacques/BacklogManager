@@ -121,6 +121,10 @@
     <value>AddedDate</value>
     <comment>Database column name for date added to the database</comment>
   </data>
+  <data name="Column_DownloadedData" xml:space="preserve">
+    <value>DownloadedData</value>
+    <comment>Database column name for the if the game has downloaded metadata</comment>
+  </data>
   <data name="Column_GameName" xml:space="preserve">
     <value>GameName</value>
     <comment>Database column name for game name</comment>
@@ -172,5 +176,9 @@
   <data name="TableName_Settings" xml:space="preserve">
     <value>Settings</value>
     <comment>Database table name for the Settings table</comment>
+  </data>
+  <data name="TableName_SettingsBackup" xml:space="preserve">
+    <value>SettingsBackup</value>
+    <comment>Database table name for the Settings table during a upgrade</comment>
   </data>
 </root>

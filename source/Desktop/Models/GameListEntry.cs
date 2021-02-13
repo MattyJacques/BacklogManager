@@ -1,5 +1,6 @@
 ﻿using Database.Game.Models;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace Desktop.Models
@@ -8,23 +9,32 @@ namespace Desktop.Models
   {
     #region Private Members
 
+    private GameCollection _collection = new GameCollection();
     private DateTime _dateAdded = DateTime.Today;
-
+    private bool _hasDownloadedData = false;
     private bool _isOnPC = false;
-
     private bool _isOnPS3 = false;
-
     private bool _isOnPS4 = false;
-
     private bool _isOnPSVita = false;
-
     private string _name = string.Empty;
-
     private bool _owned = false;
-
     private Status _playStatus = Status.NotPlayed;
 
     #endregion Private Members
+
+    /*private Cover Cover
+
+    private List<GameName> Dlcs
+
+    private List<GameName> Expansions
+
+    private DateTimeOffset? FirstReleaseDate
+
+    private List<Genre> Genres
+
+    private List<Platform> Platforms
+
+    private double? TotalRating*/
 
     #region Public Constructors
 
@@ -38,6 +48,7 @@ namespace Desktop.Models
         IsOnPSVita = databaseEntry.PSVita == "true";
         IsOnPC = databaseEntry.PC == "true";
         Owned = databaseEntry.OwnedStatus == "true";
+        HasDownloadedData = databaseEntry.DownloadedData == "true";
 
         string statusNoSpace = databaseEntry.PlayedStatus.Replace(" ", "");
         PlayStatus = (Status)Enum.Parse(typeof(Status), statusNoSpace, true);
@@ -63,10 +74,17 @@ namespace Desktop.Models
 
     #region Public Properties
 
+    public GameCollection Collection { get => _collection; set => _collection = value; }
+
     /// <summary>
     /// Get/set the date the game was added to the database
     /// </summary>
     public DateTime DateAdded { get => _dateAdded; set => _dateAdded = value; }
+
+    /// <summary>
+    /// Has this entry previously has metadata downloaded
+    /// </summary>
+    public bool HasDownloadedData { get => _hasDownloadedData; set => _hasDownloadedData = value; }
 
     /// <summary>
     /// Get/set if the game is playable on PC
@@ -117,6 +135,7 @@ namespace Desktop.Models
       Owned = entry.Owned;
       PlayStatus = entry.PlayStatus;
       DateAdded = entry.DateAdded;
+      HasDownloadedData = entry.HasDownloadedData;
     }
 
     public GameDatabaseEntry ToDatabaseEntry()
@@ -131,10 +150,33 @@ namespace Desktop.Models
         PS4 = IsOnPS4.ToString().ToLower(),
         PSVita = IsOnPSVita.ToString().ToLower(),
         OwnedStatus = Owned.ToString().ToLower(),
-        PlayedStatus = PlayStatus.ToString()
+        PlayedStatus = PlayStatus.ToString(),
+        DownloadedData = HasDownloadedData.ToString().ToLower()
       };
 
       return entry;
+    }
+
+    public void UpdateFromIGDB(IGDB.Models.Game igdbGame)
+    {
+      HasDownloadedData = true;
+      Name = igdbGame.Name;
+      IsOnPS4 = igdbGame.Platforms.Where(e => e.Name == "PlayStation 4").FirstOrDefault() != null;
+      IsOnPS3 = igdbGame.Platforms.Where(e => e.Name == "PlayStation 3").FirstOrDefault() != null;
+      IsOnPSVita =
+        igdbGame.Platforms.Where(e => e.Name == "PlayStation Vita").FirstOrDefault() != null;
+      IsOnPC =
+        igdbGame.Platforms.Where(e => e.Name == "PC(Microsoft Windows)").FirstOrDefault() != null;
+
+      /*  Category? Category
+          Collection Collection
+          Cover Cover
+          List<GameName> Dlcs
+          List<GameName> Expansions
+          DateTimeOffset? FirstReleaseDate
+          List<Genre> Genres
+          List<Platform> Platforms
+          double? TotalRating */
     }
 
     #endregion Public Methods

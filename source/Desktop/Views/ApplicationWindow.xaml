@@ -13,11 +13,12 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{materialDesign:MaterialDesignFont}"
-        SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
         Title="Backlog Manager"
         MinHeight="780"
         MinWidth="900">
+
+  <!--#region Resources-->
 
   <Window.Resources>
     <DataTemplate DataType="{x:Type viewModels:GameListViewModel}">
@@ -26,11 +27,17 @@
     <DataTemplate DataType="{x:Type viewModels:StatsViewModel}">
       <views:StatsView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:MetadataDownloadViewModel}">
+      <views:MetadataDownloadView />
+    </DataTemplate>
   </Window.Resources>
+
+  <!--#endregion Resources-->
 
   <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
 
-    <!--               Hamburger Menu                -->
+    <!--#region Hamburger Menu-->
+
     <materialDesign:DrawerHost.LeftDrawerContent>
       <DockPanel MinWidth="220">
         <ToggleButton x:Name="MenuToggleButton"
@@ -53,6 +60,13 @@
       </DockPanel>
     </materialDesign:DrawerHost.LeftDrawerContent>
 
-    <ContentControl Content="{Binding CurrentPageViewModel}" />
+    <!--#endregion Hamburger Menu-->
+
+    <!--#region Page Content-->
+
+    <ContentControl Content="{Binding CurrentPageViewModel}"
+                    x:Name="MainContentControl" />
+
+    <!--#endregion Page Content-->
   </materialDesign:DrawerHost>
 </Window>

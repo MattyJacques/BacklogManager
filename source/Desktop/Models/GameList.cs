@@ -21,6 +21,30 @@ namespace Desktop.Models
 
     #region Public Methods
 
+    public void AddFromIGDB()
+    {
+      GameListEntry newGame = new GameListEntry();
+
+      // Create and show AddFromIGDB view
+      GameManagement gameManagement = new GameManagement(newGame);
+      MetadataDownload metadataDownload = new MetadataDownload();
+      AddFromIGDBViewModel viewModel = new AddFromIGDBViewModel(gameManagement, metadataDownload);
+      AddFromIGDBWindow window = new AddFromIGDBWindow(viewModel);
+
+      // Result is true if save button is pressed
+      if (window.ShowDialog() == true)
+      {
+        if (_database.AddGame(newGame.ToDatabaseEntry()))
+        {
+          _games.Add(newGame);
+        }
+        else
+        {
+          MessageBox.Show("Failed to add game to database", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+      }
+    }
+
     public void AddGame()
     {
       GameListEntry newGame = new GameListEntry();

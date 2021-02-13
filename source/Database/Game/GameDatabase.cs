@@ -51,7 +51,8 @@ namespace Database.Game
       PS4,
       PSVita,
       OwnedStatus,
-      PlayedStatus
+      PlayedStatus,
+      DownloadedData
     }
 
     private enum SettingsColIndex
@@ -90,7 +91,8 @@ namespace Database.Game
                              Resources.Column_PS4 + ", " +
                              Resources.Column_PSVita + ", " +
                              Resources.Column_OwnedStatus + ", " +
-                             Resources.Column_PlayedStatus +
+                             Resources.Column_PlayedStatus + ", " +
+                             Resources.Column_DownloadedData +
                              ") VALUES ('" +
                              entry.GameName + "', '" +
                              entry.AddedDate + "', '" +
@@ -99,7 +101,8 @@ namespace Database.Game
                              entry.PS4 + "', '" +
                              entry.PSVita + "', '" +
                              entry.OwnedStatus + "', '" +
-                             entry.PlayedStatus + "')");
+                             entry.PlayedStatus + "', '" +
+                             entry.DownloadedData + "')");
     }
 
     /// <summary>
@@ -178,18 +181,26 @@ namespace Database.Game
       {
         while (reader.Read())
         {
-          gameList.Add(
-            new GameDatabaseEntry
-            {
-              GameName = reader.GetString((int)GamesColIndex.GameName),
-              AddedDate = reader.GetString((int)GamesColIndex.AddedDate),
-              PC = reader.GetString((int)GamesColIndex.PC),
-              PS3 = reader.GetString((int)GamesColIndex.PS3),
-              PS4 = reader.GetString((int)GamesColIndex.PS4),
-              PSVita = reader.GetString((int)GamesColIndex.PSVita),
-              OwnedStatus = reader.GetString((int)GamesColIndex.OwnedStatus),
-              PlayedStatus = reader.GetString((int)GamesColIndex.PlayedStatus)
-            });
+          GameDatabaseEntry newGame = new GameDatabaseEntry();
+
+          try
+          {
+            newGame.GameName = reader.GetString((int)GamesColIndex.GameName);
+            newGame.AddedDate = reader.GetString((int)GamesColIndex.AddedDate);
+            newGame.PC = reader.GetString((int)GamesColIndex.PC);
+            newGame.PS3 = reader.GetString((int)GamesColIndex.PS3);
+            newGame.PS4 = reader.GetString((int)GamesColIndex.PS4);
+            newGame.PSVita = reader.GetString((int)GamesColIndex.PSVita);
+            newGame.OwnedStatus = reader.GetString((int)GamesColIndex.OwnedStatus);
+            newGame.PlayedStatus = reader.GetString((int)GamesColIndex.PlayedStatus);
+            newGame.DownloadedData = reader.GetString((int)GamesColIndex.DownloadedData);
+          }
+          catch (Exception)
+          {
+            // Value was missing, hopefully it should not be vital
+          }
+
+          gameList.Add(newGame);
         }
       }
 
@@ -371,7 +382,7 @@ namespace Database.Game
     /// <returns></returns>
     private bool RenameTable(string currentName, string newName)
     {
-      ExecuteNonQuery("ALTER TABLE " + Resources.TableName_Games + " RENAME TO " + newName);
+      ExecuteNonQuery("ALTER TABLE " + currentName + " RENAME TO " + newName);
       return !CheckTableExists(currentName) && CheckTableExists(newName);
     }
 
@@ -391,7 +402,8 @@ namespace Database.Game
                         Resources.Column_PS4 + " text NOT NULL," +
                         Resources.Column_PSVita + " text NOT NULL," +
                         Resources.Column_OwnedStatus + " text, " +
-                        Resources.Column_PlayedStatus + " text NOT NULL);");
+                        Resources.Column_PlayedStatus + " text NOT NULL," +
+                        Resources.Column_DownloadedData + " text NOT NULL);");
       }
 
       return CheckTableExists(Resources.TableName_Games);
@@ -418,6 +430,11 @@ namespace Database.Game
     /// </summary>
     private void SetupTables()
     {
+      if (!Directory.Exists(Path.GetDirectoryName(_path)))
+      {
+        Directory.CreateDirectory(Path.GetDirectoryName(_path));
+      }
+
       if (!File.Exists(_path))
       {
         SetupGamesTable();
@@ -501,8 +518,8 @@ namespace Database.Game
       Dictionary<string, string> settings = GetAllSettings();
 
       if (!CheckTableExists(Resources.TableName_Settings) ||
-          RenameTable(Resources.TableName_Games,
-                      Resources.TableName_GamesBackup + DateTime.Now.ToString("yyyyMMddTHHmmss")))
+          RenameTable(Resources.TableName_Settings,
+                      Resources.TableName_SettingsBackup + DateTime.Now.ToString("yyyyMMddTHHmmss")))
       {
         if (SetupSettingsTable())
         {

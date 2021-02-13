@@ -1,0 +1,105 @@
+﻿<Window x:Class="Desktop.Views.AddFromIGDBWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:controls="clr-namespace:Desktop.Extensions.Controls"
+        xmlns:properties="clr-namespace:Desktop.Extensions.Properties"
+        mc:Ignorable="d"
+        Title="Game"
+        SizeToContent="WidthAndHeight"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        properties:ReturnDialogResult.DialogResult="{Binding DialogResult}">
+
+  <Grid Margin="1">
+    <StackPanel x:Name="WindowPanel"
+                Orientation="Horizontal"
+                Margin="10">
+      <StackPanel x:Name="SearchPanel"
+                  Margin="0,0,10,0">
+
+        <!--#region Search-->
+
+        <controls:SearchTextBox SearchForText="{Binding SearchText, Mode=TwoWay}"
+                              Width="200"
+                              Height="30" />
+
+        <Button Content="{materialDesign:PackIcon Magnify}"
+              Command="{Binding SearchCommand}"
+              Margin="20,5" />
+
+        <ListBox x:Name="ResultsList"
+               Height="100"
+               ItemsSource="{Binding SearchResults}"
+               SelectedItem="{Binding SelectedSearchResult, Mode=OneWayToSource}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--#endregion Search-->
+
+        <!--#region Save / Cancel-->
+
+        <StackPanel Orientation="Horizontal"
+                  FlowDirection="RightToLeft">
+          <Button Content="Cancel"
+                IsCancel="True"
+                Margin="20,5" />
+          <Button Content="Save"
+                Command="{Binding SaveGameCommand}"
+                Margin="0,5" />
+        </StackPanel>
+
+        <!--#endregion Save / Cancel-->
+      </StackPanel>
+
+      <!-- #region Game Data -->
+
+      <StackPanel x:Name="DataPanel">
+        <controls:LabelledTextBox Label="Game Name:"
+                                  Text="{Binding Name, Mode=TwoWay}"
+                                  Margin="0,5"
+                                  Width="250" />
+
+        <GroupBox Header="Platforms"
+                Margin="0,5">
+          <StackPanel>
+            <CheckBox Content="PC"
+                    IsChecked="{Binding IsOnPC, Mode=TwoWay}"
+                    Margin="2,2" />
+            <CheckBox Content="Playstation 4"
+                    IsChecked="{Binding IsOnPS4, Mode=TwoWay}"
+                    Margin="2,2" />
+            <CheckBox Content="Playstation 3"
+                    IsChecked="{Binding IsOnPS3, Mode=TwoWay}"
+                    Margin="2,2" />
+            <CheckBox Content="Playstation Vita"
+                    IsChecked="{Binding IsOnPSVita, Mode=TwoWay}"
+                    Margin="2,2" />
+          </StackPanel>
+        </GroupBox>
+
+        <controls:LabelledComboBox Label="Played Status:"
+                                 ItemSource="{Binding Source={StaticResource playStatusEnum}, Mode=OneWay}"
+                                 SelectedItem="{Binding PlayStatus, Mode=TwoWay}"
+                                 Margin="0,5" />
+
+        <CheckBox Content="Owned"
+                IsChecked="{Binding Owned, Mode=TwoWay}"
+                Margin="0,5" />
+      </StackPanel>
+
+      <!-- #endregion Game Data -->
+    </StackPanel>
+  </Grid>
+</Window>

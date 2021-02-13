@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:types="clr-namespace:Desktop.Data.Types"
+             xmlns:databaseModels="clr-namespace:Database.Game.Models;assembly=Database"
              xmlns:helpers="clr-namespace:Desktop.Extensions.Helpers">
   <Application.Resources>
     <ResourceDictionary>
@@ -13,7 +13,7 @@
                           MethodName="GetValues"
                           ObjectType="{x:Type system:Enum}">
         <ObjectDataProvider.MethodParameters>
-          <x:Type TypeName="types:Status"></x:Type>
+          <x:Type TypeName="databaseModels:Status"></x:Type>
         </ObjectDataProvider.MethodParameters>
       </ObjectDataProvider>
 

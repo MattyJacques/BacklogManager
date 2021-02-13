@@ -21,6 +21,8 @@
     <StackPanel x:Name="WindowPanel"
                 Margin="10">
 
+      <!--#region Game Data-->
+
       <controls:LabelledTextBox Label="Game Name:"
                                 Text="{Binding Name}"
                                 Margin="0,5"
@@ -53,7 +55,10 @@
                 IsChecked="{Binding Owned}"
                 Margin="0,5" />
 
-      <!-- Save / Cancel Buttons-->
+      <!--#endregion Game Data-->
+
+      <!--#region Save / Cancel-->
+
       <StackPanel Orientation="Horizontal"
                   FlowDirection="RightToLeft">
         <Button Content="Cancel"
@@ -63,6 +68,8 @@
                 Command="{Binding SaveGameCommand}"
                 Margin="0,5" />
       </StackPanel>
+
+      <!--#endregion Save / Cancel-->
     </StackPanel>
   </Grid>
 </Window>

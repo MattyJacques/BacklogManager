@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace Desktop.Extensions.Helpers
 {
-  internal class EnumDescriptionConverter : IValueConverter
+  public class EnumDescriptionConverter : IValueConverter
   {
     #region Public Methods
 
