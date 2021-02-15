@@ -93,16 +93,16 @@ namespace Database.Game
                              Resources.Column_OwnedStatus + ", " +
                              Resources.Column_PlayedStatus + ", " +
                              Resources.Column_DownloadedData +
-                             ") VALUES ('" +
-                             entry.GameName + "', '" +
-                             entry.AddedDate + "', '" +
-                             entry.PC + "', '" +
-                             entry.PS3 + "', '" +
-                             entry.PS4 + "', '" +
-                             entry.PSVita + "', '" +
-                             entry.OwnedStatus + "', '" +
-                             entry.PlayedStatus + "', '" +
-                             entry.DownloadedData + "')");
+                             ") VALUES (\"" +
+                             entry.GameName + "\", \"" +
+                             entry.AddedDate + "\", \"" +
+                             entry.PC + "\", \"" +
+                             entry.PS3 + "\", \"" +
+                             entry.PS4 + "\", \"" +
+                             entry.PSVita + "\", \"" +
+                             entry.OwnedStatus + "\", \"" +
+                             entry.PlayedStatus + "\", \"" +
+                             entry.DownloadedData + "\")");
     }
 
     /// <summary>
