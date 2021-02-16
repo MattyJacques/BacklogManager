@@ -149,7 +149,7 @@ namespace Database.Game
     public bool DeleteGame(string gameName)
     {
       return ExecuteNonQuery("DELETE FROM " + Resources.TableName_Games +
-                             " WHERE " + Resources.Column_GameName + " = '" + gameName + "'");
+                             " WHERE " + Resources.Column_GameName + " = \"" + gameName + "\"");
     }
 
     /// <summary>
