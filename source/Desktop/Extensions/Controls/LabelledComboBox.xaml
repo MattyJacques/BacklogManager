@@ -21,7 +21,7 @@
 
     <ComboBox Grid.Column="1"
               ItemsSource="{Binding ItemSource}"
-              SelectedItem="{Binding SelectedItem, Mode=OneWay}">
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
       <ComboBox.ItemTemplate>
         <DataTemplate>
           <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />

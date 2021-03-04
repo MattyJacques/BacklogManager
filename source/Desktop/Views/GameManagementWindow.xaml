@@ -48,7 +48,7 @@
 
       <controls:LabelledComboBox Label="Played Status:"
                                  ItemSource="{Binding Source={StaticResource playStatusEnum}, Mode=OneWay}"
-                                 SelectedItem="{Binding PlayStatus, Mode=OneWay}"
+                                 SelectedItem="{Binding PlayStatus, Mode=TwoWay}"
                                  Margin="0,5" />
 
       <CheckBox Content="Owned"
