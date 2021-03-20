@@ -279,7 +279,7 @@ namespace Desktop.ViewModels
     {
       List<GameListEntry> games = _model.GetGameList();
 
-      /*games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
+      games = games.Where(entry => ((ShowNotPlayed && entry.PlayStatus == Status.NotPlayed) ||
                                    (ShowPlayed && entry.PlayStatus == Status.Played) ||
                                    (ShowComplete && entry.PlayStatus == Status.Complete) ||
                                    (ShowAbandoned && entry.PlayStatus == Status.Abandoned)) &&
@@ -288,7 +288,7 @@ namespace Desktop.ViewModels
                                    (ShowPS3 && entry.IsOnPS3) ||
                                    (ShowPSVita && entry.IsOnPSVita)) &&
                                    ((ShowNotOwned && !entry.Owned) ||
-                                   (ShowOwned && entry.Owned))).ToList();*/
+                                   (ShowOwned && entry.Owned))).ToList();
 
       if (!string.IsNullOrEmpty(SearchText))
       {
