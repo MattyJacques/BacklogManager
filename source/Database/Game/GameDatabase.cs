@@ -92,7 +92,8 @@ namespace Database.Game
                              Resources.Column_PSVita + ", " +
                              Resources.Column_OwnedStatus + ", " +
                              Resources.Column_PlayedStatus + ", " +
-                             Resources.Column_DownloadedData +
+                             Resources.Column_DownloadedData + ", " +
+                             Resources.Column_UpdatedAt +
                              ") VALUES (\"" +
                              entry.GameName + "\", \"" +
                              entry.AddedDate + "\", \"" +
@@ -102,7 +103,8 @@ namespace Database.Game
                              entry.PSVita + "\", \"" +
                              entry.OwnedStatus + "\", \"" +
                              entry.PlayedStatus + "\", \"" +
-                             entry.DownloadedData + "\")");
+                             entry.DownloadedData + "\", \"" +
+                             entry.AddedDate + "\")");
     }
 
     /// <summary>
@@ -403,7 +405,8 @@ namespace Database.Game
                         Resources.Column_PSVita + " text NOT NULL," +
                         Resources.Column_OwnedStatus + " text, " +
                         Resources.Column_PlayedStatus + " text NOT NULL," +
-                        Resources.Column_DownloadedData + " text NOT NULL);");
+                        Resources.Column_DownloadedData + " text NOT NULL," +
+                        Resources.Column_UpdatedAt + " text NOT NULL);");
       }
 
       return CheckTableExists(Resources.TableName_Games);
