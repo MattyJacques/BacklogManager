@@ -151,6 +151,15 @@ namespace Database.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to updated_at.
+        /// </summary>
+        internal static string Column_UpdatedAt {
+            get {
+                return ResourceManager.GetString("Column_UpdatedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         internal static string Column_Value {

@@ -157,6 +157,9 @@
     <value>PSVita</value>
     <comment>Database column name for if the game is on PlayStation Vita</comment>
   </data>
+  <data name="Column_UpdatedAt" xml:space="preserve">
+    <value>updated_at</value>
+  </data>
   <data name="Column_Value" xml:space="preserve">
     <value>Value</value>
     <comment>Database column name for settings value</comment>
